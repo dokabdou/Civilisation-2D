@@ -10,13 +10,13 @@ import projet.approche.objet.exception.building.BuildingAlreadyStartedException;
 import projet.approche.objet.exception.building.NotEnoughNeedsException;
 
 public class Manager {
-    public final int inhabitants;
+    public final int inhabitants; // initial number of inhabitants
 
     BuildingList buildings;
 
     public Manager(){
         this.inhabitants = 0;
-        this.buildings = new BuildingList(null);
+        this.buildings = new BuildingList();
     }
 
     public void addBuilding(Building building) {
@@ -27,12 +27,13 @@ public class Manager {
         this.buildings.remove(building);
     }
 
-    public void addInhabitanttoBuilding() {
+    public void addInhabitantToBuilding() {
         //given a bulding name, a string maybe, it will search in the BuildingList and increase its inhabitants
         // if it does not exceed the max number of inhabitants
+
     }
 
-    public void removeInhabitantfromBuilding(Building building) {
+    public void removeInhabitantFromBuilding(Building building) {
     }
 
 }

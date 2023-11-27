@@ -61,6 +61,50 @@ public enum BuildingType {
 			new Needs(1), // needs for production
 			new Needs(1, // production
 					new Resource(ResourceType.WOOD, 2),
+					new Resource(ResourceType.FOOD, 2))),
+	STEELMILL("Steel Mill",
+			"SM",
+			new ConstructionNeeds(
+					new Needs(1,
+							new Resource(ResourceType.GOLD, 1))),
+			2,
+			2,
+			new Needs(1), // needs for production
+			new Needs(1, // production
+					new Resource(ResourceType.WOOD, 2),
+					new Resource(ResourceType.FOOD, 2))),
+	LUMBERMILL("Lumber Mill",
+			"LM",
+			new ConstructionNeeds(
+					new Needs(1,
+							new Resource(ResourceType.GOLD, 1))),
+			2,
+			2,
+			new Needs(1), // needs for production
+			new Needs(1, // production
+					new Resource(ResourceType.WOOD, 2),
+					new Resource(ResourceType.FOOD, 2))),
+	CEMENTMILL("Cement Mill",
+			"CM",
+			new ConstructionNeeds(
+					new Needs(1,
+							new Resource(ResourceType.GOLD, 1))),
+			2,
+			2,
+			new Needs(1), // needs for production
+			new Needs(1, // production
+					new Resource(ResourceType.WOOD, 2),
+					new Resource(ResourceType.FOOD, 2))),
+	TOOLFACTORY("Tool Factory",
+			"TF",
+			new ConstructionNeeds(
+					new Needs(1,
+							new Resource(ResourceType.GOLD, 1))),
+			2,
+			2,
+			new Needs(1), // needs for production
+			new Needs(1, // production
+					new Resource(ResourceType.WOOD, 2),
 					new Resource(ResourceType.FOOD, 2)));
 
 	public final String name;

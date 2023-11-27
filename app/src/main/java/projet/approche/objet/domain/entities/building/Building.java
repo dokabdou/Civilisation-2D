@@ -48,11 +48,11 @@ public class Building implements BuildingItf {
 		throw new NotEnoughNeedsException("to build " + this);
 	}
 
-	public void addInhabitanttoBuilding(int inhabitantsAdd){
+	public void addInhabitantToBuilding(int inhabitantsAdd){
 		//this.type.inhabitants = this.type.inhabitants + inhabitantsAdd;
 	}
 
-	public void removeInhabitanttoBuilding(int inhabitantsRem){
+	public void removeInhabitantFromBuilding(int inhabitantsRem){
 		//this.type.inhabitants = this.type.inhabitants + inhabitantsRem;
 	}
 
