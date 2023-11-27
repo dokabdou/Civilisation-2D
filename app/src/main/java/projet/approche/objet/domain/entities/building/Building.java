@@ -31,7 +31,7 @@ public class Building implements BuildingItf {
 	public void update() {
 		if (buildStarted && !isBuilt) {
 			timeBuilt++;
-			if (timeBuilt >= type.constructionNeeds.getCost().time) {
+			if (timeBuilt >= type.constructionNeeds.time) {
 				isBuilt = true;
 			}
 		}
@@ -41,9 +41,9 @@ public class Building implements BuildingItf {
 			throws NotEnoughNeedsException, BuildingAlreadyStartedException {
 		if (this.buildStarted)
 			throw new BuildingAlreadyStartedException("building of " + this + " already started");
-		if (this.type.constructionNeeds.getCost().isAffordable(resources)) {
+		if (this.type.constructionNeeds.isAffordable(resources)) {
 			this.buildStarted = true;
-			return this.type.constructionNeeds.getCost().getRemainingResources(resources);
+			return this.type.constructionNeeds.getRemainingResources(resources);
 		}
 		throw new NotEnoughNeedsException("to build " + this);
 	}
@@ -57,11 +57,11 @@ public class Building implements BuildingItf {
 	}
 
 	public Needs getCostToBuild() {
-		return this.type.constructionNeeds.getCost();
+		return this.type.constructionNeeds;
 	}
 
 	public int getTimeToBuild() {
-		return this.type.constructionNeeds.getCost().time;
+		return this.type.constructionNeeds.time;
 	}
 
 	public String toString() {

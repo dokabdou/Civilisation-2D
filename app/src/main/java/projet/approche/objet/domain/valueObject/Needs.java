@@ -15,6 +15,12 @@ public class Needs {
 		this.time = time;
 	}
 
+	public Needs(int time, Resource gold, Resource... resources) {
+		var tmp = new ResourceList(resources);
+		this.resources = tmp.add(gold);
+		this.time = time;
+	}
+
 	private Needs(int time, ResourceList resources) {
 		this.resources = resources;
 		this.time = time;
