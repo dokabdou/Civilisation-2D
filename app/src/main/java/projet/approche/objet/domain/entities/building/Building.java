@@ -39,9 +39,9 @@ public class Building implements BuildingItf {
 
 	/**
 	 * Updates the building. If the building is built, it will produce and consume
-	 * resources. If the building is not built but the construction started, it will
-	 * continue the construction. If the building is not built and the construction
-	 * did not start, nothing is done.
+	 * resources if possible. If the building is not built but the construction
+	 * started, it will continue the construction. If the building is not built and
+	 * the construction did not start, nothing is done.
 	 * 
 	 * @param inventory the resources available to produce and consume
 	 * @return the remaining resources after the production and consumption

@@ -4,14 +4,14 @@ import java.util.Iterator;
 import java.util.List;
 
 public class BuildingList implements Iterable<Building> {
-    
-    private final List<Building> buildings;
+
+	private final List<Building> buildings;
 
 	public BuildingList(Building... buildings) {
 		this.buildings = List.of(buildings);
 	}
 
-    @Override
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof BuildingList) {
 			BuildingList other = (BuildingList) obj;
@@ -20,6 +20,12 @@ public class BuildingList implements Iterable<Building> {
 		return false;
 	}
 
+	/**
+	 * Adds a building to the list.
+	 *
+	 * @param building the building to add
+	 * @return a new BuildingList object with the added building
+	 */
 	public BuildingList add(Building building) {
 		int size = this.buildings.size();
 		Building[] copy = new Building[size + 1];
@@ -30,6 +36,12 @@ public class BuildingList implements Iterable<Building> {
 		return new BuildingList(copy);
 	}
 
+	/**
+	 * Adds a list of buildings to the list.
+	 *
+	 * @param buildings the list of buildings to add
+	 * @return a new BuildingList object with the added buildings
+	 */
 	public BuildingList add(BuildingList buildings) {
 		int size = this.buildings.size();
 		Building[] copy = new Building[size + buildings.buildings.size()];
@@ -42,6 +54,12 @@ public class BuildingList implements Iterable<Building> {
 		return new BuildingList(copy);
 	}
 
+	/**
+	 * Removes a building from the list.
+	 *
+	 * @param building the building to remove
+	 * @return a new BuildingList object without the removed building
+	 */
 	public BuildingList remove(Building building) {
 		int size = this.buildings.size();
 		Building[] copy = new Building[size - 1];
@@ -55,6 +73,12 @@ public class BuildingList implements Iterable<Building> {
 		return new BuildingList(copy);
 	}
 
+	/**
+	 * Removes a list of buildings from the list.
+	 *
+	 * @param buildings the list of buildings to remove
+	 * @return a new BuildingList object without the removed buildings
+	 */
 	public BuildingList remove(BuildingList buildings) {
 		int size = this.buildings.size();
 		Building[] copy = new Building[size - buildings.buildings.size()];

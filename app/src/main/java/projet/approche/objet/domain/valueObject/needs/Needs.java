@@ -47,6 +47,12 @@ public class Needs {
 		return new Needs(this.time - 1, this.resources);
 	}
 
+	/**
+	 * Checks if the resources are affordable.
+	 *
+	 * @param resources the resources available
+	 * @return true if the resources are affordable, false otherwise
+	 */
 	public boolean isAffordable(ResourceList resources) {
 		int cpt = 0;
 		for (Resource resource : resources) {
@@ -65,6 +71,12 @@ public class Needs {
 		return false;
 	}
 
+	/**
+	 * Gets the missing resources.
+	 *
+	 * @param resources the resources available
+	 * @return the missing resources
+	 */
 	public ResourceList getMissingResources(ResourceList resources) {
 		ResourceList missingResources = new ResourceList();
 		for (Resource needs : this.resources) {
@@ -79,6 +91,12 @@ public class Needs {
 		return missingResources;
 	}
 
+	/**
+	 * Gets the remaining resources.
+	 *
+	 * @param resources the resources available
+	 * @return the remaining resources
+	 */
 	public ResourceList getRemainingResources(ResourceList resources) {
 		ResourceList remainingResources = new ResourceList();
 		for (Resource needs : this.resources) {

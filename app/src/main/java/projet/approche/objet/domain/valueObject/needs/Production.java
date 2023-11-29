@@ -12,6 +12,12 @@ public class Production extends Needs {
 		return this.resources;
 	}
 
+	/**
+	 * Add the production to the resources.
+	 *
+	 * @param toAdd the resources where the production will be added
+	 * @return a new ResourceList with the production added
+	 */
 	public ResourceList getProduction(ResourceList toAdd) {
 		return this.resources.add(toAdd);
 	}

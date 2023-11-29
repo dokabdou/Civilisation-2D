@@ -3,35 +3,12 @@
  */
 package projet.approche.objet;
 
-import projet.approche.objet.domain.entities.building.Building;
-import projet.approche.objet.domain.entities.building.BuildingType;
-import projet.approche.objet.domain.valueObject.resource.Resource;
-import projet.approche.objet.domain.valueObject.resource.ResourceList;
-import projet.approche.objet.domain.valueObject.resource.ResourceType;
-import projet.approche.objet.exception.building.BuildingAlreadyStartedException;
-import projet.approche.objet.exception.building.NotEnoughNeedsException;
-
 public class App {
 	public String getGreeting() {
 		return "Hello World!";
 	}
 
 	public static void main(String[] args) {
-		ResourceList resources = new ResourceList();
-		resources = resources.add(new Resource(ResourceType.GOLD, 10));
-		BuildingType type1 = BuildingType.WOODENCABIN;
-		BuildingType type2 = BuildingType.WOODENCABIN;
-
-		Building building1 = new Building(type1);
-
-		try {
-			resources = building1.startBuild(resources);
-			resources = building1.startBuild(resources);
-		} catch (NotEnoughNeedsException e) {
-			System.out.println(e.getMessage());
-		} catch (BuildingAlreadyStartedException e) {
-			System.out.println(e.getMessage());
-		}
 		return;
 	}
 }

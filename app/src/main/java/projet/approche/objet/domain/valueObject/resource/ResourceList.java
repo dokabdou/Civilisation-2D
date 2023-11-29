@@ -20,6 +20,12 @@ public class ResourceList implements Iterable<Resource> {
 		return false;
 	}
 
+	/**
+	 * Adds a resource to the list.
+	 *
+	 * @param resource the resource to add
+	 * @return a new ResourceList object with the added resource
+	 */
 	public ResourceList add(Resource resource) {
 		int size = this.resources.size();
 		Resource[] copy = new Resource[size + 1];
@@ -30,6 +36,12 @@ public class ResourceList implements Iterable<Resource> {
 		return new ResourceList(copy);
 	}
 
+	/**
+	 * Adds a list of resources to the list.
+	 *
+	 * @param resources the list of resources to add
+	 * @return a new ResourceList object with the added resources
+	 */
 	public ResourceList add(ResourceList resources) {
 		ResourceList result = this;
 		for (Resource resource : resources) {
@@ -38,6 +50,12 @@ public class ResourceList implements Iterable<Resource> {
 		return result;
 	}
 
+	/**
+	 * Removes a resource from the list.
+	 *
+	 * @param toRemove the resource to remove
+	 * @return a new ResourceList object with the removed resource
+	 */
 	public ResourceList remove(Resource toRemove) {
 		int size = this.resources.size();
 		Resource[] copy = new Resource[size];
@@ -59,6 +77,12 @@ public class ResourceList implements Iterable<Resource> {
 		return new ResourceList(copy);
 	}
 
+	/**
+	 * Removes a list of resources from the list.
+	 *
+	 * @param toRemove the list of resources to remove
+	 * @return a new ResourceList object with the removed resources
+	 */
 	public ResourceList remove(ResourceList toRemove) {
 		ResourceList result = this;
 		for (Resource resource : toRemove) {
@@ -67,10 +91,22 @@ public class ResourceList implements Iterable<Resource> {
 		return result;
 	}
 
+	/**
+	 * Checks if the list contains the resource.
+	 *
+	 * @param resource the resource to check
+	 * @return true if the list contains the resource, false otherwise
+	 */
 	public boolean contains(Resource resource) {
 		return this.resources.contains(resource);
 	}
 
+	/**
+	 * Checks if the list contains all the resources.
+	 *
+	 * @param resources the resources to check
+	 * @return true if the list contains all the resources, false otherwise
+	 */
 	public boolean contains(ResourceList resources) {
 		return this.resources.containsAll(resources.resources);
 	}

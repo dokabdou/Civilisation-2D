@@ -7,8 +7,6 @@ import projet.approche.objet.domain.valueObject.resource.Resource;
 import static projet.approche.objet.domain.valueObject.resource.ResourceType.*;
 
 public enum BuildingType {
-
-	// TODO: modifiy the resource types needed for each building type
 	WOODENCABIN("Wooden Cabin",
 			"WC",
 			new ConstructionNeeds(2,
@@ -120,11 +118,11 @@ public enum BuildingType {
 
 	public final String name;
 	public final String shortName;
-	public final ConstructionNeeds constructionNeeds;
+	public final ConstructionNeeds constructionNeeds; // needs for construction
 	public final int workersNeeded; // min number of workers
 	public final int inhabitantsNeeded; // min number of inhabitants
-	public final Consumption consumption;
-	public final Production production;
+	public final Consumption consumption; // needs for production
+	public final Production production; // production
 
 	private BuildingType(String name, String shotName, ConstructionNeeds constructionNeeds, int workersNeeded,
 			int inhabitantsNeeded, Consumption consumption, Production production) {
