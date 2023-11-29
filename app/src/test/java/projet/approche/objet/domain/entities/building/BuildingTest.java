@@ -12,8 +12,6 @@ import projet.approche.objet.exception.building.NotEnoughNeedsException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.checkerframework.checker.units.qual.s;
-
 class BuildingTest {
 	@Test
 	void testConstructor() {
