@@ -1,4 +1,4 @@
-package projet.approche.objet.domain.valueObject;
+package projet.approche.objet.domain.valueObject.needs;
 
 import projet.approche.objet.domain.valueObject.resource.Resource;
 import projet.approche.objet.domain.valueObject.resource.ResourceList;

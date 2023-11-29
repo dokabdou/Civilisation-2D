@@ -31,23 +31,27 @@ public class ResourceList implements Iterable<Resource> {
 	}
 
 	public ResourceList add(ResourceList resources) {
-		int size = this.resources.size();
-		Resource[] copy = new Resource[size + resources.resources.size()];
-		for (int i = 0; i < size; i++) {
-			copy[i] = this.resources.get(i);
+		ResourceList result = this;
+		for (Resource resource : resources) {
+			result = result.add(resource);
 		}
-		for (int i = 0; i < resources.resources.size(); i++) {
-			copy[size + i] = resources.resources.get(i);
-		}
-		return new ResourceList(copy);
+		return result;
 	}
 
-	public ResourceList remove(Resource resource) {
+	public ResourceList remove(Resource toRemove) {
 		int size = this.resources.size();
-		Resource[] copy = new Resource[size - 1];
+		Resource[] copy = new Resource[size];
 		int j = 0;
 		for (int i = 0; i < size; i++) {
-			if (!this.resources.get(i).equals(resource)) {
+			if (this.resources.get(i).isSameType(toRemove)) {
+				if (this.resources.get(i).isGreaterOrEqual(toRemove)) {
+					copy[j] = this.resources.get(i).sub(toRemove);
+					j++;
+				}
+				if (this.resources.get(i).isLess(toRemove)) {
+					throw new IllegalArgumentException("Not enough resources");
+				}
+			} else {
 				copy[j] = this.resources.get(i);
 				j++;
 			}
@@ -55,17 +59,12 @@ public class ResourceList implements Iterable<Resource> {
 		return new ResourceList(copy);
 	}
 
-	public ResourceList remove(ResourceList resources) {
-		int size = this.resources.size();
-		Resource[] copy = new Resource[size - resources.resources.size()];
-		int j = 0;
-		for (int i = 0; i < size; i++) {
-			if (!resources.contains(this.resources.get(i))) {
-				copy[j] = this.resources.get(i);
-				j++;
-			}
+	public ResourceList remove(ResourceList toRemove) {
+		ResourceList result = this;
+		for (Resource resource : toRemove) {
+			result = result.remove(resource);
 		}
-		return new ResourceList(copy);
+		return result;
 	}
 
 	public boolean contains(Resource resource) {

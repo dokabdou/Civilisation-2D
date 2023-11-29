@@ -1,6 +1,6 @@
 package projet.approche.objet.domain.entities.building;
 
-import projet.approche.objet.domain.valueObject.Needs;
+import projet.approche.objet.domain.valueObject.needs.Needs;
 import projet.approche.objet.domain.valueObject.resource.ResourceList;
 import projet.approche.objet.exception.building.BuildingAlreadyStartedException;
 import projet.approche.objet.exception.building.NotEnoughNeedsException;
@@ -48,12 +48,12 @@ public class Building implements BuildingItf {
 		throw new NotEnoughNeedsException("to build " + this);
 	}
 
-	public void addInhabitantToBuilding(int inhabitantsAdd){
-		//this.type.inhabitants = this.type.inhabitants + inhabitantsAdd;
+	public void addInhabitantToBuilding(int inhabitantsAdd) {
+		// this.type.inhabitants = this.type.inhabitants + inhabitantsAdd;
 	}
 
-	public void removeInhabitantFromBuilding(int inhabitantsRem){
-		//this.type.inhabitants = this.type.inhabitants + inhabitantsRem;
+	public void removeInhabitantFromBuilding(int inhabitantsRem) {
+		// this.type.inhabitants = this.type.inhabitants + inhabitantsRem;
 	}
 
 	public Needs getCostToBuild() {

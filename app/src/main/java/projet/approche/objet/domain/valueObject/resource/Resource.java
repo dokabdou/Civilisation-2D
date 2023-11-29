@@ -23,6 +23,14 @@ public class Resource implements ResourceItf {
 		return new Resource(this.type, this.amount.add(resource.amount));
 	}
 
+	public Resource sub(Resource resource) {
+		if (!this.type.equals(resource.type)) {
+			throw new IllegalArgumentException("Cannot sub resources of different types");
+		}
+
+		return new Resource(this.type, this.amount.sub(resource.amount));
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Resource) {
@@ -30,6 +38,30 @@ public class Resource implements ResourceItf {
 			return this.type.equals(resource.type) && this.amount.equals(resource.amount);
 		}
 		return false;
+	}
+
+	public boolean isSameType(Resource resource) {
+		return this.type.equals(resource.type);
+	}
+
+	public boolean isGreaterOrEqual(Resource resource) {
+		return this.amount.isGreaterOrEqual(resource.amount);
+	}
+
+	public boolean isLessOrEqual(Resource resource) {
+		return this.amount.isLessOrEqual(resource.amount);
+	}
+
+	public boolean isLess(Resource resource) {
+		return this.amount.isLess(resource.amount);
+	}
+
+	public boolean isGreater(Resource resource) {
+		return this.amount.isGreater(resource.amount);
+	}
+
+	public boolean isSameAmount(Resource resource) {
+		return this.amount.equals(resource.amount);
 	}
 
 	@Override
