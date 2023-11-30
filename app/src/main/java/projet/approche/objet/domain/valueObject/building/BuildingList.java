@@ -1,7 +1,9 @@
-package projet.approche.objet.domain.entities.building;
+package projet.approche.objet.domain.valueObject.building;
 
 import java.util.Iterator;
 import java.util.List;
+
+import projet.approche.objet.domain.entities.building.Building;
 
 public class BuildingList implements Iterable<Building> {
 

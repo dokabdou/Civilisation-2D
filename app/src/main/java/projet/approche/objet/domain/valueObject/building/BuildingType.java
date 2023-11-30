@@ -1,4 +1,4 @@
-package projet.approche.objet.domain.entities.building;
+package projet.approche.objet.domain.valueObject.building;
 
 import projet.approche.objet.domain.valueObject.needs.ConstructionNeeds;
 import projet.approche.objet.domain.valueObject.needs.Consumption;
@@ -120,7 +120,9 @@ public enum BuildingType {
 	public final String shortName;
 	public final ConstructionNeeds constructionNeeds; // needs for construction
 	public final int workersNeeded; // min number of workers
+	public final int workersMax; // max number of workers
 	public final int inhabitantsNeeded; // min number of inhabitants
+	public final int inhabitantsMax; // max number of inhabitants
 	public final Consumption consumption; // needs for production
 	public final Production production; // production
 
@@ -130,7 +132,9 @@ public enum BuildingType {
 		this.shortName = shotName;
 		this.constructionNeeds = constructionNeeds;
 		this.workersNeeded = workersNeeded;
+		this.workersMax = 2 * workersNeeded;
 		this.inhabitantsNeeded = inhabitantsNeeded;
+		this.inhabitantsMax = 2 * inhabitantsNeeded;
 		this.consumption = consumption;
 		this.production = production;
 	}

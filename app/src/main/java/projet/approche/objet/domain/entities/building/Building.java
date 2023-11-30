@@ -1,5 +1,6 @@
 package projet.approche.objet.domain.entities.building;
 
+import projet.approche.objet.domain.valueObject.building.BuildingType;
 import projet.approche.objet.domain.valueObject.needs.Needs;
 import projet.approche.objet.domain.valueObject.resource.ResourceList;
 import projet.approche.objet.exception.building.BuildingAlreadyStartedException;
@@ -7,8 +8,7 @@ import projet.approche.objet.exception.building.NotEnoughNeedsException;
 
 public class Building implements BuildingItf {
 
-	private static Long count = Long.valueOf(0);
-	public final Long id = ++count;
+	public final long id;
 
 	public final BuildingType type;
 	private boolean buildStarted;
@@ -25,8 +25,9 @@ public class Building implements BuildingItf {
 		return workers;
 	}
 
-	public Building(BuildingType buildingType) {
+	public Building(BuildingType buildingType, long id) {
 		this.type = buildingType;
+		this.id = id;
 	}
 
 	public boolean isBuildStarted() {

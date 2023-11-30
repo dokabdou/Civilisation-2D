@@ -4,6 +4,7 @@ package projet.approche.objet.domain.entities.building;
 
 import org.junit.jupiter.api.Test;
 
+import projet.approche.objet.domain.valueObject.building.BuildingType;
 import projet.approche.objet.domain.valueObject.resource.Resource;
 import projet.approche.objet.domain.valueObject.resource.ResourceList;
 import projet.approche.objet.domain.valueObject.resource.ResourceType;
@@ -16,7 +17,7 @@ class BuildingTest {
 	@Test
 	void testConstructor() {
 		BuildingType type = BuildingType.fromString("House");
-		Building building = new Building(type);
+		Building building = new Building(type, 1);
 
 		assertEquals(type, building.type);
 		assertFalse(building.isBuildStarted());
@@ -26,7 +27,7 @@ class BuildingTest {
 	@Test
 	void testStartBuild() {
 		BuildingType type = BuildingType.fromString("House");
-		Building building = new Building(type);
+		Building building = new Building(type, 1);
 		ResourceList resources = new ResourceList(new Resource(ResourceType.fromString("Wood"), 100));
 		assertThrows(NotEnoughNeedsException.class, () -> building.startBuild(resources));
 		ResourceList resources2 = new ResourceList(
@@ -44,7 +45,7 @@ class BuildingTest {
 	@Test
 	void testStartBuildAlreadyStarted() {
 		BuildingType type = BuildingType.fromString("House");
-		Building building = new Building(type);
+		Building building = new Building(type, 1);
 
 		ResourceList resources = new ResourceList(
 				new Resource(ResourceType.fromString("Wood"), 100),
@@ -58,7 +59,7 @@ class BuildingTest {
 	@Test
 	void testUpdateBuilding() {
 		BuildingType type = BuildingType.fromString("House");
-		Building building = new Building(type);
+		Building building = new Building(type, 1);
 
 		ResourceList resources = new ResourceList(
 				new Resource(ResourceType.fromString("Wood"), 100),
@@ -75,7 +76,7 @@ class BuildingTest {
 	@Test
 	void testUpdateBuildingProduction() {
 		BuildingType type = BuildingType.fromString("Lumber Mill");
-		Building building = new Building(type);
+		Building building = new Building(type, 1);
 
 		ResourceList resourcesForBuild = new ResourceList(
 				new Resource(ResourceType.fromString("Wood"), 100),
@@ -112,7 +113,7 @@ class BuildingTest {
 	@Test
 	void testAddInhabitantToBuilding() {
 		BuildingType type = BuildingType.fromString("House");
-		Building building = new Building(type);
+		Building building = new Building(type, 1);
 
 		building.addInhabitantToBuilding(5);
 		assertEquals(5, building.getInhabitants());
@@ -121,7 +122,7 @@ class BuildingTest {
 	@Test
 	void testRemoveInhabitantFromBuilding() {
 		BuildingType type = BuildingType.fromString("House");
-		Building building = new Building(type);
+		Building building = new Building(type, 1);
 
 		building.addInhabitantToBuilding(5);
 		building.addInhabitantToBuilding(-2);
@@ -131,7 +132,7 @@ class BuildingTest {
 	@Test
 	void testAddWorkerToBuilding() {
 		BuildingType type = BuildingType.fromString("House");
-		Building building = new Building(type);
+		Building building = new Building(type, 1);
 
 		building.addWorkerToBuilding(5);
 		assertEquals(5, building.getWorkers());
@@ -140,7 +141,7 @@ class BuildingTest {
 	@Test
 	void testRemoveWorkerFromBuilding() {
 		BuildingType type = BuildingType.fromString("House");
-		Building building = new Building(type);
+		Building building = new Building(type, 1);
 
 		building.addWorkerToBuilding(5);
 		building.addWorkerToBuilding(-2);
@@ -150,7 +151,7 @@ class BuildingTest {
 	@Test
 	void testToString() {
 		BuildingType type = BuildingType.fromString("House");
-		Building building = new Building(type);
+		Building building = new Building(type, 1);
 
 		assertEquals(type.name + ":" + building.id, building.toString());
 	}
@@ -158,7 +159,7 @@ class BuildingTest {
 	@Test
 	void testToShortString() {
 		BuildingType type = BuildingType.fromString("House");
-		Building building = new Building(type);
+		Building building = new Building(type, 1);
 
 		assertEquals(type.shortName + ":" + building.id, building.toShortString());
 	}
