@@ -26,18 +26,50 @@ public class Manager {
 	private BuildingList buildings = new BuildingList();
 	private ResourceList resources = new ResourceList();
 
+	private int gridSize;
+	private String[][] grid; 
+
 	/**
 	 * Manager of the game, it will manage the buildings, the resources, the
 	 * inhabitants and the workers
 	 * 
 	 * @param gameStarter the game starter
 	 */
-	public Manager(GameStarter gameStarter) {
+	public Manager(GameStarter gameStarter, int gridSize) {
 		this.inhabitants = gameStarter.inhabitants;
 		this.workers = gameStarter.workers;
 		this.resources = gameStarter.startingResources;
 		for (BuildingType buildingType : gameStarter.startingBuildings) {
 			this.buildings = this.buildings.add(new Building(buildingType, ++idBuildings));
+		}
+
+		this.gridSize = gridSize;
+		this.grid = new String [gridSize][gridSize];
+
+		for(int i = 0; i < gridSize; i++){
+			for(int j = 0; j < gridSize; j++){
+				if(gameStarter == GameStarter.EASY){
+					if((i== 0 && j==0) || (i== 1 && j==0)){
+						this.grid[i][j] = "C";
+					}
+					if((i== 0 && j==2) || (i== 0 && j==3)){
+						this.grid[i][j] = "H";
+					}
+				} else if (gameStarter == GameStarter.NORMAL){
+					if((i== 0 && j==0)){
+						this.grid[i][j] = "C";
+					}
+					if((i== 0 && j==2) || (i== 0 && j==3)){
+						this.grid[i][j] = "H";
+					}
+				} else {
+					if((i== 0 && j==0)){
+						this.grid[i][j] = "C";
+					}
+				}
+
+				
+			}
 		}
 	}
 
@@ -144,5 +176,30 @@ public class Manager {
 				resources = building.update(resources);
 			}
 		}
+	}
+
+	public boolean updateGrid(int c_i; int c_j, Building building){
+		// everytime a building is created the grid is updated
+		/*for(int i = 0; i < this.gridSize; i++){
+			for(int j = 0; j < this.gridSize; j++){
+
+			}
+		}*/
+		if( c_i >= this.gridSize){
+			// c_i too big
+			return false;
+		}
+
+		if( c_j >= this.gridSize){
+			// c_j too big
+
+		}
+
+		//think of size of building, if the j coordinate is to close to the right edge the building can not be built on this line
+		// and if there is no building overlap
+		if(this.gridSize-c_j-1 > building.buildingSize()){
+			// can building the building on this line
+		}
+		return true;
 	}
 }
