@@ -105,6 +105,14 @@ public class Manager {
 		this.buildings = this.buildings.remove(building);
 	}
 
+	public String getGrid(){
+		return grid;
+	}
+
+	public int getGridSize(){
+		return gridSize;
+	}
+
 	public void addInhabitantToBuilding(Building building, int inhabitantsToAdd) throws NotEnoughInhabitants {
 		if (this.inhabitants >= inhabitantsToAdd) {
 			building.addInhabitantToBuilding(inhabitantsToAdd);
@@ -178,7 +186,10 @@ public class Manager {
 		}
 	}
 
-	public boolean updateGrid(int c_i; int c_j, Building building){
+	public boolean updateGrid(int c_i, int c_j, Building building){
+		// add direction as a parameter
+		// 	as String : H for horizontal and V for vertical
+		// also take building's shortname as param
 		// everytime a building is created the grid is updated
 		/*for(int i = 0; i < this.gridSize; i++){
 			for(int j = 0; j < this.gridSize; j++){
@@ -197,9 +208,16 @@ public class Manager {
 
 		//think of size of building, if the j coordinate is to close to the right edge the building can not be built on this line
 		// and if there is no building overlap
-		if(this.gridSize-c_j-1 > building.buildingSize()){
+		if((this.gridSize-c_j-1 > building.buildingSize())  /* && direction == "H" */){
 			// can building the building on this line
-		}
+			// check if there is no building overlap
+
+		
+		} else if ((this.gridSize-c_i-1 > building.buildingSize())  /* && direction == "V" */){
+			// can building the building on this column
+			// check if there is no building overlap
+
+		} 
 		return true;
 	}
 }

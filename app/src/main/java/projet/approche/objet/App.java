@@ -5,6 +5,7 @@ package projet.approche.objet;
 
 //import projet.approche.objet.domain.*;
 import projet.approche.objet.domain.valueObject.game.GameStarter;
+import projet.approche.objet.domain.valueObject.resource.Resource;
 import projet.approche.objet.domain.aggregates.*;
 import projet.approche.objet.domain.entities.building.Building;
 import projet.approche.objet.domain.valueObject.building.BuildingList;
@@ -33,10 +34,23 @@ public class App {
 
 		BuildingList buildings = game.getBuildings();
 		
-		int gridSize = 25;
-	
-		for(Building b : buildings){
+		// print the resources
+		System.out.println("Workers : " + game.getWorkers());
+		System.out.println("Inhabitants : " + game.getInhabitants());
+		System.out.println("-----------");
+		for(Resource r : game.getResources()){
+			System.out.println(r.toString());
+		}
 
+		// print the grid
+		String[][] grid = game.getGrid();
+		System.out.println("-----------");
+		System.out.println("Grid : ");
+		for(int i = 0; i < game.getGridSize(); i++){
+			for(int j = 0; j < game.getGridSize(); j++){
+				System.out.print(grid[i][j]);
+			}
+			System.out.println();
 		}
 	}
 
