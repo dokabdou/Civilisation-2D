@@ -123,6 +123,16 @@ public class ResourceList implements Iterable<Resource> {
 		return this.resources.get(index);
 	}
 
+	public ResourceAmount get(ResourceType type) {
+		ResourceAmount result = new ResourceAmount(0);
+		for (Resource resource : this.resources) {
+			if (resource.type.equals(type)) {
+				result = result.add(resource.amount);
+			}
+		}
+		return result;
+	}
+
 	@Override
 	public Iterator<Resource> iterator() {
 		return this.resources.iterator();

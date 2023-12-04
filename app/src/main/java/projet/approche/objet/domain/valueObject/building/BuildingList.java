@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import projet.approche.objet.domain.entities.building.Building;
+import projet.approche.objet.domain.valueObject.resource.ResourceAmount;
 
 public class BuildingList implements Iterable<Building> {
 
@@ -92,6 +93,18 @@ public class BuildingList implements Iterable<Building> {
 			}
 		}
 		return new BuildingList(copy);
+	}
+
+	public ResourceAmount foodConsumption() {
+		// minimum food needed for the next day
+		ResourceAmount foodConsumption = new ResourceAmount(0);
+		for(Building building : this.buildings) {
+			if(building.getInhabitants() + building.getWorkers() > 0) {
+				// assume that each inhabitant/worker consumes 1 food per turn
+				foodConsumption = foodConsumption.add(new ResourceAmount(1*(building.getInhabitants() + building.getWorkers())));
+			}
+		}
+		return foodConsumption;
 	}
 
 	public boolean contains(Building building) {

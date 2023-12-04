@@ -12,7 +12,9 @@ import projet.approche.objet.domain.valueObject.game.exceptions.NotEnoughInhabit
 import projet.approche.objet.domain.valueObject.game.exceptions.NotEnoughWorkers;
 import projet.approche.objet.domain.valueObject.grid.Coordinate;
 import projet.approche.objet.domain.valueObject.grid.Grid;
+import projet.approche.objet.domain.valueObject.resource.ResourceAmount;
 import projet.approche.objet.domain.valueObject.resource.ResourceList;
+import projet.approche.objet.domain.valueObject.resource.ResourceType;
 
 public class Manager {
 	private static Long count = Long.valueOf(0);
@@ -161,5 +163,37 @@ public class Manager {
 				resources = building.update(resources);
 			}
 		}
+		if (resources.get(ResourceType.FOOD).isGreater(buildings.foodConsumption())) {
+			// TODO: resources = resources.remove(ResourceType.FOOD);
+		} else {
+			// TODO : end game
+			System.out.println("GAME OVER");
+		}
+	}
+
+	public ResourceAmount foodConsumption() {
+		// minimum amount of food needed for the next day
+		return this.buildings.foodConsumption();
+	}
+
+	/**
+	 * @param state the state to set
+	 */
+	public void setState(GameState state) {
+		this.state = state;
+	}
+
+	/**
+	 * @param buildings the buildings to set
+	 */
+	public void setBuildings(BuildingList buildings) {
+		this.buildings = buildings;
+	}
+
+	/**
+	 * @param resources the resources to set
+	 */
+	public void setResources(ResourceList resources) {
+		this.resources = resources;
 	}
 }
