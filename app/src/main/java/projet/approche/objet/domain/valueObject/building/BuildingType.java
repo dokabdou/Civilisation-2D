@@ -15,7 +15,7 @@ public enum BuildingType {
 			2,
 			2,
 			new Consumption(1), // needs for production
-			new Production(1, // prfoduction
+			new Production(1, // production
 					new Resource(WOOD, 2),
 					new Resource(FOOD, 2))),
 	HOUSE("House",
@@ -27,7 +27,7 @@ public enum BuildingType {
 			0,
 			4,
 			new Consumption(1), // needs for production
-			new Production(1) // plroduction
+			new Production(1) // production
 	),
 	APARTMENTBUILDING("Apartment Building",
 			"A",
@@ -124,7 +124,7 @@ public enum BuildingType {
 	public final int inhabitantsNeeded; // min number of inhabitants
 	public final int inhabitantsMax; // max number of inhabitants
 	public final Consumption consumption; // needs for production
-	public final Production production; // prloduction
+	public final Production production; // production
 
 	private BuildingType(String name, String shortName, ConstructionNeeds constructionNeeds, int workersNeeded,
 			int inhabitantsNeeded, Consumption consumption, Production production) {

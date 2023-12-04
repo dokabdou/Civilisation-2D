@@ -62,6 +62,17 @@ class BuildingList2Test {
 		assertTrue(list.contains(building));
 	}
 
+	@Test 
+	void testFoodConsumptionBuildingList(){
+		Building building1 = new Building(BuildingType.WOODENCABIN, id++);
+		building1.addInhabitantToBuilding(1);
+		Building building2 = new Building(BuildingType.WOODENCABIN, id++);
+		building2.addInhabitantToBuilding(1);
+		BuildingList list = new BuildingList(building1, building2);
+
+		assertEquals(2, list.foodConsumption().value);
+	}
+
 	@Test
 	void testContainsBuildingList() {
 		Building building1 = new Building(BuildingType.WOODENCABIN, id++);

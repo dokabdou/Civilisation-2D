@@ -32,11 +32,14 @@ public class ResourceList implements Iterable<Resource> {
 		// in the list, is added
 		List<Resource> copy = new ArrayList<>();
 		for (Resource r : resources) {
-			if (r.type.equals(resource.type)) {
+			if (r.isSameType(resource)) {
 				copy.add(r.add(resource));
 			} else {
 				copy.add(r);
 			}
+		}
+		if (!copy.contains(resource)) {
+			copy.add(resource);
 		}
 		// cast copy to type []
 		Resource[] array_copy = new Resource[copy.size()];
@@ -68,20 +71,25 @@ public class ResourceList implements Iterable<Resource> {
 	public ResourceList remove(Resource toRemove) {
 		int size = this.resources.size();
 		Resource[] copy = new Resource[size];
+		boolean found = false;
 		int j = 0;
 		for (int i = 0; i < size; i++) {
 			if (this.resources.get(i).isSameType(toRemove)) {
 				if (this.resources.get(i).isGreaterOrEqual(toRemove)) {
+					found = true;
 					copy[j] = this.resources.get(i).sub(toRemove);
 					j++;
 				}
-				if (this.resources.get(i).isLess(toRemove)) {
+				else {
 					throw new IllegalArgumentException("Not enough resources");
 				}
 			} else {
 				copy[j] = this.resources.get(i);
 				j++;
 			}
+		}
+		if (!found) {
+			throw new IllegalArgumentException("The resource was not found");
 		}
 		return new ResourceList(copy);
 	}
