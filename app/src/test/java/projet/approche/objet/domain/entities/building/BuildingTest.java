@@ -5,11 +5,11 @@ package projet.approche.objet.domain.entities.building;
 import org.junit.jupiter.api.Test;
 
 import projet.approche.objet.domain.valueObject.building.BuildingType;
+import projet.approche.objet.domain.valueObject.building.exceptions.BuildingAlreadyStartedException;
+import projet.approche.objet.domain.valueObject.building.exceptions.NotEnoughNeedsException;
 import projet.approche.objet.domain.valueObject.resource.Resource;
 import projet.approche.objet.domain.valueObject.resource.ResourceList;
 import projet.approche.objet.domain.valueObject.resource.ResourceType;
-import projet.approche.objet.exception.building.BuildingAlreadyStartedException;
-import projet.approche.objet.exception.building.NotEnoughNeedsException;
 
 import static org.junit.jupiter.api.Assertions.*;
 

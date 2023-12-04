@@ -1,4 +1,4 @@
-package projet.approche.objet.exception.building;
+package projet.approche.objet.domain.valueObject.building.exceptions;
 
 public class BuildingException extends Exception {
 

@@ -177,6 +177,9 @@ public class Manager {
 		}
 	}
 
+	/**
+	 * @breif Update the game and all its components
+	 */
 	public void update() {
 		if (state == GameState.RUNNING) {
 			for (Building building : buildings) {

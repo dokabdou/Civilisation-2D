@@ -1,10 +1,10 @@
 package projet.approche.objet.domain.entities.building;
 
 import projet.approche.objet.domain.valueObject.building.BuildingType;
+import projet.approche.objet.domain.valueObject.building.exceptions.BuildingAlreadyStartedException;
+import projet.approche.objet.domain.valueObject.building.exceptions.NotEnoughNeedsException;
 import projet.approche.objet.domain.valueObject.needs.Needs;
 import projet.approche.objet.domain.valueObject.resource.ResourceList;
-import projet.approche.objet.exception.building.BuildingAlreadyStartedException;
-import projet.approche.objet.exception.building.NotEnoughNeedsException;
 
 public class Building implements BuildingItf {
 
@@ -118,7 +118,7 @@ public class Building implements BuildingItf {
 		return this.type.shortName + ":" + this.id;
 	}
 
-	public int buildingSize(){
+	public int buildingSize() {
 		return this.type.buildingSize;
 	}
 }
