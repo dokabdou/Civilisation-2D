@@ -1,28 +1,41 @@
 package projet.approche.objet.domain.valueObject.grid;
 
 public class Coordinate {
-	public final int xStart;
-	public final int yStart;
-	public final int xEnd;
-	public final int yEnd;
+	public final int x;
+	public final int y;
 
-	public Coordinate(int xStart, int yStart, int xEnd, int yEnd) {
-		this.xStart = xStart;
-		this.yStart = yStart;
-		this.xEnd = xEnd;
-		this.yEnd = yEnd;
+	public Coordinate(final int x, final int y) {
+		this.x = x;
+		this.y = y;
 	}
 
-	public boolean isInside(int x, int y) {
-		return x >= xStart && x <= xEnd && y >= yStart && y <= yEnd;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + x;
+		result = prime * result + y;
+		return result;
 	}
 
-	public boolean isInside(Coordinate c) {
-		return isInside(c.xStart, c.yStart) && isInside(c.xEnd, c.yEnd);
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Coordinate other = (Coordinate) obj;
+		if (x != other.x)
+			return false;
+		if (y != other.y)
+			return false;
+		return true;
 	}
 
-	public boolean isOverlapping(Coordinate c) {
-		return isInside(c.xStart, c.yStart) || isInside(c.xEnd, c.yEnd);
+	@Override
+	public String toString() {
+		return "(" + x + "," + y + ")";
 	}
-
 }

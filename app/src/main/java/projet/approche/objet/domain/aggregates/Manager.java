@@ -10,6 +10,8 @@ import projet.approche.objet.domain.valueObject.game.exceptions.GameEnded;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameNotStarted;
 import projet.approche.objet.domain.valueObject.game.exceptions.NotEnoughInhabitants;
 import projet.approche.objet.domain.valueObject.game.exceptions.NotEnoughWorkers;
+import projet.approche.objet.domain.valueObject.grid.Coordinate;
+import projet.approche.objet.domain.valueObject.grid.Grid;
 import projet.approche.objet.domain.valueObject.resource.ResourceList;
 
 public class Manager {
@@ -23,11 +25,11 @@ public class Manager {
 
 	private GameState state = GameState.NOTSTARTED;
 
+	// TODO remove buildings because they are in the grid
 	private BuildingList buildings = new BuildingList();
 	private ResourceList resources = new ResourceList();
 
-	private int gridSize;
-	private String[][] grid;
+	private Grid grid;
 
 	/**
 	 * Manager of the game, it will manage the buildings, the resources, the
@@ -42,34 +44,7 @@ public class Manager {
 		for (BuildingType buildingType : gameStarter.startingBuildings) {
 			this.buildings = this.buildings.add(new Building(buildingType, ++idBuildings));
 		}
-
-		this.gridSize = gridSize;
-		this.grid = new String[gridSize][gridSize];
-
-		for (int i = 0; i < gridSize; i++) {
-			for (int j = 0; j < gridSize; j++) {
-				if (gameStarter == GameStarter.EASY) {
-					if ((i == 0 && j == 0) || (i == 1 && j == 0)) {
-						this.grid[i][j] = "C";
-					}
-					if ((i == 0 && j == 2) || (i == 0 && j == 3)) {
-						this.grid[i][j] = "H";
-					}
-				} else if (gameStarter == GameStarter.NORMAL) {
-					if ((i == 0 && j == 0)) {
-						this.grid[i][j] = "C";
-					}
-					if ((i == 0 && j == 2) || (i == 0 && j == 3)) {
-						this.grid[i][j] = "H";
-					}
-				} else {
-					if ((i == 0 && j == 0)) {
-						this.grid[i][j] = "C";
-					}
-				}
-
-			}
-		}
+		this.grid = new Grid(gridSize);
 	}
 
 	public Long getId() {
@@ -96,20 +71,20 @@ public class Manager {
 		return resources;
 	}
 
-	public void buildBuilding(Building building) {
+	public void buildBuilding(Building building) { // TODO: add coordinate
 		this.buildings = this.buildings.add(building);
+	}
+
+	public void buildBuilding(BuildingType buildingType, Coordinate c) {
+		this.buildings = this.buildings.add(new Building(buildingType, ++idBuildings));
 	}
 
 	public void destroyBuilding(Building building) {
 		this.buildings = this.buildings.remove(building);
 	}
 
-	public String[][] getGrid() {
+	public Grid getGrid() {
 		return grid;
-	}
-
-	public int getGridSize() {
-		return gridSize;
 	}
 
 	public void addInhabitantToBuilding(Building building, int inhabitantsToAdd) throws NotEnoughInhabitants {
@@ -186,42 +161,5 @@ public class Manager {
 				resources = building.update(resources);
 			}
 		}
-	}
-
-	public boolean updateGrid(int c_i, int c_j, Building building) {
-		// add direction as a parameter
-		// as String : H for horizontal and V for vertical
-		// also take building's shortname as param
-		// everytime a building is created the grid is updated
-		/*
-		 * for(int i = 0; i < this.gridSize; i++){
-		 * for(int j = 0; j < this.gridSize; j++){
-		 * 
-		 * }
-		 * }
-		 */
-		if (c_i >= this.gridSize) {
-			// c_i too big
-			return false;
-		}
-
-		if (c_j >= this.gridSize) {
-			// c_j too big
-
-		}
-
-		// think of size of building, if the j coordinate is to close to the right edge
-		// the building can not be built on this line
-		// and if there is no building overlap
-		if ((this.gridSize - c_j - 1 > building.buildingSize()) /* && direction == "H" */) {
-			// can building the building on this line
-			// check if there is no building overlap
-
-		} else if ((this.gridSize - c_i - 1 > building.buildingSize()) /* && direction == "V" */) {
-			// can building the building on this column
-			// check if there is no building overlap
-
-		}
-		return true;
 	}
 }

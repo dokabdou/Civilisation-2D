@@ -17,8 +17,7 @@ public enum BuildingType {
 			new Consumption(1), // needs for production
 			new Production(1, // prfoduction
 					new Resource(WOOD, 2),
-					new Resource(FOOD, 2)),
-			1),
+					new Resource(FOOD, 2))),
 	HOUSE("House",
 			"H",
 			new ConstructionNeeds(4,
@@ -28,10 +27,10 @@ public enum BuildingType {
 			0,
 			4,
 			new Consumption(1), // needs for production
-			new Production(1), // plroduction
-			2),
+			new Production(1) // plroduction
+	),
 	APARTMENTBUILDING("Apartment Building",
-			"AB",
+			"A",
 			new ConstructionNeeds(6,
 					new Resource(GOLD, 4),
 					new Resource(WOOD, 50),
@@ -39,8 +38,8 @@ public enum BuildingType {
 			0,
 			60,
 			new Consumption(1), // needs for production
-			new Production(1), // production
-			4),
+			new Production(1) // production
+	),
 	FARM("Farm",
 			"F",
 			new ConstructionNeeds(2,
@@ -51,8 +50,7 @@ public enum BuildingType {
 			5,
 			new Consumption(1), // needs for production
 			new Production(1, // production
-					new Resource(FOOD, 10)),
-			3),
+					new Resource(FOOD, 10))),
 	QUARRY("Quarry",
 			"Q",
 			new ConstructionNeeds(2,
@@ -65,10 +63,9 @@ public enum BuildingType {
 					new Resource(STONE, 4),
 					new Resource(IRON, 1),
 					new Resource(COAL, 4),
-					new Resource(GOLD, 2)),
-			4),
+					new Resource(GOLD, 2))),
 	LUMBERMILL("Lumber Mill",
-			"LM",
+			"L",
 			new ConstructionNeeds(4,
 					new Resource(GOLD, 6),
 					new Resource(WOOD, 50),
@@ -78,10 +75,9 @@ public enum BuildingType {
 			new Consumption(1, // needs for production
 					new Resource(WOOD, 4)),
 			new Production(1, // production
-					new Resource(LUMBER, 4)),
-			4),
+					new Resource(LUMBER, 4))),
 	CEMENTPLANT("Cement Plant",
-			"CP",
+			"C",
 			new ConstructionNeeds(4,
 					new Resource(GOLD, 6),
 					new Resource(WOOD, 50),
@@ -92,10 +88,9 @@ public enum BuildingType {
 					new Resource(STONE, 4),
 					new Resource(COAL, 4)),
 			new Production(1, // production
-					new Resource(CEMENT, 4)),
-			4),
+					new Resource(CEMENT, 4))),
 	STEELMILL("Steel Mill",
-			"SM",
+			"S",
 			new ConstructionNeeds(6,
 					new Resource(GOLD, 6),
 					new Resource(WOOD, 100),
@@ -106,10 +101,9 @@ public enum BuildingType {
 					new Resource(IRON, 4),
 					new Resource(COAL, 2)),
 			new Production(1, // production
-					new Resource(STEEL, 4)),
-			5),
+					new Resource(STEEL, 4))),
 	TOOLFACTORY("Tool Factory",
-			"TF",
+			"T",
 			new ConstructionNeeds(8,
 					new Resource(GOLD, 8),
 					new Resource(WOOD, 50),
@@ -120,8 +114,7 @@ public enum BuildingType {
 					new Resource(STEEL, 4),
 					new Resource(COAL, 4)),
 			new Production(1, // production
-					new Resource(TOOLS, 4)),
-			4);
+					new Resource(TOOLS, 4)));
 
 	public final String name;
 	public final String shortName;
@@ -132,10 +125,9 @@ public enum BuildingType {
 	public final int inhabitantsMax; // max number of inhabitants
 	public final Consumption consumption; // needs for production
 	public final Production production; // prloduction
-	public final int buildingSize; // size of building on grid
 
 	private BuildingType(String name, String shortName, ConstructionNeeds constructionNeeds, int workersNeeded,
-			int inhabitantsNeeded, Consumption consumption, Production production, int buildingSize) {
+			int inhabitantsNeeded, Consumption consumption, Production production) {
 		this.name = name;
 		this.shortName = shortName;
 		this.constructionNeeds = constructionNeeds;
@@ -145,7 +137,6 @@ public enum BuildingType {
 		this.inhabitantsMax = 2 * inhabitantsNeeded;
 		this.consumption = consumption;
 		this.production = production;
-		this.buildingSize = buildingSize;
 	}
 
 	public static BuildingType fromString(String name) {

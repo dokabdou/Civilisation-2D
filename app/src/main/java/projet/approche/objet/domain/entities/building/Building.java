@@ -117,8 +117,4 @@ public class Building implements BuildingItf {
 	public String toShortString() {
 		return this.type.shortName + ":" + this.id;
 	}
-
-	public int buildingSize() {
-		return this.type.buildingSize;
-	}
 }
