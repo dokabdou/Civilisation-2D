@@ -27,17 +27,19 @@ public class ResourceList implements Iterable<Resource> {
 	 * @return a new ResourceList object with the added resource
 	 */
 	public ResourceList add(Resource resource) {
-		// TODO : finish this method; increment only when a new resource, not previously in the list, is added
+		// TODO : finish this method; increment only when a new resource, not previously
+		// in the list, is added
 		int size = this.resources.size();
 		List<Resource> copy;
-		
-		for(Resource r : resources) {
-			if(r.type.equals(resource.type)) {
+
+		for (Resource r : resources) {
+			if (r.type.equals(resource.type)) {
 				copy = this.resources;
 				copy.remove(r);
 				copy.add(r.add(resource));
 			}
 		}
+		return null; // TODO: return the actual copy
 
 	}
 
