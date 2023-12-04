@@ -1,7 +1,12 @@
 package projet.approche.objet.domain.valueObject.needs;
 
+import java.util.List;
+
+import projet.approche.objet.domain.valueObject.needs.exceptions.NotEnoughTimeException;
 import projet.approche.objet.domain.valueObject.resource.Resource;
 import projet.approche.objet.domain.valueObject.resource.ResourceList;
+import projet.approche.objet.domain.valueObject.resource.exceptions.NotEnoughResourceException;
+import projet.approche.objet.domain.valueObject.resource.exceptions.ResourceNotFoundException;
 
 /**
  * Needs in time and resources
@@ -10,14 +15,24 @@ public class Needs {
 	public final ResourceList resources;
 	public final int time;
 
-	public Needs(int time, Resource... resources) {
+	public Needs(int time, List<Resource> resources) {
 		this.resources = new ResourceList(resources);
 		this.time = time;
 	}
 
-	public Needs(int time, Resource gold, Resource... resources) {
+	public Needs(int time, Resource gold, List<Resource> resources) {
 		var tmp = new ResourceList(resources);
 		this.resources = tmp.add(gold);
+		this.time = time;
+	}
+
+	public Needs(int time, Resource singleResource) {
+		this.resources = new ResourceList(List.of(singleResource));
+		this.time = time;
+	}
+
+	public Needs(int time) {
+		this.resources = new ResourceList();
 		this.time = time;
 	}
 
@@ -39,7 +54,9 @@ public class Needs {
 		return new Needs(this.time + needs.time, this.resources.add(needs.resources));
 	}
 
-	public Needs sub(Needs needs) {
+	public Needs sub(Needs needs) throws NotEnoughResourceException, ResourceNotFoundException, NotEnoughTimeException {
+		if (this.time < needs.time)
+			throw new NotEnoughTimeException("Not enough time");
 		return new Needs(this.time - needs.time, this.resources.remove(needs.resources));
 	}
 

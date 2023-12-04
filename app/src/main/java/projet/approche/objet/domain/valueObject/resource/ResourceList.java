@@ -4,14 +4,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import projet.approche.objet.domain.valueObject.resource.exceptions.NotEnoughResourceException;
+import projet.approche.objet.domain.valueObject.resource.exceptions.ResourceNotFoundException;
+
 public class ResourceList implements Iterable<Resource> {
 
 	private final List<Resource> resources;
 
-	public ResourceList(Resource... resources) {
-		// TODO: bug ici il faut changer le Resource... en List c'est chiant dans tous
-		// les cas
-		this.resources = List.of(resources);
+	public ResourceList(final List<Resource> resources) {
+		this.resources = resources;
+	}
+
+	public ResourceList() {
+		this(new ArrayList<>());
 	}
 
 	@Override
@@ -31,18 +36,20 @@ public class ResourceList implements Iterable<Resource> {
 	 * @return a new ResourceList object with the added resource
 	 */
 	public ResourceList add(Resource resource) {
-		// TODO : finish this method; increment only when a new resource, not previously
-		// in the list, is added
 		List<Resource> copy = new ArrayList<>();
-		for (Resource r : resources) {
+		boolean added = false;
+		for (Resource r : this) {
 			if (r.isSameType(resource)) {
 				copy.add(r.add(resource));
+				added = true;
 			} else {
 				copy.add(r);
 			}
 		}
-		return null; // TODO: return the actual copy
-
+		if (!added) {
+			copy.add(resource);
+		}
+		return new ResourceList(copy);
 	}
 
 	/**
@@ -67,29 +74,27 @@ public class ResourceList implements Iterable<Resource> {
 	 *
 	 * @param toRemove the resource to remove
 	 * @return a new ResourceList object with the removed resource
+	 * @throws NotEnoughResourceException
+	 * @throws ResourceNotFoundException
 	 */
-	public ResourceList remove(Resource toRemove) {
+	public ResourceList remove(Resource toRemove) throws NotEnoughResourceException, ResourceNotFoundException {
 		int size = this.resources.size();
-		Resource[] copy = new Resource[size];
+		List<Resource> copy = new ArrayList<>();
 		boolean found = false;
-		int j = 0;
 		for (int i = 0; i < size; i++) {
 			if (this.resources.get(i).isSameType(toRemove)) {
 				if (this.resources.get(i).isGreaterOrEqual(toRemove)) {
 					found = true;
-					copy[j] = this.resources.get(i).sub(toRemove);
-					j++;
-				}
-				else {
-					throw new IllegalArgumentException("Not enough resources");
+					copy.add(this.resources.get(i).sub(toRemove));
+				} else {
+					throw new NotEnoughResourceException("Not enough resource to remove");
 				}
 			} else {
-				copy[j] = this.resources.get(i);
-				j++;
+				copy.add(this.resources.get(i));
 			}
 		}
 		if (!found) {
-			throw new IllegalArgumentException("The resource was not found");
+			throw new ResourceNotFoundException("The resource was not found");
 		}
 		return new ResourceList(copy);
 	}
@@ -99,8 +104,10 @@ public class ResourceList implements Iterable<Resource> {
 	 *
 	 * @param toRemove the list of resources to remove
 	 * @return a new ResourceList object with the removed resources
+	 * @throws ResourceNotFoundException
+	 * @throws NotEnoughResourceException
 	 */
-	public ResourceList remove(ResourceList toRemove) {
+	public ResourceList remove(ResourceList toRemove) throws NotEnoughResourceException, ResourceNotFoundException {
 		ResourceList result = new ResourceList();
 		for (Resource resource : this) {
 			result = result.add(resource);

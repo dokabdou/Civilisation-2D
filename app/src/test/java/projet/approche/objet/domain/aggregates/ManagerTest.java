@@ -23,6 +23,8 @@ import projet.approche.objet.domain.valueObject.resource.ResourceType;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 class ManagerTest {
 	private Manager manager;
 	private GameStarter gameStarter;
@@ -32,8 +34,9 @@ class ManagerTest {
 	void setUp() {
 		gameStarter = GameStarter.EASY;
 		manager = new Manager(gameStarter, 10);
-		this.inventory = new ResourceList(new Resource(ResourceType.GOLD, 100), new Resource(ResourceType.WOOD, 100),
-				new Resource(ResourceType.STONE, 100), new Resource(ResourceType.FOOD, 100));
+		this.inventory = new ResourceList(
+				List.of(new Resource(ResourceType.GOLD, 100), new Resource(ResourceType.WOOD, 100),
+						new Resource(ResourceType.STONE, 100), new Resource(ResourceType.FOOD, 100)));
 
 	}
 

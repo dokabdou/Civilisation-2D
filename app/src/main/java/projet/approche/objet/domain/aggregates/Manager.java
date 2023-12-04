@@ -21,6 +21,8 @@ import projet.approche.objet.domain.valueObject.resource.Resource;
 import projet.approche.objet.domain.valueObject.resource.ResourceAmount;
 import projet.approche.objet.domain.valueObject.resource.ResourceList;
 import projet.approche.objet.domain.valueObject.resource.ResourceType;
+import projet.approche.objet.domain.valueObject.resource.exceptions.NotEnoughResourceException;
+import projet.approche.objet.domain.valueObject.resource.exceptions.ResourceNotFoundException;
 
 public class Manager {
 	private static Long count = Long.valueOf(0);
@@ -184,7 +186,12 @@ public class Manager {
 			Resource foodNeeded = this.foodConsumption();
 			if (resources.get(ResourceType.FOOD).isGreaterOrEqual(foodNeeded)) {
 				// remove food needed for the next day
-				resources = resources.remove(foodNeeded);
+				try {
+					resources = resources.remove(foodNeeded);
+				} catch (NotEnoughResourceException | ResourceNotFoundException e) {
+					// Shouldn't happen since we checked if there was enough food
+					throw new RuntimeException(e);
+				}
 			} else {
 				// TODO : end game or kill inhabitants / kill workers
 				System.out.println("GAME OVER");

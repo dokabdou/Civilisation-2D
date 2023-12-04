@@ -1,32 +1,42 @@
 package projet.approche.objet.domain.valueObject.resource;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import projet.approche.objet.domain.valueObject.resource.exceptions.NotEnoughResourceException;
+import projet.approche.objet.domain.valueObject.resource.exceptions.ResourceNotFoundException;
+
 import java.util.Iterator;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ResourceListTest {
 
+	private static Resource gold;
+	private static ResourceList resourceList;
+
+	@BeforeAll
+	static void setUp() {
+		gold = new Resource(ResourceType.GOLD, 10);
+		resourceList = new ResourceList(List.of(gold));
+	}
+
 	@Test
 	void testConstructor() {
-		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
-		ResourceList resourceList = new ResourceList(gold);
 		assertEquals(1, resourceList.size());
 		assertTrue(resourceList.contains(gold));
 	}
 
 	@Test
 	void testEquals() {
-		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
-		ResourceList resourceList1 = new ResourceList(gold);
-		ResourceList resourceList2 = new ResourceList(gold);
-		assertTrue(resourceList1.equals(resourceList2));
+		ResourceList resourceList2 = new ResourceList(List.of(gold));
+		assertTrue(resourceList.equals(resourceList2));
 	}
 
 	@Test
 	void testAddResource() {
-		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
+		Resource gold = new Resource(ResourceType.GOLD, 10);
 		ResourceList resourceList = new ResourceList();
 		ResourceList result = resourceList.add(gold);
 		assertEquals(1, result.size());
@@ -35,28 +45,22 @@ class ResourceListTest {
 
 	@Test
 	void testAddSameResource() {
-		Resource gold10 = new Resource(ResourceType.fromString("Gold"), 10);
-		Resource gold20 = new Resource(ResourceType.fromString("Gold"), 20);
-		ResourceList resourceList = new ResourceList(gold10);
+		Resource gold20 = new Resource(ResourceType.GOLD, 20);
 		ResourceList result = resourceList.add(gold20);
 		assertEquals(1, result.size());
-		assertTrue(result.contains(new Resource(ResourceType.fromString("Gold"), 30)));
+		assertTrue(result.contains(new Resource(ResourceType.GOLD, 30)));
 	}
 
 	@Test
 	void testAddResourceList() {
-		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
-		ResourceList resourceList1 = new ResourceList(gold);
 		ResourceList resourceList2 = new ResourceList();
-		ResourceList result = resourceList2.add(resourceList1);
+		ResourceList result = resourceList2.add(resourceList);
 		assertEquals(1, result.size());
 		assertTrue(result.contains(gold));
 	}
 
 	@Test
-	void testRemoveResource() {
-		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
-		ResourceList resourceList = new ResourceList(gold);
+	void testRemoveResource() throws NotEnoughResourceException, ResourceNotFoundException {
 		ResourceList result = resourceList.remove(gold);
 		assertEquals(1, result.size());
 		assertFalse(result.contains(gold));
@@ -64,59 +68,61 @@ class ResourceListTest {
 	}
 
 	@Test
-	void testRemoveResourceNotEnough() {
-		Resource gold10 = new Resource(ResourceType.fromString("Gold"), 10);
-		Resource gold20 = new Resource(ResourceType.fromString("Gold"), 20);
-		ResourceList resourceList = new ResourceList(gold20);
-		ResourceList result = resourceList.remove(gold10);
-		assertEquals(1, result.size());
-		assertTrue(result.contains(gold10));
-	}
-
-	@Test
-	void testRemoveResourceNotSameType() {
-		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
-		Resource wood = new Resource(ResourceType.fromString("Wood"), 10);
-		ResourceList resourceList = new ResourceList(gold);
-		ResourceList result = resourceList.remove(wood);
+	void testRemoveResourceNotEnough() throws NotEnoughResourceException, ResourceNotFoundException {
+		Resource gold20 = new Resource(ResourceType.GOLD, 20);
+		ResourceList resourceList = new ResourceList(List.of(gold20));
+		ResourceList result = resourceList.remove(gold);
 		assertEquals(1, result.size());
 		assertTrue(result.contains(gold));
 	}
 
 	@Test
-	void testRemoveResourceEnough() {
-		Resource gold10 = new Resource(ResourceType.fromString("Gold"), 10);
-		Resource gold20 = new Resource(ResourceType.fromString("Gold"), 20);
-		ResourceList resourceList = new ResourceList(gold20);
-		ResourceList result = resourceList.remove(gold10);
-		assertEquals(1, result.size());
-		assertTrue(result.contains(new Resource(ResourceType.fromString("Gold"), 10)));
+	void testRemoveResourceNotSameType() throws NotEnoughResourceException, ResourceNotFoundException {
+		Resource wood = new Resource(ResourceType.WOOD, 10);
+		assertThrows(ResourceNotFoundException.class, () -> resourceList.remove(wood));
 	}
 
 	@Test
-	void testRemoveResourceList() {
-		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
-		ResourceList resourceList1 = new ResourceList(gold);
-		ResourceList resourceList2 = new ResourceList(gold);
-		ResourceList result = resourceList2.remove(resourceList1);
+	void testRemoveResourceEnough() throws NotEnoughResourceException, ResourceNotFoundException {
+		Resource gold20 = new Resource(ResourceType.GOLD, 20);
+		ResourceList resourceList = new ResourceList(List.of(gold20));
+		ResourceList result = resourceList.remove(gold);
+		assertEquals(1, result.size());
+		assertTrue(result.contains(new Resource(ResourceType.GOLD, 10)));
+	}
+
+	@Test
+	void testRemoveResourceList() throws NotEnoughResourceException, ResourceNotFoundException {
+		ResourceList resourceList2 = new ResourceList(List.of(gold));
+		ResourceList result = resourceList2.remove(resourceList);
 		assertEquals(1, result.size());
 		assertFalse(result.contains(gold));
 		assertEquals(0, result.get(0).amount.value);
 	}
 
 	@Test
+	void testRemoveResourceListNotEnough() {
+		Resource gold20 = new Resource(ResourceType.GOLD, 20);
+		ResourceList resourceList2 = new ResourceList(List.of(gold20));
+		assertThrows(NotEnoughResourceException.class, () -> resourceList.remove(resourceList2));
+	}
+
+	@Test
+	void testRemoveResourceListNotSameType() {
+		Resource wood = new Resource(ResourceType.WOOD, 10);
+		ResourceList resourceList2 = new ResourceList(List.of(wood));
+		assertThrows(ResourceNotFoundException.class, () -> resourceList.remove(resourceList2));
+	}
+
+	@Test
 	void testContainsResource() {
-		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
-		ResourceList resourceList = new ResourceList(gold);
 		assertTrue(resourceList.contains(gold));
 	}
 
 	@Test
 	void testContainsResourceList() {
-		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
-		ResourceList resourceList1 = new ResourceList(gold);
-		ResourceList resourceList2 = new ResourceList(gold);
-		assertTrue(resourceList2.contains(resourceList1));
+		ResourceList resourceList2 = new ResourceList(List.of(gold));
+		assertTrue(resourceList2.contains(resourceList));
 	}
 
 	@Test
@@ -127,22 +133,16 @@ class ResourceListTest {
 
 	@Test
 	void testSize() {
-		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
-		ResourceList resourceList = new ResourceList(gold);
 		assertEquals(1, resourceList.size());
 	}
 
 	@Test
 	void testGet() {
-		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
-		ResourceList resourceList = new ResourceList(gold);
 		assertEquals(gold, resourceList.get(0));
 	}
 
 	@Test
 	void testIterator() {
-		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
-		ResourceList resourceList = new ResourceList(gold);
 		Iterator<Resource> iterator = resourceList.iterator();
 		assertTrue(iterator.hasNext());
 		assertEquals(gold, iterator.next());

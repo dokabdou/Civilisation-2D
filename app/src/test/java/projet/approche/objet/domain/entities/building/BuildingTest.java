@@ -13,6 +13,8 @@ import projet.approche.objet.domain.valueObject.resource.ResourceType;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 class BuildingTest {
 	@Test
 	void testConstructor() {
@@ -28,16 +30,16 @@ class BuildingTest {
 	void testStartBuild() {
 		BuildingType type = BuildingType.fromString("House");
 		Building building = new Building(type, 1);
-		ResourceList resources = new ResourceList(new Resource(ResourceType.fromString("Wood"), 100));
+		ResourceList resources = new ResourceList(List.of(new Resource(ResourceType.fromString("Wood"), 100)));
 		assertThrows(NotEnoughNeedsException.class, () -> building.startBuild(resources));
-		ResourceList resources2 = new ResourceList(
+		ResourceList resources2 = new ResourceList(List.of(
 				new Resource(ResourceType.fromString("Wood"), 100),
-				new Resource(ResourceType.fromString("Stone"), 100));
+				new Resource(ResourceType.fromString("Stone"), 100)));
 		assertThrows(NotEnoughNeedsException.class, () -> building.startBuild(resources2));
-		ResourceList resources3 = new ResourceList(
+		ResourceList resources3 = new ResourceList(List.of(
 				new Resource(ResourceType.fromString("Wood"), 100),
 				new Resource(ResourceType.fromString("Stone"), 100),
-				new Resource(ResourceType.fromString("Gold"), 100));
+				new Resource(ResourceType.fromString("Gold"), 100)));
 		assertDoesNotThrow(() -> building.startBuild(resources3));
 		assertTrue(building.isBuildStarted());
 	}
@@ -47,10 +49,10 @@ class BuildingTest {
 		BuildingType type = BuildingType.fromString("House");
 		Building building = new Building(type, 1);
 
-		ResourceList resources = new ResourceList(
+		ResourceList resources = new ResourceList(List.of(
 				new Resource(ResourceType.fromString("Wood"), 100),
 				new Resource(ResourceType.fromString("Stone"), 100),
-				new Resource(ResourceType.fromString("Gold"), 100));
+				new Resource(ResourceType.fromString("Gold"), 100)));
 
 		assertDoesNotThrow(() -> building.startBuild(resources));
 		assertThrows(BuildingAlreadyStartedException.class, () -> building.startBuild(resources));
@@ -61,10 +63,10 @@ class BuildingTest {
 		BuildingType type = BuildingType.fromString("House");
 		Building building = new Building(type, 1);
 
-		ResourceList resources = new ResourceList(
+		ResourceList resources = new ResourceList(List.of(
 				new Resource(ResourceType.fromString("Wood"), 100),
 				new Resource(ResourceType.fromString("Stone"), 100),
-				new Resource(ResourceType.fromString("Gold"), 100));
+				new Resource(ResourceType.fromString("Gold"), 100)));
 
 		assertDoesNotThrow(() -> building.startBuild(resources)); // start building
 		for (int i = 0; i < type.constructionNeeds.time; i++) {
@@ -78,10 +80,10 @@ class BuildingTest {
 		BuildingType type = BuildingType.fromString("Lumber Mill");
 		Building building = new Building(type, 1);
 
-		ResourceList resourcesForBuild = new ResourceList(
+		ResourceList resourcesForBuild = new ResourceList(List.of(
 				new Resource(ResourceType.fromString("Wood"), 100),
 				new Resource(ResourceType.fromString("Stone"), 100),
-				new Resource(ResourceType.fromString("Gold"), 100));
+				new Resource(ResourceType.fromString("Gold"), 100)));
 
 		assertDoesNotThrow(() -> building.startBuild(resourcesForBuild));
 		for (int i = 0; i < type.constructionNeeds.time; i++) {
@@ -89,7 +91,7 @@ class BuildingTest {
 		}
 		assertTrue(building.isBuilt()); // building is built
 
-		ResourceList resources2 = new ResourceList(new Resource(ResourceType.fromString("Wood"), 5));
+		ResourceList resources2 = new ResourceList(List.of(new Resource(ResourceType.fromString("Wood"), 5)));
 		ResourceList resources3 = building.update(resources2);
 		assertEquals(resources2, resources3); // no production as there is no worker / inhabitant
 
@@ -99,13 +101,13 @@ class BuildingTest {
 
 		building.addWorkerToBuilding(100);
 		resources3 = building.update(resources2);
-		ResourceList shouldBe = new ResourceList(
+		ResourceList shouldBe = new ResourceList(List.of(
 				new Resource(ResourceType.fromString("Wood"), 1),
-				new Resource(ResourceType.fromString("Lumber"), 4));
+				new Resource(ResourceType.fromString("Lumber"), 4)));
 		assertNotEquals(resources2, resources3); // production
 		assertTrue(resources3.contains(shouldBe)); // production and verification of the remaining resources
 
-		ResourceList resources4 = new ResourceList(new Resource(ResourceType.fromString("Wood"), 3));
+		ResourceList resources4 = new ResourceList(List.of(new Resource(ResourceType.fromString("Wood"), 3)));
 		ResourceList resources5 = building.update(resources4);
 		assertEquals(resources4, resources5); // no production as there is not enough resources
 	}

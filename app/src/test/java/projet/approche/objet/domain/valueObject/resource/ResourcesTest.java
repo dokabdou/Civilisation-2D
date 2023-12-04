@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ResourcesTest {
 	@Test
 	void testConstructor() {
-		ResourceType type = ResourceType.fromString("Wood");
+		ResourceType type = ResourceType.WOOD;
 		ResourceAmount amount = new ResourceAmount(10);
 		Resource resource = new Resource(type, amount);
 
@@ -16,7 +16,7 @@ class ResourcesTest {
 
 	@Test
 	void testAdd() {
-		ResourceType type = ResourceType.fromString("Wood");
+		ResourceType type = ResourceType.WOOD;
 		Resource resource1 = new Resource(type, 10);
 		Resource resource2 = new Resource(type, 20);
 
@@ -28,15 +28,15 @@ class ResourcesTest {
 
 	@Test
 	void testAddDifferentTypes() {
-		Resource resource1 = new Resource(ResourceType.fromString("Wood"), 10);
-		Resource resource2 = new Resource(ResourceType.fromString("Stone"), 20);
+		Resource resource1 = new Resource(ResourceType.WOOD, 10);
+		Resource resource2 = new Resource(ResourceType.STONE, 20);
 
 		assertThrows(IllegalArgumentException.class, () -> resource1.add(resource2));
 	}
 
 	@Test
 	void testEquals() {
-		ResourceType type = ResourceType.fromString("Wood");
+		ResourceType type = ResourceType.WOOD;
 		Resource resource1 = new Resource(type, 10);
 		Resource resource2 = new Resource(type, 10);
 
@@ -45,7 +45,7 @@ class ResourcesTest {
 
 	@Test
 	void testToString() {
-		ResourceType type = ResourceType.fromString("Wood");
+		ResourceType type = ResourceType.WOOD;
 		Resource resource = new Resource(type, 10);
 
 		assertEquals("Wood : 10", resource.toString());
@@ -53,7 +53,7 @@ class ResourcesTest {
 
 	@Test
 	void testToShortString() {
-		ResourceType type = ResourceType.fromString("Wood");
+		ResourceType type = ResourceType.WOOD;
 		Resource resource = new Resource(type, 10);
 
 		assertEquals("Wood : 10", resource.toShortString());

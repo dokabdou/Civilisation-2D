@@ -6,115 +6,113 @@ import projet.approche.objet.domain.valueObject.needs.Production;
 import projet.approche.objet.domain.valueObject.resource.Resource;
 import static projet.approche.objet.domain.valueObject.resource.ResourceType.*;
 
+import java.util.List;
+
 public enum BuildingType {
 	WOODENCABIN("Wooden Cabin",
 			"WC",
-			new ConstructionNeeds(2,
-					new Resource(GOLD, 1),
-					new Resource(WOOD, 1)),
+			new ConstructionNeeds(2, 1, List.of(new Resource(WOOD, 1))),
 			2,
 			2,
-			new Consumption(1), // needs for production
-			new Production(1, // production
+			new Consumption(1),
+			new Production(1, List.of(
 					new Resource(WOOD, 2),
-					new Resource(FOOD, 2))),
+					new Resource(FOOD, 2)))),
 	HOUSE("House",
 			"H",
-			new ConstructionNeeds(4,
-					new Resource(GOLD, 1),
-					new Resource(WOOD, 2),
-					new Resource(STONE, 2)),
+			new ConstructionNeeds(4, 1,
+					List.of(
+							new Resource(WOOD, 2),
+							new Resource(STONE, 2))),
 			0,
 			4,
-			new Consumption(1), // needs for production
-			new Production(1) // production
-	),
+			new Consumption(1),
+			new Production(1)),
 	APARTMENTBUILDING("Apartment Building",
 			"A",
 			new ConstructionNeeds(6,
-					new Resource(GOLD, 4),
-					new Resource(WOOD, 50),
-					new Resource(STONE, 50)),
+					4, List.of(
+							new Resource(WOOD, 50),
+							new Resource(STONE, 50))),
 			0,
 			60,
-			new Consumption(1), // needs for production
-			new Production(1) // production
-	),
+			new Consumption(1),
+			new Production(1)),
 	FARM("Farm",
 			"F",
 			new ConstructionNeeds(2,
-					new Resource(GOLD, 4),
-					new Resource(WOOD, 5),
-					new Resource(STONE, 5)),
+					4, List.of(
+							new Resource(WOOD, 5),
+							new Resource(STONE, 5))),
 			3,
 			5,
-			new Consumption(1), // needs for production
-			new Production(1, // production
-					new Resource(FOOD, 10))),
+			new Consumption(1),
+			new Production(1, List.of(
+					new Resource(FOOD, 10)))),
 	QUARRY("Quarry",
 			"Q",
 			new ConstructionNeeds(2,
-					new Resource(GOLD, 4),
-					new Resource(WOOD, 50)),
+					4, List.of(
+							new Resource(WOOD, 50))),
 			30,
 			2,
-			new Consumption(1), // needs for production
-			new Production(1, // production
+			new Consumption(1),
+			new Production(1, List.of(
 					new Resource(STONE, 4),
 					new Resource(IRON, 1),
 					new Resource(COAL, 4),
-					new Resource(GOLD, 2))),
+					new Resource(GOLD, 2)))),
 	LUMBERMILL("Lumber Mill",
 			"L",
 			new ConstructionNeeds(4,
-					new Resource(GOLD, 6),
-					new Resource(WOOD, 50),
-					new Resource(STONE, 50)),
+					6, List.of(
+							new Resource(WOOD, 50),
+							new Resource(STONE, 50))),
 			10,
 			0,
-			new Consumption(1, // needs for production
-					new Resource(WOOD, 4)),
-			new Production(1, // production
-					new Resource(LUMBER, 4))),
+			new Consumption(1, List.of(
+					new Resource(WOOD, 4))),
+			new Production(1, List.of(
+					new Resource(LUMBER, 4)))),
 	CEMENTPLANT("Cement Plant",
 			"C",
 			new ConstructionNeeds(4,
-					new Resource(GOLD, 6),
-					new Resource(WOOD, 50),
-					new Resource(STONE, 50)),
+					6, List.of(
+							new Resource(WOOD, 50),
+							new Resource(STONE, 50))),
 			10,
 			0,
-			new Consumption(1, // needs for production
+			new Consumption(1, List.of(
 					new Resource(STONE, 4),
-					new Resource(COAL, 4)),
-			new Production(1, // production
-					new Resource(CEMENT, 4))),
+					new Resource(COAL, 4))),
+			new Production(1, List.of(
+					new Resource(CEMENT, 4)))),
 	STEELMILL("Steel Mill",
 			"S",
 			new ConstructionNeeds(6,
-					new Resource(GOLD, 6),
-					new Resource(WOOD, 100),
-					new Resource(STONE, 50)),
+					6, List.of(
+							new Resource(WOOD, 100),
+							new Resource(STONE, 50))),
 			40,
 			0,
-			new Consumption(1, // needs for production
+			new Consumption(1, List.of(
 					new Resource(IRON, 4),
-					new Resource(COAL, 2)),
-			new Production(1, // production
-					new Resource(STEEL, 4))),
+					new Resource(COAL, 2))),
+			new Production(1, List.of(
+					new Resource(STEEL, 4)))),
 	TOOLFACTORY("Tool Factory",
 			"T",
 			new ConstructionNeeds(8,
-					new Resource(GOLD, 8),
-					new Resource(WOOD, 50),
-					new Resource(STONE, 50)),
+					8, List.of(
+							new Resource(WOOD, 50),
+							new Resource(STONE, 50))),
 			12,
 			0,
-			new Consumption(1, // needs for production
+			new Consumption(1, List.of(
 					new Resource(STEEL, 4),
-					new Resource(COAL, 4)),
-			new Production(1, // production
-					new Resource(TOOLS, 4)));
+					new Resource(COAL, 4))),
+			new Production(1, List.of(
+					new Resource(TOOLS, 4))));
 
 	public final String name;
 	public final String shortName;
@@ -123,8 +121,8 @@ public enum BuildingType {
 	public final int workersMax; // max number of workers
 	public final int inhabitantsNeeded; // min number of inhabitants
 	public final int inhabitantsMax; // max number of inhabitants
-	public final Consumption consumption; // needs for production
-	public final Production production; // production
+	public final Consumption consumption;
+	public final Production production;
 
 	private BuildingType(String name, String shortName, ConstructionNeeds constructionNeeds, int workersNeeded,
 			int inhabitantsNeeded, Consumption consumption, Production production) {

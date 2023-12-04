@@ -1,11 +1,17 @@
 package projet.approche.objet.domain.valueObject.needs;
 
+import java.util.List;
+
 import projet.approche.objet.domain.valueObject.resource.Resource;
 import projet.approche.objet.domain.valueObject.resource.ResourceList;
 
 public class Production extends Needs {
-	public Production(int time, Resource... resources) {
+	public Production(int time, List<Resource> resources) {
 		super(time, resources);
+	}
+
+	public Production(int time) {
+		super(time);
 	}
 
 	public ResourceList getProduction() {
