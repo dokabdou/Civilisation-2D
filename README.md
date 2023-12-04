@@ -39,4 +39,4 @@ Instructions pour ceux qui souhaitent contribuer au projet. Inclure des détails
 MIT
 
 ## Auteurs et remerciements
-Abdoulail
+Abdoulaye, Kea et Théophyl
