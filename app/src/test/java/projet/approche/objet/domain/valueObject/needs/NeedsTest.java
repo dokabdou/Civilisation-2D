@@ -52,17 +52,6 @@ class NeedsTest {
 	}
 
 	@Test
-	void testUpdate() {
-		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
-		Needs needs = new Needs(5, new Resource[] { gold });
-
-		Needs result = needs.update();
-
-		assertEquals(4, result.time);
-		assertTrue(result.resources.contains(gold));
-	}
-
-	@Test
 	void testIsAffordable() {
 		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
 		Needs needs = new Needs(5, new Resource[] { gold });

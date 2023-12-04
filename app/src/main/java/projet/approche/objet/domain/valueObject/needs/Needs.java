@@ -44,14 +44,6 @@ public class Needs {
 	}
 
 	/**
-	 * @breif update time needed to build by decreasing it by 1
-	 * @return new Needs with time decreased by 1
-	 */
-	public Needs update() {
-		return new Needs(this.time - 1, this.resources);
-	}
-
-	/**
 	 * Checks if the resources are affordable.
 	 *
 	 * @param resources the resources available
