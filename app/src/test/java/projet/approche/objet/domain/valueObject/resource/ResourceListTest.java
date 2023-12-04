@@ -34,6 +34,16 @@ class ResourceListTest {
 	}
 
 	@Test
+	void testAddSameResource() {
+		Resource gold10 = new Resource(ResourceType.fromString("Gold"), 10);
+		Resource gold20 = new Resource(ResourceType.fromString("Gold"), 20);
+		ResourceList resourceList = new ResourceList(gold10);
+		ResourceList result = resourceList.add(gold20);
+		assertEquals(1, result.size());
+		assertTrue(result.contains(new Resource(ResourceType.fromString("Gold"), 30)));
+	}
+
+	@Test
 	void testAddResourceList() {
 		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
 		ResourceList resourceList1 = new ResourceList(gold);
