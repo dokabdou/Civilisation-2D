@@ -10,7 +10,9 @@ import projet.approche.objet.domain.valueObject.game.exceptions.GameEnded;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameNotStarted;
 import projet.approche.objet.domain.valueObject.game.exceptions.NotEnoughInhabitants;
 import projet.approche.objet.domain.valueObject.game.exceptions.NotEnoughWorkers;
+import projet.approche.objet.domain.valueObject.resource.ResourceAmount;
 import projet.approche.objet.domain.valueObject.resource.ResourceList;
+import projet.approche.objet.domain.valueObject.resource.ResourceType;
 
 public class Manager {
 	private static Long count = Long.valueOf(0);
@@ -186,6 +188,17 @@ public class Manager {
 				resources = building.update(resources);
 			}
 		}
+		if(resources.get(ResourceType.FOOD).isGreater (buildings.foodConsumption())) {
+			resources = resources.remove(ResourceType.FOOD);
+		} else {
+			// TODO : end game
+			System.out.println("GAME OVER");
+		}
+	}
+
+	public ResourceAmount foodConsumption() {
+		// minimum amount of food needed for the next day
+		return this.buildings.foodConsumption();
 	}
 
 	public boolean updateGrid(int c_i, int c_j, Building building) {
@@ -224,4 +237,40 @@ public class Manager {
 		}
 		return true;
 	}
+
+    /**
+     * @param state the state to set
+     */
+    public void setState(GameState state) {
+        this.state = state;
+    }
+
+    /**
+     * @param buildings the buildings to set
+     */
+    public void setBuildings(BuildingList buildings) {
+        this.buildings = buildings;
+    }
+
+    /**
+     * @param resources the resources to set
+     */
+    public void setResources(ResourceList resources) {
+        this.resources = resources;
+    }
+
+    /**
+     * @param gridSize the gridSize to set
+     */
+    public void setGridSize(int gridSize) {
+        this.gridSize = gridSize;
+    }
+
+    /**
+     * @param grid the grid to set
+     */
+    public void setGrid(String[][] grid) {
+        this.grid = grid;
+    }
+
 }
