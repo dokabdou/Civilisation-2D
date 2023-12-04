@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import projet.approche.objet.domain.entities.building.Building;
 import projet.approche.objet.domain.valueObject.building.BuildingType;
+import projet.approche.objet.domain.valueObject.grid.exceptions.NoBuildingHereException;
 import projet.approche.objet.domain.valueObject.grid.exceptions.NotFreeException;
 import projet.approche.objet.domain.valueObject.grid.exceptions.NotInGridException;
 
@@ -30,21 +31,31 @@ class GridTest {
 
 	@Test
 	void testSetBuilding_NotFree() {
-		assertDoesNotThrow(() -> grid.setBuilding(building, coordinate));
+		assertDoesNotThrow(() -> this.grid = grid.setBuilding(building, coordinate));
 		Building anotherBuilding = new Building(BuildingType.HOUSE, 2);
 		assertThrows(NotFreeException.class, () -> grid.setBuilding(anotherBuilding, coordinate));
 	}
 
 	@Test
 	void testSetBuilding_Success() {
-		assertDoesNotThrow(() -> grid.setBuilding(building, coordinate));
-		assertEquals(building, grid.getBuilding(coordinate));
+		assertDoesNotThrow(() -> this.grid = grid.setBuilding(building, coordinate));
+		assertDoesNotThrow(() -> assertEquals(building, grid.getBuilding(coordinate)));
 	}
 
 	@Test
 	void testRemoveBuilding() {
-		assertDoesNotThrow(() -> grid.setBuilding(building, coordinate));
-		grid.removeBuilding(coordinate);
-		assertNull(grid.getBuilding(coordinate));
+		assertDoesNotThrow(() -> this.grid = grid.setBuilding(building, coordinate));
+		assertDoesNotThrow(() -> this.grid = grid.removeBuilding(coordinate));
+	}
+
+	@Test
+	void testRemoveBuilding_NotInGrid() {
+		Coordinate outOfGridCoordinate = new Coordinate(-1, -1);
+		assertThrows(NotInGridException.class, () -> grid.removeBuilding(outOfGridCoordinate));
+	}
+
+	@Test
+	void testRemoveBuilding_NoBuildingHere() {
+		assertThrows(NoBuildingHereException.class, () -> grid.removeBuilding(coordinate));
 	}
 }

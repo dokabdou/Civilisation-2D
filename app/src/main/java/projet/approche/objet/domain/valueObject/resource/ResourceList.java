@@ -8,6 +8,8 @@ public class ResourceList implements Iterable<Resource> {
 	private final List<Resource> resources;
 
 	public ResourceList(Resource... resources) {
+		// TODO: bug ici il faut changer le Resource... en List c'est chiant dans tous
+		// les cas
 		this.resources = List.of(resources);
 	}
 
@@ -21,26 +23,31 @@ public class ResourceList implements Iterable<Resource> {
 	}
 
 	/**
-	 * Adds a resource to the list.
+	 * Adds a resource to the list, if the list already have the same resourceType
+	 * only add the amount.
 	 *
 	 * @param resource the resource to add
 	 * @return a new ResourceList object with the added resource
 	 */
 	public ResourceList add(Resource resource) {
-		// TODO : finish this method; increment only when a new resource, not previously
-		// in the list, is added
 		int size = this.resources.size();
-		List<Resource> copy;
-
-		for (Resource r : resources) {
-			if (r.type.equals(resource.type)) {
-				copy = this.resources;
-				copy.remove(r);
-				copy.add(r.add(resource));
+		Resource[] copy = new Resource[size + 1];
+		int j = 0;
+		boolean added = false;
+		for (int i = 0; i < size; i++) {
+			if (this.resources.get(i).isSameType(resource)) {
+				copy[j] = this.resources.get(i).add(resource);
+				j++;
+				added = true;
+			} else {
+				copy[j] = this.resources.get(i);
+				j++;
 			}
 		}
-		return null; // TODO: return the actual copy
-
+		if (!added) {
+			copy[j] = resource;
+		}
+		return new ResourceList(copy);
 	}
 
 	/**
@@ -50,7 +57,10 @@ public class ResourceList implements Iterable<Resource> {
 	 * @return a new ResourceList object with the added resources
 	 */
 	public ResourceList add(ResourceList resources) {
-		ResourceList result = this;
+		ResourceList result = new ResourceList();
+		for (Resource resource : this) {
+			result = result.add(resource);
+		}
 		for (Resource resource : resources) {
 			result = result.add(resource);
 		}
@@ -91,7 +101,10 @@ public class ResourceList implements Iterable<Resource> {
 	 * @return a new ResourceList object with the removed resources
 	 */
 	public ResourceList remove(ResourceList toRemove) {
-		ResourceList result = this;
+		ResourceList result = new ResourceList();
+		for (Resource resource : this) {
+			result = result.add(resource);
+		}
 		for (Resource resource : toRemove) {
 			result = result.remove(resource);
 		}
@@ -130,7 +143,7 @@ public class ResourceList implements Iterable<Resource> {
 		return this.resources.get(index);
 	}
 
-	public ResourceAmount get(ResourceType type) {
+	public ResourceAmount getAmount(ResourceType type) {
 		ResourceAmount result = new ResourceAmount(0);
 		for (Resource resource : this.resources) {
 			if (resource.type.equals(type)) {
@@ -138,6 +151,15 @@ public class ResourceList implements Iterable<Resource> {
 			}
 		}
 		return result;
+	}
+
+	public Resource get(ResourceType type) {
+		for (Resource resource : this.resources) {
+			if (resource.type.equals(type)) {
+				return resource;
+			}
+		}
+		return null;
 	}
 
 	@Override

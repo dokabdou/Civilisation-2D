@@ -1,8 +1,10 @@
 package projet.approche.objet.domain.aggregates;
 
+import java.util.Collection;
+
 import projet.approche.objet.domain.entities.building.Building;
-import projet.approche.objet.domain.valueObject.building.BuildingList;
 import projet.approche.objet.domain.valueObject.building.BuildingType;
+import projet.approche.objet.domain.valueObject.building.exceptions.NotBuiltException;
 import projet.approche.objet.domain.valueObject.game.GameStarter;
 import projet.approche.objet.domain.valueObject.game.GameState;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameAlreadyStarted;
@@ -12,6 +14,10 @@ import projet.approche.objet.domain.valueObject.game.exceptions.NotEnoughInhabit
 import projet.approche.objet.domain.valueObject.game.exceptions.NotEnoughWorkers;
 import projet.approche.objet.domain.valueObject.grid.Coordinate;
 import projet.approche.objet.domain.valueObject.grid.Grid;
+import projet.approche.objet.domain.valueObject.grid.exceptions.NoBuildingHereException;
+import projet.approche.objet.domain.valueObject.grid.exceptions.NotFreeException;
+import projet.approche.objet.domain.valueObject.grid.exceptions.NotInGridException;
+import projet.approche.objet.domain.valueObject.resource.Resource;
 import projet.approche.objet.domain.valueObject.resource.ResourceAmount;
 import projet.approche.objet.domain.valueObject.resource.ResourceList;
 import projet.approche.objet.domain.valueObject.resource.ResourceType;
@@ -27,11 +33,8 @@ public class Manager {
 
 	private GameState state = GameState.NOTSTARTED;
 
-	// TODO remove buildings because they are in the grid
-	private BuildingList buildings = new BuildingList();
+	private Grid grid; // buildings are in the grid
 	private ResourceList resources = new ResourceList();
-
-	private Grid grid;
 
 	/**
 	 * Manager of the game, it will manage the buildings, the resources, the
@@ -43,8 +46,15 @@ public class Manager {
 		this.inhabitants = gameStarter.inhabitants;
 		this.workers = gameStarter.workers;
 		this.resources = gameStarter.startingResources;
-		for (BuildingType buildingType : gameStarter.startingBuildings) {
-			this.buildings = this.buildings.add(new Building(buildingType, ++idBuildings));
+		this.grid = new Grid(gridSize);
+		for (var coordinate : gameStarter.startingBuildings.keySet()) {
+			try {
+				this.grid = this.grid.setBuilding(
+						new Building(gameStarter.startingBuildings.get(coordinate), ++idBuildings), coordinate);
+			} catch (NotInGridException | NotFreeException e) {
+				// Shouldn't happen since it's a gameStarter otherwise throw an exception
+				throw new RuntimeException(e);
+			}
 		}
 		this.grid = new Grid(gridSize);
 	}
@@ -65,31 +75,30 @@ public class Manager {
 		return state;
 	}
 
-	public BuildingList getBuildings() {
-		return buildings;
-	}
-
 	public ResourceList getResources() {
 		return resources;
 	}
 
-	public void buildBuilding(Building building) { // TODO: add coordinate
-		this.buildings = this.buildings.add(building);
+	public void buildBuilding(Building building, Coordinate c) throws NotInGridException, NotFreeException {
+		this.grid = this.grid.setBuilding(building, c);
 	}
 
-	public void buildBuilding(BuildingType buildingType, Coordinate c) {
-		this.buildings = this.buildings.add(new Building(buildingType, ++idBuildings));
+	public void buildBuilding(BuildingType buildingType, Coordinate c) throws NotInGridException, NotFreeException {
+		this.grid = this.grid.setBuilding(new Building(buildingType, ++idBuildings), c);
 	}
 
-	public void destroyBuilding(Building building) {
-		this.buildings = this.buildings.remove(building);
+	public void destroyBuilding(Coordinate c) throws NotInGridException, NoBuildingHereException {
+		this.grid = this.grid.removeBuilding(c);
 	}
 
 	public Grid getGrid() {
 		return grid;
 	}
 
-	public void addInhabitantToBuilding(Building building, int inhabitantsToAdd) throws NotEnoughInhabitants {
+	public void addInhabitantToBuilding(Building building, int inhabitantsToAdd)
+			throws NotEnoughInhabitants, NotBuiltException {
+		if (!building.isBuilt())
+			throw new NotBuiltException();
 		if (this.inhabitants >= inhabitantsToAdd) {
 			building.addInhabitantToBuilding(inhabitantsToAdd);
 			this.inhabitants -= inhabitantsToAdd;
@@ -98,7 +107,10 @@ public class Manager {
 		}
 	}
 
-	public void removeInhabitantFromBuilding(Building building, int inhabitantsToRemove) throws NotEnoughInhabitants {
+	public void removeInhabitantFromBuilding(Building building, int inhabitantsToRemove)
+			throws NotEnoughInhabitants, NotBuiltException {
+		if (!building.isBuilt())
+			throw new NotBuiltException();
 		if (building.getInhabitants() >= inhabitantsToRemove) {
 			building.addInhabitantToBuilding(-inhabitantsToRemove);
 			this.inhabitants += inhabitantsToRemove;
@@ -107,7 +119,9 @@ public class Manager {
 		}
 	}
 
-	public void addWorkerToBuilding(Building building, int workersToAdd) throws NotEnoughWorkers {
+	public void addWorkerToBuilding(Building building, int workersToAdd) throws NotEnoughWorkers, NotBuiltException {
+		if (!building.isBuilt())
+			throw new NotBuiltException();
 		if (this.workers >= workersToAdd) {
 			building.addWorkerToBuilding(workersToAdd);
 			this.workers -= workersToAdd;
@@ -116,7 +130,10 @@ public class Manager {
 		}
 	}
 
-	public void removeWorkerFromBuilding(Building building, int workersToRemove) throws NotEnoughWorkers {
+	public void removeWorkerFromBuilding(Building building, int workersToRemove)
+			throws NotEnoughWorkers, NotBuiltException {
+		if (!building.isBuilt())
+			throw new NotBuiltException();
 		if (building.getWorkers() >= workersToRemove) {
 			building.addWorkerToBuilding(-workersToRemove);
 			this.workers += workersToRemove;
@@ -159,21 +176,30 @@ public class Manager {
 	 */
 	public void update() {
 		if (state == GameState.RUNNING) {
+			Collection<Building> buildings = this.grid.getBuildings();
 			for (Building building : buildings) {
 				resources = building.update(resources);
 			}
-		}
-		if (resources.get(ResourceType.FOOD).isGreater(buildings.foodConsumption())) {
-			// TODO: resources = resources.remove(ResourceType.FOOD);
-		} else {
-			// TODO : end game
-			System.out.println("GAME OVER");
+			// get food needed for the next day
+			Resource foodNeeded = this.foodConsumption();
+			if (resources.get(ResourceType.FOOD).isGreaterOrEqual(foodNeeded)) {
+				// remove food needed for the next day
+				resources = resources.remove(foodNeeded);
+			} else {
+				// TODO : end game or kill inhabitants / kill workers
+				System.out.println("GAME OVER");
+			}
 		}
 	}
 
-	public ResourceAmount foodConsumption() {
+	public Resource foodConsumption() {
 		// minimum amount of food needed for the next day
-		return this.buildings.foodConsumption();
+		int foodNeeded = this.inhabitants + this.workers;
+		// add food needed for each building by adding its inhabitants and workers
+		for (Building building : this.grid.getBuildings()) {
+			foodNeeded += building.getInhabitants() + building.getWorkers();
+		}
+		return new Resource(ResourceType.FOOD, new ResourceAmount(foodNeeded));
 	}
 
 	/**
@@ -184,10 +210,10 @@ public class Manager {
 	}
 
 	/**
-	 * @param buildings the buildings to set
+	 * @param buildings the grid to set
 	 */
-	public void setBuildings(BuildingList buildings) {
-		this.buildings = buildings;
+	public void setGrid(Grid grid) {
+		this.grid = grid;
 	}
 
 	/**
