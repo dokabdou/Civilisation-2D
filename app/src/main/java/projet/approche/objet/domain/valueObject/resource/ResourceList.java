@@ -1,5 +1,6 @@
 package projet.approche.objet.domain.valueObject.resource;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,18 +30,19 @@ public class ResourceList implements Iterable<Resource> {
 	public ResourceList add(Resource resource) {
 		// TODO : finish this method; increment only when a new resource, not previously
 		// in the list, is added
-		int size = this.resources.size();
-		List<Resource> copy;
-
+		List<Resource> copy = new ArrayList<>();
 		for (Resource r : resources) {
 			if (r.type.equals(resource.type)) {
-				copy = this.resources;
-				copy.remove(r);
 				copy.add(r.add(resource));
+			} else {
+				copy.add(r);
 			}
 		}
-		return null; // TODO: return the actual copy
+		// cast copy to type []
+		Resource[] array_copy = new Resource[copy.size()];
+		array_copy = copy.toArray(array_copy);
 
+		return new ResourceList(array_copy);
 	}
 
 	/**
