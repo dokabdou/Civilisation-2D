@@ -18,7 +18,7 @@ public enum BuildingType {
 			new Production(1, // prfoduction
 					new Resource(WOOD, 2),
 					new Resource(FOOD, 2)),
-					1),
+			1),
 	HOUSE("House",
 			"H",
 			new ConstructionNeeds(4,
@@ -29,8 +29,7 @@ public enum BuildingType {
 			4,
 			new Consumption(1), // needs for production
 			new Production(1), // plroduction
-			2
-	),
+			2),
 	APARTMENTBUILDING("Apartment Building",
 			"AB",
 			new ConstructionNeeds(6,
@@ -40,9 +39,8 @@ public enum BuildingType {
 			0,
 			60,
 			new Consumption(1), // needs for production
-			new Production(1) ,// production
-4
-	),
+			new Production(1), // production
+			4),
 	FARM("Farm",
 			"F",
 			new ConstructionNeeds(2,
