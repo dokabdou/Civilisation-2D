@@ -22,7 +22,7 @@ class ManagerTest {
 	@BeforeEach
 	void setUp() {
 		gameStarter = GameStarter.EASY;
-		manager = new Manager(gameStarter);
+		manager = new Manager(gameStarter, 10);
 	}
 
 	@Test

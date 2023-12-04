@@ -5,6 +5,9 @@ package projet.approche.objet;
 
 //import projet.approche.objet.domain.*;
 import projet.approche.objet.domain.valueObject.game.GameStarter;
+import projet.approche.objet.domain.valueObject.game.exceptions.GameAlreadyStarted;
+import projet.approche.objet.domain.valueObject.game.exceptions.GameEnded;
+import projet.approche.objet.domain.valueObject.game.exceptions.GameNotStarted;
 import projet.approche.objet.domain.valueObject.resource.Resource;
 import projet.approche.objet.domain.aggregates.*;
 import projet.approche.objet.domain.entities.building.Building;
@@ -14,31 +17,32 @@ import projet.approche.objet.domain.valueObject.building.BuildingType;
 import java.util.Scanner;
 import java.io.Console;
 
-
 public class App {
 	public String getGreeting() {
 		return "Welcome !!!";
 	}
 
-	public static void gameMode(){
+	public static void gameMode() {
 		System.out.println("------------------------------------");
 		System.out.println("-Choose the game diffculty-");
 		System.out.println("-Depending on your choice you will have a varying quantity of resources-");
-		System.out.println("- E : EASY : 10 inhabitants + 6 workers -- Food (15)| Gold(15) | Wood (15) -- Wooden Cabin  (2) + House");
-		System.out.println("- N : NORMAL : 6 inhabitants + 2 workers -- Food (10)| Gold(10) | Wood (10) -- Wooden Cabin + House ");
+		System.out.println(
+				"- E : EASY : 10 inhabitants + 6 workers -- Food (15)| Gold(15) | Wood (15) -- Wooden Cabin  (2) + House");
+		System.out.println(
+				"- N : NORMAL : 6 inhabitants + 2 workers -- Food (10)| Gold(10) | Wood (10) -- Wooden Cabin + House ");
 		System.out.println("- H : HARD : 2 inhabitants + 2 workers -- Food (5)| Gold(5) | Wood (5) -- Wooden Cabin");
 		System.out.println("------------------------------------");
 	}
 
-	public static void printGame(Manager game){
+	public static void printGame(Manager game) {
 
 		BuildingList buildings = game.getBuildings();
-		
+
 		// print the resources
 		System.out.println("Workers : " + game.getWorkers());
 		System.out.println("Inhabitants : " + game.getInhabitants());
 		System.out.println("-----------");
-		for(Resource r : game.getResources()){
+		for (Resource r : game.getResources()) {
 			System.out.println(r.toString());
 		}
 
@@ -46,15 +50,15 @@ public class App {
 		String[][] grid = game.getGrid();
 		System.out.println("-----------");
 		System.out.println("Grid : ");
-		for(int i = 0; i < game.getGridSize(); i++){
-			for(int j = 0; j < game.getGridSize(); j++){
+		for (int i = 0; i < game.getGridSize(); i++) {
+			for (int j = 0; j < game.getGridSize(); j++) {
 				System.out.print(grid[i][j]);
 			}
 			System.out.println();
 		}
 	}
 
-	public static void printBuildingTypes(){
+	public static void printBuildingTypes() {
 		System.out.println("------------------------------------");
 		System.out.println("- WC : Wooden Cabin");
 		System.out.println("- H : House");
@@ -71,9 +75,9 @@ public class App {
 	public static Building buildingType(Console console, Scanner scanner, int id) {
 		printBuildingTypes();
 		String b_type = console.readLine("What type of building do you wish to build/destroy ?");
-	
+
 		Building building;
-	
+
 		switch (b_type.toUpperCase()) {
 			case "WC":
 				building = new Building(BuildingType.WOODENCABIN, id);
@@ -107,17 +111,20 @@ public class App {
 				building = new Building(BuildingType.WOODENCABIN, id);
 				break;
 		}
-	
+
 		return building;
 	}
 
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) throws GameNotStarted, GameAlreadyStarted, GameEnded {
+
 		// Game starter with the default number of inhabitants and workers and buildings
-		// depending on the chosen difficulty :  
-		// EASY : 10 inhabitants + 6 workers -- Food (15)| Gold(15) | Wood (15) -- Wooden Cabin  (2) + House
-		// NORMAL : 6 inhabitants + 2 workers -- Food (10)| Gold(10) | Wood (10) -- Wooden Cabin + House
-		// HARD : 2 inhabitants + 2 workers -- Food (5)| Gold(5) | Wood (5) -- Wooden Cabin
+		// depending on the chosen difficulty :
+		// EASY : 10 inhabitants + 6 workers -- Food (15)| Gold(15) | Wood (15) --
+		// Wooden Cabin (2) + House
+		// NORMAL : 6 inhabitants + 2 workers -- Food (10)| Gold(10) | Wood (10) --
+		// Wooden Cabin + House
+		// HARD : 2 inhabitants + 2 workers -- Food (5)| Gold(5) | Wood (5) -- Wooden
+		// Cabin
 
 		Scanner scanner = new Scanner(System.in);
 		Console console = System.console();
@@ -127,11 +134,11 @@ public class App {
 		int b_id = 3; // building id
 
 		gameMode();
-		diff = console.readLine("Which difficulty do you choose ?"); 
+		diff = console.readLine("Which difficulty do you choose ?");
 
-		if(diff.equals("E")){
+		if (diff.equals("E")) {
 			game = GameStarter.EASY;
-		} else if (diff.equals("N")){
+		} else if (diff.equals("N")) {
 			game = GameStarter.NORMAL;
 		} else {
 			game = GameStarter.HARD;
@@ -140,25 +147,22 @@ public class App {
 		Manager GM = new Manager(game, 20);
 		GM.startGame();
 
-
-		while(true){
+		while (true) {
 			// messages()
 			String ui = scanner.nextLine(); // User input
 
-			switch(ui){
+			switch (ui) {
 				case "B":
 					// ask for type of building, coordinates to put it on grid
-					Building building = buildingType(console, scanner, b_id+1);
-					//update grid
-					if(GM.updateGrid()){
+					Building building = buildingType(console, scanner, b_id + 1);
+					// update grid
+					if (GM.updateGrid(1, 1, null)) {
 						GM.buildBuilding(building);
 					}
-					
-					
 
 				case "RB":
 					// ask for type of building to destroy, and its coordinates on grid
-					Building buildingR = buildingType(console, scanner, b_id+1);
+					Building buildingR = buildingType(console, scanner, b_id + 1);
 					GM.destroyBuilding(buildingR);
 				case "Q":
 					System.out.println("You are quitting the game. ");
