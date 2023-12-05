@@ -4,12 +4,16 @@ import java.util.Collection;
 
 import projet.approche.objet.domain.entities.building.Building;
 import projet.approche.objet.domain.valueObject.building.BuildingType;
+import projet.approche.objet.domain.valueObject.building.exceptions.BuildingAlreadyStartedException;
 import projet.approche.objet.domain.valueObject.building.exceptions.NotBuiltException;
+import projet.approche.objet.domain.valueObject.building.exceptions.NotEnoughNeedsException;
 import projet.approche.objet.domain.valueObject.game.GameStarter;
 import projet.approche.objet.domain.valueObject.game.GameState;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameAlreadyStarted;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameEnded;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameNotStarted;
+import projet.approche.objet.domain.valueObject.game.exceptions.GamePaused;
+import projet.approche.objet.domain.valueObject.game.exceptions.NoMoreSpace;
 import projet.approche.objet.domain.valueObject.game.exceptions.NotEnoughInhabitants;
 import projet.approche.objet.domain.valueObject.game.exceptions.NotEnoughWorkers;
 import projet.approche.objet.domain.valueObject.grid.Coordinate;
@@ -69,8 +73,16 @@ public class Manager {
 		return inhabitants;
 	}
 
+	public void setInhabitants(int inhabitants) {
+		this.inhabitants = inhabitants;
+	}
+
 	public int getWorkers() {
 		return workers;
+	}
+
+	public void setWorkers(int workers) {
+		this.workers = workers;
 	}
 
 	public GameState getState() {
@@ -93,19 +105,29 @@ public class Manager {
 		this.grid = this.grid.removeBuilding(c);
 	}
 
+	public void startBuildBuilding(Coordinate c)
+			throws NotInGridException, NoBuildingHereException, NotEnoughNeedsException,
+			BuildingAlreadyStartedException {
+		resources = this.grid.getBuilding(c).startBuild(resources);
+	}
+
 	public Grid getGrid() {
 		return grid;
 	}
 
 	public void addInhabitantToBuilding(Building building, int inhabitantsToAdd)
-			throws NotEnoughInhabitants, NotBuiltException {
+			throws NotEnoughInhabitants, NotBuiltException, NoMoreSpace {
 		if (!building.isBuilt())
 			throw new NotBuiltException();
-		if (this.inhabitants >= inhabitantsToAdd) {
-			building.addInhabitantToBuilding(inhabitantsToAdd);
-			this.inhabitants -= inhabitantsToAdd;
+		if (building.getInhabitants() + inhabitantsToAdd <= building.type.inhabitantsMax) {
+			if (this.inhabitants >= inhabitantsToAdd) {
+				building.addInhabitantToBuilding(inhabitantsToAdd);
+				this.inhabitants -= inhabitantsToAdd;
+			} else {
+				throw new NotEnoughInhabitants();
+			}
 		} else {
-			throw new NotEnoughInhabitants();
+			throw new NoMoreSpace();
 		}
 	}
 
@@ -121,14 +143,19 @@ public class Manager {
 		}
 	}
 
-	public void addWorkerToBuilding(Building building, int workersToAdd) throws NotEnoughWorkers, NotBuiltException {
+	public void addWorkerToBuilding(Building building, int workersToAdd)
+			throws NotEnoughWorkers, NotBuiltException, NoMoreSpace {
 		if (!building.isBuilt())
 			throw new NotBuiltException();
-		if (this.workers >= workersToAdd) {
-			building.addWorkerToBuilding(workersToAdd);
-			this.workers -= workersToAdd;
+		if (building.getWorkers() + workersToAdd <= building.type.workersMax) {
+			if (this.workers >= workersToAdd) {
+				building.addWorkerToBuilding(workersToAdd);
+				this.workers -= workersToAdd;
+			} else {
+				throw new NotEnoughWorkers();
+			}
 		} else {
-			throw new NotEnoughWorkers();
+			throw new NoMoreSpace();
 		}
 	}
 
@@ -175,9 +202,18 @@ public class Manager {
 
 	/**
 	 * @breif Update the game and all its components
+	 * @details Update the game and all its components, it will update the
+	 *          buildings, the resources, the inhabitants and the workers (kill all
+	 *          of them who are not in a building)
 	 */
-	public void update() {
-		if (state == GameState.RUNNING) {
+	public void update() throws GameNotStarted, GameEnded, GamePaused {
+		if (state == GameState.NOTSTARTED) {
+			throw new GameNotStarted();
+		} else if (state == GameState.ENDED) {
+			throw new GameEnded();
+		} else if (state == GameState.PAUSED) {
+			throw new GamePaused();
+		} else if (state == GameState.RUNNING) {
 			Collection<Building> buildings = this.grid.getBuildings();
 			for (Building building : buildings) {
 				resources = building.update(resources);
@@ -196,7 +232,27 @@ public class Manager {
 				// TODO : end game or kill inhabitants / kill workers
 				System.out.println("GAME OVER");
 			}
+			// kill inhabitants and workers who are not in a building
+			this.inhabitants = 0;
+			this.workers = 0;
 		}
+	}
+
+	/***
+	 * @brief Get the production of a resource for each update
+	 * @param resourceType the resource that we want to know the production
+	 * @return the production of the resource for each update
+	 */
+	public int getProduction(ResourceType resourceType) {
+		int production = 0;
+		for (Building building : this.grid.getBuildings()) {
+			if (building.type.inhabitantsNeeded < building.getInhabitants()
+					&& building.type.workersNeeded < building.getWorkers())
+				for (Resource r : building.type.production.getProduction())
+					if (r.type == resourceType)
+						production += r.amount.value / building.type.production.time;
+		}
+		return production;
 	}
 
 	public Resource foodConsumption() {
@@ -228,5 +284,21 @@ public class Manager {
 	 */
 	public void setResources(ResourceList resources) {
 		this.resources = resources;
+	}
+
+	public int getInhabitantsInBuildings() {
+		int cpt = 0;
+		for (Building building : this.grid.getBuildings()) {
+			cpt += building.getInhabitants();
+		}
+		return cpt;
+	}
+
+	public int getWorkersInBuildings() {
+		int cpt = 0;
+		for (Building building : this.grid.getBuildings()) {
+			cpt += building.getWorkers();
+		}
+		return cpt;
 	}
 }

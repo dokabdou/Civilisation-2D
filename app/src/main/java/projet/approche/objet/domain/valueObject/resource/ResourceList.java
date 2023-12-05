@@ -151,13 +151,12 @@ public class ResourceList implements Iterable<Resource> {
 	}
 
 	public ResourceAmount getAmount(ResourceType type) {
-		ResourceAmount result = new ResourceAmount(0);
 		for (Resource resource : this.resources) {
 			if (resource.type.equals(type)) {
-				result = result.add(resource.amount);
+				return resource.amount;
 			}
 		}
-		return result;
+		return new ResourceAmount(0);
 	}
 
 	public Resource get(ResourceType type) {
@@ -172,5 +171,10 @@ public class ResourceList implements Iterable<Resource> {
 	@Override
 	public Iterator<Resource> iterator() {
 		return this.resources.iterator();
+	}
+
+	@Override
+	public String toString() {
+		return "[resources=" + resources + "]";
 	}
 }

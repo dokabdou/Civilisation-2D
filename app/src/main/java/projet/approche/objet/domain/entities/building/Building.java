@@ -56,7 +56,7 @@ public class Building implements BuildingItf {
 					if (this.type.consumption.isAffordable(inventory)) { // verify if the building have enough resources
 						inventory = this.type.consumption.getRemainingResources(inventory); // consume resources from
 																							// inventory
-						inventory = this.type.production.getProduction(inventory); // produce resources in inventory
+						inventory = this.type.production.havestProduction(inventory); // produce resources in inventory
 						this.time = 0; // reset the time since last production
 						return inventory;
 					}

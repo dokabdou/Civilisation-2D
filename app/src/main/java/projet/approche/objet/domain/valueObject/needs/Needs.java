@@ -123,4 +123,9 @@ public class Needs {
 		}
 		return remainingResources;
 	}
+
+	@Override
+	public String toString() {
+		return "[resources=" + resources + ", time=" + time + "]";
+	}
 }

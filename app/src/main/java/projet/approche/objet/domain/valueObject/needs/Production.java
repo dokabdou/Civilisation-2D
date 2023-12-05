@@ -24,7 +24,12 @@ public class Production extends Needs {
 	 * @param toAdd the resources where the production will be added
 	 * @return a new ResourceList with the production added
 	 */
-	public ResourceList getProduction(ResourceList toAdd) {
+	public ResourceList havestProduction(ResourceList toAdd) {
 		return this.resources.add(toAdd);
+	}
+
+	@Override
+	public String toString() {
+		return "[time=" + time + ", resources=" + resources + "]";
 	}
 }

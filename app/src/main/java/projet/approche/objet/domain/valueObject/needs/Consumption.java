@@ -12,4 +12,9 @@ public class Consumption extends Needs {
 	public Consumption(int time) {
 		super(time);
 	}
+
+	@Override
+	public String toString() {
+		return "[time=" + time + ", resources=" + resources + "]";
+	}
 }
