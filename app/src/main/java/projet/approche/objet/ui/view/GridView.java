@@ -1,59 +1,60 @@
 package projet.approche.objet.ui.view;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.BorderPane;
-import projet.approche.objet.domain.valueObject.grid.Coordinate;
-import projet.approche.objet.domain.valueObject.grid.Grid;
+import projet.approche.objet.application.App;
+import projet.approche.objet.domain.valueObject.game.exceptions.GameEnded;
+import projet.approche.objet.domain.valueObject.game.exceptions.GameNotStarted;
 import projet.approche.objet.domain.valueObject.grid.exceptions.NoBuildingHereException;
 import projet.approche.objet.domain.valueObject.grid.exceptions.NotFreeException;
 import projet.approche.objet.domain.valueObject.grid.exceptions.NotInGridException;
 
 public class GridView extends BorderPane {
-	private final Grid grid;
 	private final PickerView pickerView;
+	private final int gridSize;
+	private final App app;
 
-	public GridView(Grid grid, PickerView pickerView) throws NoBuildingHereException, NotInGridException {
-		this.grid = grid;
+	public GridView(App app, PickerView pickerView) {
 		this.pickerView = pickerView;
-		setPrefSize(grid.getSize() * ImageResource.size,
-				grid.getSize() * ImageResource.size);
-		for (int i = 0; i < this.grid.getSize(); i++) {
-			for (int j = 0; j < this.grid.getSize(); j++) {
+		this.app = app;
+		this.gridSize = app.getGridSize();
+		setPrefSize(gridSize * ImageResource.size,
+				gridSize * ImageResource.size);
+		for (int i = 0; i < this.gridSize; i++) {
+			for (int j = 0; j < this.gridSize; j++) {
 				createTile(i, j);
 			}
 		}
 	}
 
-	private void createTile(int i, int j) throws NoBuildingHereException, NotInGridException {
+	private void createTile(int i, int j) {
 		int layoutX = i * ImageResource.size;
 		int layoutY = j * ImageResource.size;
-		Tile tile = new Tile(ImageResource.get(this.grid.getBuilding(new Coordinate(i, j)).type), layoutX, layoutY);
+		String kind;
+		try {
+			kind = app.getBuildingType(i, j);
+		} catch (NoBuildingHereException e) {
+			kind = null;
+		} catch (NotInGridException e) {
+			throw new RuntimeException(e); // should not happen
+		}
+		Tile tile = new Tile(ImageResource.get(kind), layoutX, layoutY);
 		getChildren().add(tile);
 		tile.setOnMouseClicked(e -> {
-			try {
-				update(tile, i, j);
-			} catch (NoBuildingHereException | NotInGridException | NotFreeException e1) {
-				e1.printStackTrace();
-			}
+			update(tile, i, j);
 		});
 		tile.setOnMouseEntered(e -> {
 			if (e.isShiftDown()) {
-				try {
-					update(tile, i, j);
-				} catch (NoBuildingHereException | NotInGridException | NotFreeException e1) {
-					e1.printStackTrace();
-				}
+				update(tile, i, j);
 			}
 		});
 		ColorAdjust colorAdjust = new ColorAdjust();
 		colorAdjust.setBrightness(-0.2);
 		tile.setOnMouseEntered(e -> {
 			if (e.isShiftDown()) {
-				try {
-					update(tile, i, j);
-				} catch (NoBuildingHereException | NotInGridException | NotFreeException e1) {
-					e1.printStackTrace();
-				}
+				update(tile, i, j);
 			}
 			tile.setEffect(colorAdjust);
 		});
@@ -62,10 +63,46 @@ public class GridView extends BorderPane {
 		});
 	}
 
-	private void update(Tile tile, int i, int j) throws NoBuildingHereException, NotInGridException, NotFreeException {
-		if (pickerView.getSelected() != null && pickerView.getSelected() != grid.getBuilding(new Coordinate(i, j))) {
+	private void update(Tile tile, int i, int j) {
+		String kind;
+		try {
+			kind = app.getBuildingType(i, j);
+		} catch (NoBuildingHereException e) {
+			kind = null;
+		} catch (NotInGridException e) {
+			throw new RuntimeException(e); // should not happen
+		}
+		if (pickerView.getSelected() != null && pickerView.getSelected() != kind) {
 			getChildren().remove(tile);
-			grid.setBuilding(pickerView.getSelected(), new Coordinate(i, j));
+			try {
+				app.buildBuilding(pickerView.getSelected(), i, j);
+			} catch (GameNotStarted e) {
+				// Open a window saying that the game is not started
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Game not started");
+				alert.setHeaderText("Game not started...");
+				alert.setContentText("You must start the game before building.");
+				alert.showAndWait().ifPresent(rs -> {
+				});
+			} catch (GameEnded e) {
+				// Open a window saying that the game is ended
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Game ended");
+				alert.setHeaderText("Game ended...");
+				alert.setContentText("You must start a new game.");
+				alert.showAndWait().ifPresent(rs -> {
+				});
+			} catch (NotInGridException e) {
+				throw new RuntimeException(e); // should not happen
+			} catch (NotFreeException e) {
+				// Open a window saying that the tile is not free
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Tile not free");
+				alert.setHeaderText("Tile not free...");
+				alert.setContentText("You must select a free tile.");
+				alert.showAndWait().ifPresent(rs -> {
+				});
+			}
 			createTile(i, j);
 		}
 	}

@@ -11,13 +11,13 @@ import projet.approche.objet.domain.valueObject.resource.ResourceType;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ApplicationTest {
-	private Application application;
+	private App application;
 	private GameStarter gameStarter;
 
 	@BeforeEach
 	void setUp() {
 		gameStarter = GameStarter.EASY;
-		application = new Application(gameStarter, 10);
+		application = new App(gameStarter, 10);
 	}
 
 	@Test

@@ -1,13 +1,12 @@
 package projet.approche.objet.ui.view;
 
 import javafx.scene.image.Image;
-import projet.approche.objet.domain.valueObject.building.BuildingType;
 
 public enum ImageResource {
 
 	APARTMENTBUILDING("ApartmentBuilding.png"),
 	HOUSE("House.png"),
-	CEMENTPLANT("CementPlnat.png"),
+	CEMENTPLANT("CementPlant.png"),
 	FARM("Farm.png"),
 	LUMBERMILL("LumberMill.png"),
 	QUARRY("Quarry.png"),
@@ -17,11 +16,11 @@ public enum ImageResource {
 
 	private final Image image;
 
-	public static final int size = 1024;
+	public static final int size = 96;
 
 	ImageResource(String file) {
 		try {
-			this.image = new Image(ImageResource.class.getResourceAsStream("/assets/" + file));
+			this.image = new Image(ImageResource.class.getResourceAsStream("/images/" + file));
 			if (image.getWidth() != size && image.getHeight() != size) {
 				String msg = "File " + file + " does not have the correct size " + image.getWidth() + " x "
 						+ image.getHeight();
@@ -37,9 +36,12 @@ public enum ImageResource {
 		return image;
 	}
 
-	public static Image get(BuildingType kind) {
-		if (kind != null)
-			return ImageResource.valueOf(kind.toString()).image;
+	public static Image get(String kind) {
+		if (kind != null) {
+			// remove spaces
+			String str = kind.replaceAll("\\s+", "").toUpperCase();
+			return ImageResource.valueOf(str).image;
+		}
 		return null;
 	}
 

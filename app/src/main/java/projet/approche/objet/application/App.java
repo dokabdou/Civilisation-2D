@@ -23,11 +23,11 @@ import projet.approche.objet.domain.valueObject.grid.exceptions.NotFreeException
 import projet.approche.objet.domain.valueObject.grid.exceptions.NotInGridException;
 import projet.approche.objet.domain.valueObject.resource.ResourceType;
 
-public class Application implements GameService, BuildingService, ResourceService {
+public class App implements GameService, BuildingService, ResourceService {
 
 	private Manager manager;
 
-	public Application(GameStarter gameStarter, int gridSize) {
+	public App(GameStarter gameStarter, int gridSize) {
 		this.manager = new Manager(gameStarter, gridSize);
 	}
 
@@ -135,7 +135,7 @@ public class Application implements GameService, BuildingService, ResourceServic
 
 	@Override
 	public void buildBuilding(String buildingType, int x, int y)
-			throws GameNotStarted, GameEnded, NotEnoughNeedsException, NotInGridException, NotFreeException {
+			throws GameNotStarted, GameEnded, NotInGridException, NotFreeException {
 		checkGameStarted();
 		checkGameNotEnded();
 		this.manager.buildBuilding(BuildingType.valueOf(buildingType), new Coordinate(x, y));
