@@ -3,17 +3,17 @@ package projet.approche.objet.ui;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import projet.approche.objet.ui.view.GameLauncherView;
+import projet.approche.objet.ui.view.EditorView;
 
 public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		GameLauncherView gameLauncherView = new GameLauncherView();
+		EditorView editorView = new EditorView(primaryStage);
 
 		primaryStage.setTitle("Approche Objet");
-		primaryStage.setScene(new Scene(gameLauncherView));
+		primaryStage.setScene(new Scene(editorView));
 		primaryStage.show();
 	}
 

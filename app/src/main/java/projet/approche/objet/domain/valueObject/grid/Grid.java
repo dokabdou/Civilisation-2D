@@ -23,6 +23,10 @@ public class Grid {
 		this.buildings = buildings;
 	}
 
+	public int getSize() {
+		return this.gridSize;
+	}
+
 	public boolean isInGrid(Coordinate c) {
 		return c.x >= 0 && c.x < gridSize && c.y >= 0 && c.y < gridSize;
 	}
