@@ -119,7 +119,7 @@ public class Manager {
 			throws NotEnoughInhabitants, NotBuiltException, NoMoreSpace {
 		if (!building.isBuilt())
 			throw new NotBuiltException();
-		if (building.getInhabitants() + inhabitantsToAdd <= building.type.inhabitantsMax) {
+		if (building.getInhabitants() + inhabitantsToAdd <= building.type.getInhabitantsMax()) {
 			if (this.inhabitants >= inhabitantsToAdd) {
 				building.addInhabitantToBuilding(inhabitantsToAdd);
 				this.inhabitants -= inhabitantsToAdd;
@@ -147,7 +147,7 @@ public class Manager {
 			throws NotEnoughWorkers, NotBuiltException, NoMoreSpace {
 		if (!building.isBuilt())
 			throw new NotBuiltException();
-		if (building.getWorkers() + workersToAdd <= building.type.workersMax) {
+		if (building.getWorkers() + workersToAdd <= building.type.getWorkersMax()) {
 			if (this.workers >= workersToAdd) {
 				building.addWorkerToBuilding(workersToAdd);
 				this.workers -= workersToAdd;
@@ -246,11 +246,11 @@ public class Manager {
 	public int getProduction(ResourceType resourceType) {
 		int production = 0;
 		for (Building building : this.grid.getBuildings()) {
-			if (building.type.inhabitantsNeeded < building.getInhabitants()
-					&& building.type.workersNeeded < building.getWorkers())
-				for (Resource r : building.type.production.getProduction())
+			if (building.type.getInhabitantsNeeded() < building.getInhabitants()
+					&& building.type.getWorkersNeeded() < building.getWorkers())
+				for (Resource r : building.type.getProduction().getProduction())
 					if (r.type == resourceType)
-						production += r.amount.value / building.type.production.time;
+						production += r.amount.value / building.type.getProduction().time;
 		}
 		return production;
 	}

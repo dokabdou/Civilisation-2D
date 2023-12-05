@@ -11,6 +11,7 @@ import java.util.List;
 public enum BuildingType {
 	WOODENCABIN("Wooden Cabin",
 			"WC",
+			new Consumption(1,List.of(new Resource(FOOD, 2))),
 			new ConstructionNeeds(2, 1, List.of(new Resource(WOOD, 1))),
 			2,
 			2,
@@ -20,6 +21,7 @@ public enum BuildingType {
 					new Resource(FOOD, 2)))),
 	HOUSE("House",
 			"H",
+			new Consumption(1,List.of(new Resource(FOOD, 4))),
 			new ConstructionNeeds(4, 1,
 					List.of(
 							new Resource(WOOD, 2),
@@ -30,6 +32,7 @@ public enum BuildingType {
 			new Production(1)),
 	APARTMENTBUILDING("Apartment Building",
 			"A",
+			new Consumption(1,List.of(new Resource(FOOD, 60))),
 			new ConstructionNeeds(6,
 					4, List.of(
 							new Resource(WOOD, 50),
@@ -40,6 +43,7 @@ public enum BuildingType {
 			new Production(1)),
 	FARM("Farm",
 			"F",
+			new Consumption(1,List.of(new Resource(FOOD, 5))),
 			new ConstructionNeeds(2,
 					4, List.of(
 							new Resource(WOOD, 5),
@@ -51,6 +55,7 @@ public enum BuildingType {
 					new Resource(FOOD, 10)))),
 	QUARRY("Quarry",
 			"Q",
+			new Consumption(1,List.of(new Resource(FOOD, 2))),
 			new ConstructionNeeds(2,
 					4, List.of(
 							new Resource(WOOD, 50))),
@@ -64,6 +69,7 @@ public enum BuildingType {
 					new Resource(GOLD, 2)))),
 	LUMBERMILL("Lumber Mill",
 			"L",
+			new Consumption(1),
 			new ConstructionNeeds(4,
 					6, List.of(
 							new Resource(WOOD, 50),
@@ -76,6 +82,7 @@ public enum BuildingType {
 					new Resource(LUMBER, 4)))),
 	CEMENTPLANT("Cement Plant",
 			"C",
+			new Consumption(1),
 			new ConstructionNeeds(4,
 					6, List.of(
 							new Resource(WOOD, 50),
@@ -89,6 +96,7 @@ public enum BuildingType {
 					new Resource(CEMENT, 4)))),
 	STEELMILL("Steel Mill",
 			"S",
+			new Consumption(1),
 			new ConstructionNeeds(6,
 					6, List.of(
 							new Resource(WOOD, 100),
@@ -102,6 +110,7 @@ public enum BuildingType {
 					new Resource(STEEL, 4)))),
 	TOOLFACTORY("Tool Factory",
 			"T",
+			new Consumption(1),
 			new ConstructionNeeds(8,
 					8, List.of(
 							new Resource(WOOD, 50),
@@ -116,24 +125,83 @@ public enum BuildingType {
 
 	public final String name;
 	public final String shortName;
-	public final ConstructionNeeds constructionNeeds; // needs for construction
-	public final int workersNeeded; // min number of workers
-	public final int workersMax; // max number of workers
-	public final int inhabitantsNeeded; // min number of inhabitants
-	public final int inhabitantsMax; // max number of inhabitants
-	public final Consumption consumption;
-	public final Production production;
+	private Consumption foodConsumption; // food consumption of the building
+	private ConstructionNeeds constructionNeeds; // needs for construction
+	private int workersNeeded; // min number of workers
+	private int workersMax; // max number of workers
+	private int inhabitantsNeeded; // min number of inhabitants
+	private int inhabitantsMax; // max number of inhabitants
+	private Consumption consumption;
+	private Production production;
 
-	private BuildingType(String name, String shortName, ConstructionNeeds constructionNeeds, int workersNeeded,
+	private BuildingType(String name, String shortName, Consumption foodConsumption, ConstructionNeeds constructionNeeds, int workersNeeded,
 			int inhabitantsNeeded, Consumption consumption, Production production) {
 		this.name = name;
 		this.shortName = shortName;
+		this.foodConsumption = foodConsumption;
 		this.constructionNeeds = constructionNeeds;
 		this.workersNeeded = workersNeeded;
 		this.workersMax = 2 * workersNeeded;
 		this.inhabitantsNeeded = inhabitantsNeeded;
 		this.inhabitantsMax = 2 * inhabitantsNeeded;
 		this.consumption = consumption;
+		this.production = production;
+	}
+
+
+	public ConstructionNeeds getConstructionNeeds() {
+		return constructionNeeds;
+	}
+
+	public int getWorkersNeeded() {
+		return workersNeeded;
+	}
+
+	public int getWorkersMax() {
+		return workersMax;
+	}
+
+	public int setWorkersMax(int workersMax) {
+		return this.workersMax = workersMax;
+	}
+
+	public int getInhabitantsNeeded() {
+		return inhabitantsNeeded;
+	}
+
+	public int getInhabitantsMax() {
+		return inhabitantsMax;
+	}
+
+	public int setInhabitantsMax(int inhabitantsMax) {
+		return this.inhabitantsMax = inhabitantsMax;
+	}
+
+	public Consumption getFoodConsumption() {
+		return foodConsumption;
+	}
+
+	public Consumption getConsumption() {
+		return consumption;
+	}
+
+	public Production getProduction() {
+		return production;
+	}
+
+	public void setConstructionNeeds(ConstructionNeeds constructionNeeds) {
+		this.constructionNeeds = constructionNeeds;
+	}
+
+	public void setFoodConsumtion(Consumption foodConsumption) {
+		this.foodConsumption = foodConsumption;
+	}
+
+	public void setConsumption(Consumption consumption) {
+		this.consumption = consumption;
+	}
+
+	public void setProduction(Production production) {
 		this.production = production;
 	}
 
