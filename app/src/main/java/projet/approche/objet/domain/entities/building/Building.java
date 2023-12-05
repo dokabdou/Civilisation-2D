@@ -1,11 +1,15 @@
 package projet.approche.objet.domain.entities.building;
 
 import projet.approche.objet.domain.valueObject.building.BuildingType;
+import static projet.approche.objet.domain.valueObject.resource.ResourceType.*;
 import projet.approche.objet.domain.valueObject.building.exceptions.BuildingAlreadyStartedException;
 import projet.approche.objet.domain.valueObject.building.exceptions.NotEnoughNeedsException;
+import projet.approche.objet.domain.valueObject.needs.ConstructionNeeds;
 import projet.approche.objet.domain.valueObject.needs.Needs;
+import projet.approche.objet.domain.valueObject.resource.Resource;
 import projet.approche.objet.domain.valueObject.resource.ResourceList;
 
+import java.util.List;
 public class Building implements BuildingItf {
 
 	public final long id;
@@ -16,6 +20,7 @@ public class Building implements BuildingItf {
 	private int time = 0; // time since last production / time since construction started
 	private int inhabitants = 0; // current number of inhabitants in the building
 	private int workers = 0; // current number of workers in the building
+	private int level = 1; // current level of the building | levels are 1, 2, 3
 
 	public int getInhabitants() {
 		return inhabitants;
@@ -23,6 +28,10 @@ public class Building implements BuildingItf {
 
 	public int getWorkers() {
 		return workers;
+	}
+
+	public int getLevel() {
+		return level;
 	}
 
 	public Building(BuildingType buildingType, long id) {
@@ -108,6 +117,27 @@ public class Building implements BuildingItf {
 
 	public int getTimeToBuild() {
 		return this.type.constructionNeeds.time;
+	}
+
+	public boolean canUpgrade(ResourceList inventory) {
+
+		if (this.level < 3) {
+			// 
+			ResourceList missingResources = this.type.constructionNeeds.getMissingResources(inventory);
+			// technically an upgrade consumes resources so use getRemainingResources
+			//turn into a list 
+			List<Resource> constructionNeeds = this.type.constructionNeeds.resources.getResources();
+			 
+			ConstructionNeeds needsForUpgrade = new ConstructionNeeds(this.type.constructionNeeds.time * this.level,
+					this.type.constructionNeeds.goldAmountForConstruction * this.level, 
+					constructionNeeds
+					);
+			if (this.type.constructionNeeds.isAffordable(inventory)) {
+				this.level++;
+				return true;
+			}
+		}
+		return true;
 	}
 
 	public String toString() {

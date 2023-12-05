@@ -19,6 +19,10 @@ public class ResourceList implements Iterable<Resource> {
 		this(new ArrayList<>());
 	}
 
+	public List<Resource> getResources() {
+		return this.resources;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof ResourceList) {
