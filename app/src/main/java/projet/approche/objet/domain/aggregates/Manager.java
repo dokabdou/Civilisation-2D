@@ -93,6 +93,15 @@ public class Manager {
 		return resources;
 	}
 
+	/**
+	 * @brief Build a building on the grid at the given coordinate with the given
+	 *        type of building and start the building process of the building
+	 * @param buildingType the type of building to build
+	 * @param c            the coordinate where to build the building
+	 * @throws NotInGridException
+	 * @throws NotFreeException
+	 * @throws NotEnoughNeedsException
+	 */
 	public void buildBuilding(BuildingType buildingType, Coordinate c) throws NotInGridException, NotFreeException,
 			NotEnoughNeedsException {
 		if (!this.grid.isFree(c))

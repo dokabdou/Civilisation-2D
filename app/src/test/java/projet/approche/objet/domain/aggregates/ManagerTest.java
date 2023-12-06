@@ -5,9 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import projet.approche.objet.domain.entities.building.Building;
 import projet.approche.objet.domain.valueObject.building.BuildingType;
-import projet.approche.objet.domain.valueObject.building.exceptions.BuildingAlreadyStartedException;
 import projet.approche.objet.domain.valueObject.building.exceptions.NotBuiltException;
-import projet.approche.objet.domain.valueObject.building.exceptions.NotEnoughNeedsException;
 import projet.approche.objet.domain.valueObject.game.GameStarter;
 import projet.approche.objet.domain.valueObject.game.GameState;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameAlreadyStarted;
@@ -23,8 +21,6 @@ import projet.approche.objet.domain.valueObject.grid.exceptions.NotInGridExcepti
 import projet.approche.objet.domain.valueObject.resource.Resource;
 import projet.approche.objet.domain.valueObject.resource.ResourceList;
 import projet.approche.objet.domain.valueObject.resource.ResourceType;
-import projet.approche.objet.domain.valueObject.resource.exceptions.NotEnoughResourceException;
-import projet.approche.objet.domain.valueObject.resource.exceptions.ResourceNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static projet.approche.objet.domain.valueObject.resource.ResourceType.FOOD;
@@ -51,7 +47,7 @@ class ManagerTest {
 
 	@Test
 	void testBuildBuilding() {
-		Building building = new Building(BuildingType.WOODENCABIN, 1L);
+		BuildingType building = BuildingType.WOODENCABIN;
 		Coordinate coordinate = new Coordinate(0, 0);
 		assertDoesNotThrow(() -> manager.buildBuilding(building, coordinate));
 		assertDoesNotThrow(() -> manager.getGrid().getBuilding(coordinate));
@@ -59,7 +55,7 @@ class ManagerTest {
 
 	@Test
 	void testBuildBuildingNotInGrid() {
-		Building building = new Building(BuildingType.WOODENCABIN, 1L);
+		BuildingType building = BuildingType.WOODENCABIN;
 		Coordinate coordinate = new Coordinate(10, 10);
 		assertThrows(NotInGridException.class, () -> manager.buildBuilding(building, coordinate));
 		assertThrows(NotInGridException.class, () -> manager.getGrid().getBuilding(coordinate));
@@ -67,7 +63,7 @@ class ManagerTest {
 
 	@Test
 	void testBuildBuildingNotFree() {
-		Building building = new Building(BuildingType.WOODENCABIN, 1L);
+		BuildingType building = BuildingType.WOODENCABIN;
 		Coordinate coordinate = new Coordinate(0, 0);
 		assertDoesNotThrow(() -> manager.buildBuilding(building, coordinate));
 		assertThrows(NotFreeException.class, () -> manager.buildBuilding(building, coordinate));
@@ -76,7 +72,7 @@ class ManagerTest {
 
 	@Test
 	void testDestroyBuilding() {
-		Building building = new Building(BuildingType.WOODENCABIN, 1L);
+		BuildingType building = BuildingType.WOODENCABIN;
 		Coordinate coordinate = new Coordinate(0, 0);
 		assertDoesNotThrow(() -> manager.buildBuilding(building, coordinate));
 		assertDoesNotThrow(() -> manager.destroyBuilding(coordinate));
@@ -96,60 +92,60 @@ class ManagerTest {
 	}
 
 	@Test
-	void testAddInhabitantToBuilding() {
-		Building building = new Building(BuildingType.WOODENCABIN, 1L);
+	void testAddInhabitantToBuilding() throws NoBuildingHereException, NotInGridException {
+		BuildingType building = BuildingType.WOODENCABIN;
 		Coordinate coordinate = new Coordinate(0, 0);
 		assertDoesNotThrow(() -> manager.buildBuilding(building, coordinate));
-		assertThrows(NotBuiltException.class, () -> manager.addInhabitantToBuilding(building, 5));
-		assertDoesNotThrow(() -> building.startBuild(inventory));
-		while (!building.isBuilt())
-			building.update(inventory);
-		assertDoesNotThrow(() -> manager.addInhabitantToBuilding(building, 2));
-		assertDoesNotThrow(() -> manager.addInhabitantToBuilding(building, 2));
-		assertThrows(NoMoreSpace.class, () -> manager.addInhabitantToBuilding(building, 2));
-		assertEquals(4, building.getInhabitants());
+		Building b = manager.getGrid().getBuilding(coordinate);
+		assertThrows(NotBuiltException.class, () -> manager.addInhabitantToBuilding(b, 5));
+		while (!b.isBuilt())
+			b.update(inventory);
+		assertDoesNotThrow(() -> manager.addInhabitantToBuilding(b, 2));
+		assertDoesNotThrow(() -> manager.addInhabitantToBuilding(b, 2));
+		assertThrows(NoMoreSpace.class, () -> manager.addInhabitantToBuilding(b, 2));
+		assertEquals(4, b.getInhabitants());
 	}
 
 	@Test
-	void testRemoveInhabitantFromBuilding() {
-		Building building = new Building(BuildingType.WOODENCABIN, 1L);
+	void testRemoveInhabitantFromBuilding() throws NoBuildingHereException, NotInGridException {
+		BuildingType building = BuildingType.WOODENCABIN;
 		Coordinate coordinate = new Coordinate(0, 0);
 		assertDoesNotThrow(() -> manager.buildBuilding(building, coordinate));
-		assertDoesNotThrow(() -> building.startBuild(inventory));
-		while (!building.isBuilt())
-			building.update(inventory);
-		assertThrows(NotEnoughInhabitants.class, () -> manager.removeInhabitantFromBuilding(building, 5));
-		assertDoesNotThrow(() -> manager.addInhabitantToBuilding(building, 4));
-		assertDoesNotThrow(() -> manager.removeInhabitantFromBuilding(building, 3));
-		assertEquals(1, building.getInhabitants());
+		Building b = manager.getGrid().getBuilding(coordinate);
+		while (!b.isBuilt())
+			b.update(inventory);
+		assertThrows(NotEnoughInhabitants.class, () -> manager.removeInhabitantFromBuilding(b, 5));
+		assertDoesNotThrow(() -> manager.addInhabitantToBuilding(b, 4));
+		assertDoesNotThrow(() -> manager.removeInhabitantFromBuilding(b, 3));
+		assertEquals(1, b.getInhabitants());
 	}
 
 	@Test
-	void testAddWorkerToBuilding() {
-		Building building = new Building(BuildingType.WOODENCABIN, 1L);
+	void testAddWorkerToBuilding() throws NoBuildingHereException, NotInGridException {
+		BuildingType building = BuildingType.WOODENCABIN;
 		Coordinate coordinate = new Coordinate(0, 0);
 		assertDoesNotThrow(() -> manager.buildBuilding(building, coordinate));
-		assertThrows(NotBuiltException.class, () -> manager.addWorkerToBuilding(building, 5));
-		assertDoesNotThrow(() -> building.startBuild(inventory));
-		while (!building.isBuilt())
-			building.update(inventory);
-		assertDoesNotThrow(() -> manager.addWorkerToBuilding(building, 4));
-		assertThrows(NoMoreSpace.class, () -> manager.addWorkerToBuilding(building, 2));
-		assertEquals(4, building.getWorkers());
+		Building b = manager.getGrid().getBuilding(coordinate);
+		assertThrows(NotBuiltException.class, () -> manager.addWorkerToBuilding(b, 5));
+		while (!b.isBuilt())
+			b.update(inventory);
+		assertDoesNotThrow(() -> manager.addWorkerToBuilding(b, 4));
+		assertThrows(NoMoreSpace.class, () -> manager.addWorkerToBuilding(b, 2));
+		assertEquals(4, b.getWorkers());
 	}
 
 	@Test
-	void testRemoveWorkerFromBuilding() {
-		Building building = new Building(BuildingType.WOODENCABIN, 1L);
+	void testRemoveWorkerFromBuilding() throws NoBuildingHereException, NotInGridException {
+		BuildingType building = BuildingType.WOODENCABIN;
 		Coordinate coordinate = new Coordinate(0, 0);
 		assertDoesNotThrow(() -> manager.buildBuilding(building, coordinate));
-		assertDoesNotThrow(() -> building.startBuild(inventory));
-		while (!building.isBuilt())
-			building.update(inventory);
-		assertThrows(NotEnoughWorkers.class, () -> manager.removeWorkerFromBuilding(building, 5));
-		assertDoesNotThrow(() -> manager.addWorkerToBuilding(building, 4));
-		assertDoesNotThrow(() -> manager.removeWorkerFromBuilding(building, 3));
-		assertEquals(1, building.getWorkers());
+		Building b = manager.getGrid().getBuilding(coordinate);
+		while (!b.isBuilt())
+			b.update(inventory);
+		assertThrows(NotEnoughWorkers.class, () -> manager.removeWorkerFromBuilding(b, 5));
+		assertDoesNotThrow(() -> manager.addWorkerToBuilding(b, 4));
+		assertDoesNotThrow(() -> manager.removeWorkerFromBuilding(b, 3));
+		assertEquals(1, b.getWorkers());
 	}
 
 	@Test
@@ -193,68 +189,48 @@ class ManagerTest {
 	}
 
 	@Test
-	void testGetProduction() {
-		Building building = new Building(BuildingType.WOODENCABIN, 1L);
+	void testGetProduction() throws NoBuildingHereException, NotInGridException {
+		BuildingType building = BuildingType.WOODENCABIN;
 		Coordinate coordinate = new Coordinate(0, 0);
 		assertDoesNotThrow(() -> manager.buildBuilding(building, coordinate));
-		assertDoesNotThrow(() -> manager.startBuildBuilding(coordinate));
+		Building b = manager.getGrid().getBuilding(coordinate);
 		assertEquals(0, manager.getProduction(WOOD));
 		assertEquals(0, manager.getProduction(FOOD));
 		assertEquals(0, manager.getProduction(GOLD));
 		assertEquals(0, manager.getProduction(STONE));
-		assertThrows(NotBuiltException.class, () -> manager.addWorkerToBuilding(building, 4));
-		assertThrows(NotBuiltException.class, () -> manager.addInhabitantToBuilding(building, 4));
-		while (!building.isBuilt())
-			building.update(inventory);
+		assertThrows(NotBuiltException.class, () -> manager.addWorkerToBuilding(b, 4));
+		assertThrows(NotBuiltException.class, () -> manager.addInhabitantToBuilding(b, 4));
+		while (!b.isBuilt())
+			b.update(inventory);
 		assertEquals(0, manager.getProduction(WOOD));
 		assertEquals(0, manager.getProduction(FOOD));
 		assertEquals(0, manager.getProduction(GOLD));
 		assertEquals(0, manager.getProduction(STONE));
-		assertDoesNotThrow(() -> manager.addWorkerToBuilding(building, 4));
+		assertDoesNotThrow(() -> manager.addWorkerToBuilding(b, 4));
 		assertEquals(0, manager.getProduction(WOOD));
 		assertEquals(0, manager.getProduction(FOOD));
 		assertEquals(0, manager.getProduction(GOLD));
 		assertEquals(0, manager.getProduction(STONE));
-		assertDoesNotThrow(() -> manager.addInhabitantToBuilding(building, 4));
+		assertDoesNotThrow(() -> manager.addInhabitantToBuilding(b, 4));
 		assertEquals(2, manager.getProduction(WOOD));
 		assertEquals(2, manager.getProduction(FOOD));
 		assertEquals(0, manager.getProduction(GOLD));
 		assertEquals(0, manager.getProduction(STONE));
-		Building building2 = new Building(BuildingType.FARM, 2L);
+		BuildingType building2 = BuildingType.FARM;
 		Coordinate coordinate2 = new Coordinate(1, 1);
+		manager.setResources(inventory);
 		assertDoesNotThrow(() -> manager.buildBuilding(building2, coordinate2));
-		assertDoesNotThrow(() -> building2.startBuild(inventory));
-		while (!building2.isBuilt())
-			building2.update(inventory);
+		Building b2 = manager.getGrid().getBuilding(coordinate2);
+		while (!b2.isBuilt())
+			b2.update(inventory);
 		manager.setWorkers(100);
 		manager.setInhabitants(100);
-		assertDoesNotThrow(() -> manager.addWorkerToBuilding(building2, 4));
-		assertDoesNotThrow(() -> manager.addInhabitantToBuilding(building2, 6));
+		assertDoesNotThrow(() -> manager.addWorkerToBuilding(b2, 4));
+		assertDoesNotThrow(() -> manager.addInhabitantToBuilding(b2, 6));
 		assertEquals(2, manager.getProduction(WOOD));
 		assertEquals(12, manager.getProduction(FOOD));
 		assertEquals(0, manager.getProduction(GOLD));
 		assertEquals(0, manager.getProduction(STONE));
 	}
-
-	@Test
-	void testStartBuildBuilding() {
-		Building building = new Building(BuildingType.WOODENCABIN, 1L);
-		Coordinate coordinate = new Coordinate(0, 0);
-		assertDoesNotThrow(() -> manager.buildBuilding(building, coordinate));
-		assertDoesNotThrow(() -> manager.startBuildBuilding(coordinate));
-		assertThrows(BuildingAlreadyStartedException.class, () -> manager.startBuildBuilding(coordinate));
-		Coordinate coordinate2 = new Coordinate(1, 1);
-		Building building2 = new Building(BuildingType.WOODENCABIN, 2L);
-		try {
-			manager.setResources(manager.getResources().remove(new Resource(GOLD, 14)));
-		} catch (NotEnoughResourceException | ResourceNotFoundException e) {
-			fail("Not enough resources");
-		}
-		assertDoesNotThrow(() -> manager.buildBuilding(building2, coordinate2));
-		assertThrows(NotEnoughNeedsException.class, () -> manager.startBuildBuilding(coordinate2));
-		assertThrows(NotInGridException.class, () -> manager.startBuildBuilding(new Coordinate(10, 10)));
-		assertThrows(NoBuildingHereException.class, () -> manager.startBuildBuilding(new Coordinate(0, 1)));
-	}
-
 	// TODO: update() test
 }
