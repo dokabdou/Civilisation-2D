@@ -11,7 +11,7 @@ import java.util.List;
 public enum BuildingType {
 	WOODENCABIN("Wooden Cabin",
 			"WC",
-			new Consumption(1,List.of(new Resource(FOOD, 2))),
+			new Consumption(1, List.of(new Resource(FOOD, 2))),
 			new ConstructionNeeds(2, 1, List.of(new Resource(WOOD, 1))),
 			2,
 			2,
@@ -21,7 +21,7 @@ public enum BuildingType {
 					new Resource(FOOD, 2)))),
 	HOUSE("House",
 			"H",
-			new Consumption(1,List.of(new Resource(FOOD, 4))),
+			new Consumption(1, List.of(new Resource(FOOD, 4))),
 			new ConstructionNeeds(4, 1,
 					List.of(
 							new Resource(WOOD, 2),
@@ -32,7 +32,7 @@ public enum BuildingType {
 			new Production(1)),
 	APARTMENTBUILDING("Apartment Building",
 			"A",
-			new Consumption(1,List.of(new Resource(FOOD, 60))),
+			new Consumption(1, List.of(new Resource(FOOD, 60))),
 			new ConstructionNeeds(6,
 					4, List.of(
 							new Resource(WOOD, 50),
@@ -43,7 +43,7 @@ public enum BuildingType {
 			new Production(1)),
 	FARM("Farm",
 			"F",
-			new Consumption(1,List.of(new Resource(FOOD, 5))),
+			new Consumption(1, List.of(new Resource(FOOD, 5))),
 			new ConstructionNeeds(2,
 					4, List.of(
 							new Resource(WOOD, 5),
@@ -55,7 +55,7 @@ public enum BuildingType {
 					new Resource(FOOD, 10)))),
 	QUARRY("Quarry",
 			"Q",
-			new Consumption(1,List.of(new Resource(FOOD, 2))),
+			new Consumption(1, List.of(new Resource(FOOD, 2))),
 			new ConstructionNeeds(2,
 					4, List.of(
 							new Resource(WOOD, 50))),
@@ -134,7 +134,8 @@ public enum BuildingType {
 	private Consumption consumption;
 	private Production production;
 
-	private BuildingType(String name, String shortName, Consumption foodConsumption, ConstructionNeeds constructionNeeds, int workersNeeded,
+	private BuildingType(String name, String shortName, Consumption foodConsumption,
+			ConstructionNeeds constructionNeeds, int workersNeeded,
 			int inhabitantsNeeded, Consumption consumption, Production production) {
 		this.name = name;
 		this.shortName = shortName;
@@ -147,7 +148,6 @@ public enum BuildingType {
 		this.consumption = consumption;
 		this.production = production;
 	}
-
 
 	public ConstructionNeeds getConstructionNeeds() {
 		return constructionNeeds;

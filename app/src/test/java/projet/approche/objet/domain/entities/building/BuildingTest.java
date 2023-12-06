@@ -151,7 +151,7 @@ class BuildingTest {
 	}
 
 	@Test
-	void testCanUpgrade(){
+	void testCanUpgrade() {
 		// fails for now
 		BuildingType type = BuildingType.fromString("Wooden Cabin");
 		Building building = new Building(type, 1);
@@ -162,8 +162,8 @@ class BuildingTest {
 				new Resource(ResourceType.fromString("Gold"), 50)));
 
 		building.canUpgrade(inventory);
-		assertTrue(building.canUpgrade(inventory) && building.getLevel() == 2 
-		&& building.getInhabitants()==4);
+		assertTrue(building.canUpgrade(inventory) && building.getLevel() == 2
+				&& building.getInhabitants() == 4);
 	}
 
 	@Test

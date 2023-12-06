@@ -61,7 +61,7 @@ public class Needs {
 		return new Needs(this.time - needs.time, this.resources.remove(needs.resources));
 	}
 
-	public ResourceList getResources(){
+	public ResourceList getResources() {
 		return this.resources;
 	}
 
@@ -131,7 +131,7 @@ public class Needs {
 
 	/*
 	 * Multiply the amount of each resource. Increased production and consumption
-	*/
+	 */
 	public List<Resource> multiplyResourceList(int multiplier) {
 		List<Resource> multipliedResources = new ArrayList<>();
 		for (Resource resource : this.resources) {

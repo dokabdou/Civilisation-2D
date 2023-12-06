@@ -13,6 +13,7 @@ import projet.approche.objet.domain.valueObject.resource.ResourceList;
 
 import java.util.List;
 import java.util.ArrayList;
+
 public class Building implements BuildingItf {
 
 	public final long id;
@@ -63,13 +64,17 @@ public class Building implements BuildingItf {
 		if (isBuilt) { // if the building is built verify if it can produce
 			if (this.workers >= this.type.getWorkersNeeded() && this.inhabitants >= this.type.getInhabitantsNeeded()) {
 				time++;
-				if (time >= this.type.getProduction().time && time >= this.type.getConsumption().time) { // even if it should be
-																								// the same value
-					if (this.type.getConsumption().isAffordable(inventory)) { // verify if the building have enough resources
-						inventory = this.type.getConsumption().getRemainingResources(inventory); // consume resources from
+				if (time >= this.type.getProduction().time && time >= this.type.getConsumption().time) { // even if it
+																											// should be
+					// the same value
+					if (this.type.getConsumption().isAffordable(inventory)) { // verify if the building have enough
+																				// resources
+						inventory = this.type.getConsumption().getRemainingResources(inventory); // consume resources
+																									// from
+						// inventory
+						inventory = this.type.getProduction().havestProduction(inventory); // produce resources in
 																							// inventory
-						inventory = this.type.getProduction().havestProduction(inventory); // produce resources in inventory
-						// TODO : correct havestProduction to harvestProduction everywhere 
+						// TODO : correct havestProduction to harvestProduction everywhere
 						this.time = 0; // reset the time since last production
 						return inventory;
 					}
@@ -125,67 +130,67 @@ public class Building implements BuildingItf {
 
 	public boolean canUpgrade(ResourceList inventory) {
 		if (this.level < 3) {
-			// 
+			//
 			ResourceList missingResources = this.type.getConstructionNeeds().getMissingResources(inventory);
 			// returns the missing resources and how much is lacking for the next upgrade
 			// technically an upgrade consumes resources so use getRemainingResources
-			if(!missingResources.isEmpty()) {
+			if (!missingResources.isEmpty()) {
 				// add an exception : you are missing resources for the upgrade
 				return false;
 			}
-						
+
 			// increase construction time for next upgrade
 			if (this.type.getConstructionNeeds().isAffordable(inventory)) {
-				if(!this.type.equals(BuildingType.HOUSE) || !this.type.equals(BuildingType.APARTMENTBUILDING)) {
-					// increase workers slowly 
+				if (!this.type.equals(BuildingType.HOUSE) || !this.type.equals(BuildingType.APARTMENTBUILDING)) {
+					// increase workers slowly
 					// produce more with less workers
 					this.addWorkerToBuilding(1);
-					this.type.setWorkersMax(this.type.getWorkersMax()*2);
+					this.type.setWorkersMax(this.type.getWorkersMax() * 2);
 
 					// increase production
 					// produce double the resources in the same amount of time
 					// multiplier will always be 2
-					Production newProduction =  new Production(this.type.getProduction().time, 
-					this.type.getProduction().multiplyResourceList(2));
+					Production newProduction = new Production(this.type.getProduction().time,
+							this.type.getProduction().multiplyResourceList(2));
 
 					this.type.setProduction(newProduction);
-				} 
+				}
 
 				// increase consumption
-				if(this.type.equals(BuildingType.LUMBERMILL) || this.type.equals(BuildingType.CEMENTPLANT)
-					|| this.type.equals(BuildingType.STEELMILL) || this.type.equals(BuildingType.TOOLFACTORY)) {
+				if (this.type.equals(BuildingType.LUMBERMILL) || this.type.equals(BuildingType.CEMENTPLANT)
+						|| this.type.equals(BuildingType.STEELMILL) || this.type.equals(BuildingType.TOOLFACTORY)) {
 					//
 					Consumption newConsumption = new Consumption(this.type.getConsumption().time,
-					this.type.getConsumption().multiplyResourceList(2));
+							this.type.getConsumption().multiplyResourceList(2));
 
 					this.type.setConsumption(newConsumption);
 				} else {
-					// double the number of inhabs with each upgrade					
+					// double the number of inhabs with each upgrade
 					this.addInhabitantToBuilding(this.getInhabitants());
 
-					this.type.setInhabitantsMax(this.type.getInhabitantsMax()*2);
+					this.type.setInhabitantsMax(this.type.getInhabitantsMax() * 2);
 					// increase food consumption of the building
 					// food consumption is multiplied by 2 since the number of inhabs doubled
 					Consumption newFoodConsumption = new Consumption(this.type.getConsumption().time,
-					this.type.getFoodConsumption().multiplyResourceList(2));
+							this.type.getFoodConsumption().multiplyResourceList(2));
 					this.type.setFoodConsumtion(newFoodConsumption);
 				}
 
-				//turn into a list 
+				// turn into a list
 				// set variable for next upgrade
 				List<Resource> constructionNeeds = this.type.getConstructionNeeds().resources.getResources();
 
 				List<Resource> upgradeNeeds = constructionNeeds;
 
-				for(int i = 0; i < this.level; i++){
+				for (int i = 0; i < this.level; i++) {
 					upgradeNeeds.addAll(constructionNeeds);
 				}
 
 				ConstructionNeeds nextConstructionNeeds = new ConstructionNeeds(
-					this.type.getConstructionNeeds().time * this.level,
-					this.type.getConstructionNeeds().goldAmountForConstruction * this.level, 
-					upgradeNeeds);	
-					
+						this.type.getConstructionNeeds().time * this.level,
+						this.type.getConstructionNeeds().goldAmountForConstruction * this.level,
+						upgradeNeeds);
+
 				this.type.setConstructionNeeds(nextConstructionNeeds);
 
 				this.level++;

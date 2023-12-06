@@ -107,7 +107,7 @@ public class GridView extends BorderPane {
 		}
 	}
 
-	public int getSize(){
+	public int getSize() {
 		return this.getSize();
 	}
 }
