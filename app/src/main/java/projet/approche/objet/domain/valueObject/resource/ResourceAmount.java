@@ -18,6 +18,10 @@ public class ResourceAmount implements ResourceItf {
 		return new ResourceAmount(this.value - resourceAmount.value);
 	}
 
+	public ResourceAmount mul(int multiplier) {
+		return new ResourceAmount(this.value * multiplier);
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof ResourceAmount) {

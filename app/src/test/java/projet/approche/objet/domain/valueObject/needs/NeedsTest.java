@@ -90,4 +90,13 @@ class NeedsTest {
 
 		assertTrue(result.contains(new Resource(ResourceType.fromString("Gold"), 10)));
 	}
+
+	@Test
+	void testmultiplyResourceList(){
+		Production needs = new Production(1, List.of(new Resource(ResourceType.fromString("Gold"), 20)));
+
+		ResourceList result = new ResourceList(needs.multiplyResourceList(2));
+
+		assertTrue(result.contains(new Resource(ResourceType.fromString("Gold"), 40)));
+	}
 }

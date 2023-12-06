@@ -69,7 +69,7 @@ class BuildingTest {
 				new Resource(ResourceType.fromString("Gold"), 100)));
 
 		assertDoesNotThrow(() -> building.startBuild(resources)); // start building
-		for (int i = 0; i < type.constructionNeeds.time; i++) {
+		for (int i = 0; i < type.getConstructionNeeds().time; i++) {
 			assertDoesNotThrow(() -> building.update(resources));
 		}
 		assertTrue(building.isBuilt()); // building is built
@@ -86,7 +86,7 @@ class BuildingTest {
 				new Resource(ResourceType.fromString("Gold"), 100)));
 
 		assertDoesNotThrow(() -> building.startBuild(resourcesForBuild));
-		for (int i = 0; i < type.constructionNeeds.time; i++) {
+		for (int i = 0; i < type.getConstructionNeeds().time; i++) {
 			assertDoesNotThrow(() -> building.update(resourcesForBuild));
 		}
 		assertTrue(building.isBuilt()); // building is built
@@ -148,6 +148,22 @@ class BuildingTest {
 		building.addWorkerToBuilding(5);
 		building.addWorkerToBuilding(-2);
 		assertEquals(3, building.getWorkers());
+	}
+
+	@Test
+	void testCanUpgrade(){
+		// fails for now
+		BuildingType type = BuildingType.fromString("Wooden Cabin");
+		Building building = new Building(type, 1);
+
+		ResourceList inventory = new ResourceList(List.of(
+				new Resource(ResourceType.fromString("Wood"), 50),
+				new Resource(ResourceType.fromString("Stone"), 50),
+				new Resource(ResourceType.fromString("Gold"), 50)));
+
+		building.canUpgrade(inventory);
+		assertTrue(building.canUpgrade(inventory) && building.getLevel() == 2 
+		&& building.getInhabitants()==4);
 	}
 
 	@Test

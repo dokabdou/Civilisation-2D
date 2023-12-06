@@ -35,6 +35,18 @@ class ResourcesTest {
 	}
 
 	@Test
+	void testSub() {
+		ResourceType type = ResourceType.WOOD;
+		Resource resource1 = new Resource(type, 30);
+		Resource resource2 = new Resource(type, 10);
+
+		Resource result = resource1.sub(resource2);
+
+		assertEquals(type, result.type);
+		assertEquals(20, result.amount.value);
+	}
+
+	@Test
 	void testEquals() {
 		ResourceType type = ResourceType.WOOD;
 		Resource resource1 = new Resource(type, 10);

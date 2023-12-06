@@ -1,6 +1,7 @@
 package projet.approche.objet.domain.valueObject.needs;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import projet.approche.objet.domain.valueObject.needs.exceptions.NotEnoughTimeException;
 import projet.approche.objet.domain.valueObject.resource.Resource;
@@ -58,6 +59,10 @@ public class Needs {
 		if (this.time < needs.time)
 			throw new NotEnoughTimeException("Not enough time");
 		return new Needs(this.time - needs.time, this.resources.remove(needs.resources));
+	}
+
+	public ResourceList getResources(){
+		return this.resources;
 	}
 
 	/**
@@ -122,6 +127,17 @@ public class Needs {
 			}
 		}
 		return remainingResources;
+	}
+
+	/*
+	 * Multiply the amount of each resource. Increased production and consumption
+	*/
+	public List<Resource> multiplyResourceList(int multiplier) {
+		List<Resource> multipliedResources = new ArrayList<>();
+		for (Resource resource : this.resources) {
+			multipliedResources.add(new Resource(resource.type, resource.amount.mul(multiplier)));
+		}
+		return multipliedResources;
 	}
 
 	@Override
