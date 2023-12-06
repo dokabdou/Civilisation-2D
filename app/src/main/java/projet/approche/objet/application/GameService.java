@@ -19,6 +19,8 @@ public interface GameService {
 
 	public boolean isGameEnded();
 
+	public String getGameState();
+
 	// public int getGameTime();
 
 	public int getGridSize();

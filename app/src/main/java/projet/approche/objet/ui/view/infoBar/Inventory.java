@@ -1,8 +1,6 @@
-package projet.approche.objet.ui.view;
+package projet.approche.objet.ui.view.infoBar;
 
 import javafx.geometry.Insets;
-import javafx.scene.Group;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -10,8 +8,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import projet.approche.objet.application.App;
+import projet.approche.objet.ui.view.imageResource.ResourceImageResource;
 
-public class InfoBar extends VBox {
+public class Inventory extends VBox {
 	private final App app;
 	private final Text gold = new Text();
 	private final Text food = new Text();
@@ -24,7 +23,7 @@ public class InfoBar extends VBox {
 	private final Text lumber = new Text();
 	private final Text tools = new Text();
 
-	public InfoBar(App app) {
+	public Inventory(App app) {
 		this.app = app;
 		this.setSpacing(5);
 		this.setPadding(new Insets(5));

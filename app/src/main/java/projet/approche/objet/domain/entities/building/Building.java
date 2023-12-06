@@ -1,7 +1,6 @@
 package projet.approche.objet.domain.entities.building;
 
 import projet.approche.objet.domain.valueObject.building.BuildingType;
-import static projet.approche.objet.domain.valueObject.resource.ResourceType.*;
 import projet.approche.objet.domain.valueObject.building.exceptions.BuildingAlreadyStartedException;
 import projet.approche.objet.domain.valueObject.building.exceptions.NotEnoughNeedsException;
 import projet.approche.objet.domain.valueObject.needs.ConstructionNeeds;
@@ -12,7 +11,6 @@ import projet.approche.objet.domain.valueObject.resource.Resource;
 import projet.approche.objet.domain.valueObject.resource.ResourceList;
 
 import java.util.List;
-import java.util.ArrayList;
 
 public class Building implements BuildingItf {
 

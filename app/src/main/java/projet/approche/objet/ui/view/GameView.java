@@ -1,16 +1,12 @@
 package projet.approche.objet.ui.view;
 
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.SeparatorMenuItem;
-import javafx.scene.input.Clipboard;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.KeyCombination;
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import projet.approche.objet.application.App;
+import projet.approche.objet.ui.view.infoBar.InfoBar;
 
 public class GameView extends BorderPane {
 	private final PickerView pickerView;
@@ -26,11 +22,12 @@ public class GameView extends BorderPane {
 		this.infoBar.update();
 		this.setRight(infoBar);
 		// Grid
-		this.gridView = new GridView(app, pickerView);
-		this.setCenter(gridView);
-	}
 
-	public int getSize() {
-		return this.getSize();
+		List<Updateable> updateables = new ArrayList<>();
+		updateables.add(infoBar);
+		updateables.add(pickerView);
+
+		this.gridView = new GridView(app, pickerView, updateables);
+		this.setCenter(gridView);
 	}
 }

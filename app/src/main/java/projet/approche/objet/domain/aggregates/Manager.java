@@ -93,22 +93,35 @@ public class Manager {
 		return resources;
 	}
 
-	public void buildBuilding(Building building, Coordinate c) throws NotInGridException, NotFreeException {
-		this.grid = this.grid.setBuilding(building, c);
-	}
-
-	public void buildBuilding(BuildingType buildingType, Coordinate c) throws NotInGridException, NotFreeException {
-		this.grid = this.grid.setBuilding(new Building(buildingType, ++idBuildings), c);
+	/**
+	 * @brief Build a building on the grid at the given coordinate with the given
+	 *        type of building and start the building process of the building
+	 * @param buildingType the type of building to build
+	 * @param c            the coordinate where to build the building
+	 * @throws NotInGridException
+	 * @throws NotFreeException
+	 * @throws NotEnoughNeedsException
+	 */
+	public void buildBuilding(BuildingType buildingType, Coordinate c) throws NotInGridException, NotFreeException,
+			NotEnoughNeedsException {
+		if (!this.grid.isFree(c))
+			throw new NotFreeException("The coordinate " + c + " is not free");
+		Building b = new Building(buildingType, ++idBuildings);
+		try {
+			this.startBuildBuilding(b);
+		} catch (NoBuildingHereException | BuildingAlreadyStartedException e) {
+			throw new RuntimeException(e); // cannot happen since we just created the building
+		}
+		this.grid = this.grid.setBuilding(b, c);
 	}
 
 	public void destroyBuilding(Coordinate c) throws NotInGridException, NoBuildingHereException {
 		this.grid = this.grid.removeBuilding(c);
 	}
 
-	public void startBuildBuilding(Coordinate c)
-			throws NotInGridException, NoBuildingHereException, NotEnoughNeedsException,
-			BuildingAlreadyStartedException {
-		resources = this.grid.getBuilding(c).startBuild(resources);
+	private void startBuildBuilding(Building b) throws NotInGridException, NoBuildingHereException,
+			NotEnoughNeedsException, BuildingAlreadyStartedException {
+		resources = b.startBuild(resources);
 	}
 
 	public Grid getGrid() {

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import projet.approche.objet.domain.aggregates.Manager;
+import projet.approche.objet.domain.entities.building.Building;
 import projet.approche.objet.domain.valueObject.building.BuildingType;
 import projet.approche.objet.domain.valueObject.building.exceptions.BuildingAlreadyStartedException;
 import projet.approche.objet.domain.valueObject.building.exceptions.NotBuiltException;
@@ -125,7 +126,10 @@ public class App implements GameService, BuildingService, ResourceService {
 
 	@Override
 	public String getBuildingType(int x, int y) throws NoBuildingHereException, NotInGridException {
-		return this.manager.getGrid().getBuilding(new Coordinate(x, y)).type.toString();
+		Building b = this.manager.getGrid().getBuilding(new Coordinate(x, y));
+		if (!b.isBuilt())
+			return "Construction";
+		return b.type.toString();
 	}
 
 	@Override
@@ -135,7 +139,7 @@ public class App implements GameService, BuildingService, ResourceService {
 
 	@Override
 	public void buildBuilding(String buildingType, int x, int y)
-			throws GameNotStarted, GameEnded, NotInGridException, NotFreeException {
+			throws GameNotStarted, GameEnded, NotInGridException, NotFreeException, NotEnoughNeedsException {
 		checkGameStarted();
 		checkGameNotEnded();
 		this.manager.buildBuilding(BuildingType.valueOf(buildingType), new Coordinate(x, y));
@@ -226,10 +230,7 @@ public class App implements GameService, BuildingService, ResourceService {
 	}
 
 	@Override
-	public void startBuilding(int x, int y) throws GameNotStarted, GameEnded, NotInGridException,
-			NoBuildingHereException, BuildingAlreadyStartedException, NotEnoughNeedsException {
-		checkGameStarted();
-		checkGameNotEnded();
-		this.manager.startBuildBuilding(new Coordinate(x, y));
+	public String getGameState() {
+		return this.manager.getState().toString();
 	}
 }
