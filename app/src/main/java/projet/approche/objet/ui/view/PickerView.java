@@ -7,11 +7,10 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import projet.approche.objet.application.App;
 import projet.approche.objet.ui.view.imageResource.BuildingImageResource;
 
-public class PickerView extends HBox {
+public class PickerView extends HBox implements Updateable {
 	private final ToggleGroup group = new ToggleGroup();
 
 	public PickerView(App app) {
@@ -34,5 +33,12 @@ public class PickerView extends HBox {
 		if (toggle == null)
 			return null;
 		return (String) toggle.getUserData();
+	}
+
+	public void clearSelection() {
+		group.selectToggle(null);
+	}
+
+	public void update() {
 	}
 }

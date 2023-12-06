@@ -1,5 +1,8 @@
 package projet.approche.objet.ui.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import projet.approche.objet.application.App;
@@ -19,11 +22,12 @@ public class GameView extends BorderPane {
 		this.infoBar.update();
 		this.setRight(infoBar);
 		// Grid
-		this.gridView = new GridView(app, pickerView);
-		this.setCenter(gridView);
-	}
 
-	public int getSize() {
-		return this.getSize();
+		List<Updateable> updateables = new ArrayList<>();
+		updateables.add(infoBar);
+		updateables.add(pickerView);
+
+		this.gridView = new GridView(app, pickerView, updateables);
+		this.setCenter(gridView);
 	}
 }

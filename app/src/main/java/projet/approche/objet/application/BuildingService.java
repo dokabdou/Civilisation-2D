@@ -2,7 +2,6 @@ package projet.approche.objet.application;
 
 import java.util.List;
 
-import projet.approche.objet.domain.valueObject.building.exceptions.BuildingAlreadyStartedException;
 import projet.approche.objet.domain.valueObject.building.exceptions.NotBuiltException;
 import projet.approche.objet.domain.valueObject.building.exceptions.NotEnoughNeedsException;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameEnded;
@@ -27,10 +26,6 @@ public interface BuildingService {
 
 	public void DestroyBuilding(int x, int y)
 			throws GameNotStarted, GameEnded, NotInGridException, NoBuildingHereException;
-
-	public void startBuilding(int x, int y)
-			throws GameNotStarted, GameEnded, NotInGridException, NoBuildingHereException,
-			BuildingAlreadyStartedException, NotEnoughNeedsException;
 
 	public void addInhabitant(int x, int y, int number)
 			throws GameNotStarted, GameEnded, NotEnoughInhabitants, NotInGridException, NotBuiltException,

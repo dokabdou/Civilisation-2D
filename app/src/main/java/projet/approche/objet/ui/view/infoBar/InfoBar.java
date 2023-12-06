@@ -2,8 +2,9 @@ package projet.approche.objet.ui.view.infoBar;
 
 import javafx.scene.layout.BorderPane;
 import projet.approche.objet.application.App;
+import projet.approche.objet.ui.view.Updateable;
 
-public class InfoBar extends BorderPane {
+public class InfoBar extends BorderPane implements Updateable {
 
 	private final Inventory inventory;
 	private final Button button;

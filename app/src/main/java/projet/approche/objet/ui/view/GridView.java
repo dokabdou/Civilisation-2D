@@ -1,10 +1,13 @@
 package projet.approche.objet.ui.view;
 
+import java.util.List;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.BorderPane;
 import projet.approche.objet.application.App;
+import projet.approche.objet.domain.valueObject.building.exceptions.NotEnoughNeedsException;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameEnded;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameNotStarted;
 import projet.approche.objet.domain.valueObject.grid.exceptions.NoBuildingHereException;
@@ -16,11 +19,13 @@ public class GridView extends BorderPane {
 	private final PickerView pickerView;
 	private final int gridSize;
 	private final App app;
+	private final List<Updateable> updateables;
 
-	public GridView(App app, PickerView pickerView) {
+	public GridView(App app, PickerView pickerView, List<Updateable> updateables) {
 		this.pickerView = pickerView;
 		this.app = app;
 		this.gridSize = app.getGridSize();
+		this.updateables = updateables;
 		setPrefSize(gridSize * BuildingImageResource.size,
 				gridSize * BuildingImageResource.size);
 		for (int i = 0; i < this.gridSize; i++) {
@@ -45,18 +50,11 @@ public class GridView extends BorderPane {
 		getChildren().add(tile);
 		tile.setOnMouseClicked(e -> {
 			update(tile, i, j);
-		});
-		tile.setOnMouseEntered(e -> {
-			if (e.isShiftDown()) {
-				update(tile, i, j);
-			}
+			updateables.forEach(updateable -> updateable.update());
 		});
 		ColorAdjust colorAdjust = new ColorAdjust();
 		colorAdjust.setBrightness(-0.2);
 		tile.setOnMouseEntered(e -> {
-			if (e.isShiftDown()) {
-				update(tile, i, j);
-			}
 			tile.setEffect(colorAdjust);
 		});
 		tile.setOnMouseExited(e -> {
@@ -79,30 +77,22 @@ public class GridView extends BorderPane {
 				app.buildBuilding(pickerView.getSelected(), i, j);
 			} catch (GameNotStarted e) {
 				// Open a window saying that the game is not started
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Game not started");
-				alert.setHeaderText("Game not started...");
-				alert.setContentText("You must start the game before building.");
-				alert.showAndWait().ifPresent(rs -> {
-				});
+				this.popUp("Game not started", "Game not started...",
+						"You must start a new game before building.");
 			} catch (GameEnded e) {
 				// Open a window saying that the game is ended
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Game ended");
-				alert.setHeaderText("Game ended...");
-				alert.setContentText("You must start a new game.");
-				alert.showAndWait().ifPresent(rs -> {
-				});
+				this.popUp("Game ended", "Game ended...",
+						"You must start a new game before building.");
 			} catch (NotInGridException e) {
 				throw new RuntimeException(e); // should not happen
 			} catch (NotFreeException e) {
 				// Open a window saying that the tile is not free
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Tile not free");
-				alert.setHeaderText("Tile not free...");
-				alert.setContentText("You must select a free tile.");
-				alert.showAndWait().ifPresent(rs -> {
-				});
+				this.popUp("Tile not free", "Tile not free...",
+						"You must build on a free tile.");
+			} catch (NotEnoughNeedsException e) {
+				// Open a window saying that the tile is not free
+				this.popUp("Not enough needs", "Not enough needs...",
+						"You must have enough needs to build this building.");
 			}
 			createTile(i, j);
 		}
@@ -110,5 +100,14 @@ public class GridView extends BorderPane {
 
 	public int getSize() {
 		return this.getSize();
+	}
+
+	private void popUp(String title, String header, String content) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle(title);
+		alert.setHeaderText(header);
+		alert.setContentText(content);
+		alert.showAndWait().ifPresent(rs -> {
+		});
 	}
 }

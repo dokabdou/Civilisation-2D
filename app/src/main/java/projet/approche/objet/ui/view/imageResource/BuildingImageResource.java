@@ -13,6 +13,7 @@ public enum BuildingImageResource {
 	STEELMILL("SteelMill.png"),
 	TOOLFACTORY("ToolFactory.png"),
 	WOODENCABIN("WoodenCabin.png"),
+	CONSTRUCTION("Construction.png"),
 	EMPTY("Empty.png");
 
 	private final Image image;
