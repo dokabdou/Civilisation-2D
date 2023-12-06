@@ -12,7 +12,6 @@ import javafx.scene.text.Text;
 import projet.approche.objet.application.App;
 
 public class InfoBar extends VBox {
-	public final int width = 100;
 	private final App app;
 	private final Text gold = new Text();
 	private final Text food = new Text();
@@ -42,13 +41,6 @@ public class InfoBar extends VBox {
 		HBox toolsGroup = infoGroup(ResourceImageResource.TOOLS.getImage(), this.tools);
 		getChildren().addAll(goldGroup, foodGroup, woodGroup, stoneGroup, coalGroup, ironGroup, steelGroup, cementGroup,
 				lumberGroup, toolsGroup);
-		// "HBox live = statusGroup(ImageResource.HEART.getImage(), this.lives);
-		// HBox bombs = statusGroup(ImageResource.BANNER_BOMB.getImage(),
-		// availableBombs);
-		// HBox range = statusGroup(ImageResource.BANNER_RANGE.getImage(), bombRange);
-		// HBox key = statusGroup(ImageResource.KEY.getImage(), keys);
-		// status.setSpacing(40.0);
-		// status.getChildren().addAll(live, bombs, range, key);
 	}
 
 	private HBox infoGroup(Image kind, Text number) {
