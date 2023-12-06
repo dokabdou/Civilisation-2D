@@ -232,4 +232,9 @@ public class App implements GameService, BuildingService, ResourceService {
 		checkGameNotEnded();
 		this.manager.startBuildBuilding(new Coordinate(x, y));
 	}
+
+	@Override
+	public String getGameState() {
+		return this.manager.getState().toString();
+	}
 }

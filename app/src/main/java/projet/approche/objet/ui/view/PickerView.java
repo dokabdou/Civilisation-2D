@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import projet.approche.objet.application.App;
+import projet.approche.objet.ui.view.imageResource.BuildingImageResource;
 
 public class PickerView extends HBox {
 	private final ToggleGroup group = new ToggleGroup();

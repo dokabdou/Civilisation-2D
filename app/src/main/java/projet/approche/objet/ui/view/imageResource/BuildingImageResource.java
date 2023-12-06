@@ -1,4 +1,4 @@
-package projet.approche.objet.ui.view;
+package projet.approche.objet.ui.view.imageResource;
 
 import javafx.scene.image.Image;
 
@@ -21,7 +21,7 @@ public enum BuildingImageResource {
 
 	BuildingImageResource(String file) {
 		try {
-			this.image = new Image(BuildingImageResource.class.getResourceAsStream("/images/" + file));
+			this.image = new Image(BuildingImageResource.class.getResourceAsStream("/images/buildings/" + file));
 			if (image.getWidth() != size && image.getHeight() != size) {
 				String msg = "File " + file + " does not have the correct size " + image.getWidth() + " x "
 						+ image.getHeight();

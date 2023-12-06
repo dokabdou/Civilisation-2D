@@ -10,6 +10,7 @@ import projet.approche.objet.domain.valueObject.game.exceptions.GameNotStarted;
 import projet.approche.objet.domain.valueObject.grid.exceptions.NoBuildingHereException;
 import projet.approche.objet.domain.valueObject.grid.exceptions.NotFreeException;
 import projet.approche.objet.domain.valueObject.grid.exceptions.NotInGridException;
+import projet.approche.objet.ui.view.imageResource.BuildingImageResource;
 
 public class GridView extends BorderPane {
 	private final PickerView pickerView;
