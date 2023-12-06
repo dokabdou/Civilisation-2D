@@ -6,10 +6,11 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import projet.approche.objet.application.App;
 
-public class PickerView extends VBox {
+public class PickerView extends HBox {
 	private final ToggleGroup group = new ToggleGroup();
 
 	public PickerView(App app) {
@@ -20,7 +21,7 @@ public class PickerView extends VBox {
 			ToggleButton btn = new ToggleButton();
 			btn.setToggleGroup(group);
 			btn.setUserData(type);
-			Image image = ImageResource.get(type);
+			Image image = BuildingImageResource.get(type);
 			ImageView imageView = new ImageView(image);
 			btn.setGraphic(imageView);
 			getChildren().add(btn);

@@ -2,7 +2,7 @@ package projet.approche.objet.ui.view;
 
 import javafx.scene.image.Image;
 
-public enum ImageResource {
+public enum BuildingImageResource {
 
 	APARTMENTBUILDING("ApartmentBuilding.png"),
 	HOUSE("House.png"),
@@ -16,11 +16,11 @@ public enum ImageResource {
 
 	private final Image image;
 
-	public static final int size = 96;
+	public static final int size = 64;
 
-	ImageResource(String file) {
+	BuildingImageResource(String file) {
 		try {
-			this.image = new Image(ImageResource.class.getResourceAsStream("/images/" + file));
+			this.image = new Image(BuildingImageResource.class.getResourceAsStream("/images/" + file));
 			if (image.getWidth() != size && image.getHeight() != size) {
 				String msg = "File " + file + " does not have the correct size " + image.getWidth() + " x "
 						+ image.getHeight();
@@ -40,7 +40,7 @@ public enum ImageResource {
 		if (kind != null) {
 			// remove spaces
 			String str = kind.replaceAll("\\s+", "").toUpperCase();
-			return ImageResource.valueOf(str).image;
+			return BuildingImageResource.valueOf(str).image;
 		}
 		return null;
 	}

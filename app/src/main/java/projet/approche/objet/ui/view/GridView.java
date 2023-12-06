@@ -20,8 +20,8 @@ public class GridView extends BorderPane {
 		this.pickerView = pickerView;
 		this.app = app;
 		this.gridSize = app.getGridSize();
-		setPrefSize(gridSize * ImageResource.size,
-				gridSize * ImageResource.size);
+		setPrefSize(gridSize * BuildingImageResource.size,
+				gridSize * BuildingImageResource.size);
 		for (int i = 0; i < this.gridSize; i++) {
 			for (int j = 0; j < this.gridSize; j++) {
 				createTile(i, j);
@@ -30,8 +30,8 @@ public class GridView extends BorderPane {
 	}
 
 	private void createTile(int i, int j) {
-		int layoutX = i * ImageResource.size;
-		int layoutY = j * ImageResource.size;
+		int layoutX = i * BuildingImageResource.size;
+		int layoutY = j * BuildingImageResource.size;
 		String kind;
 		try {
 			kind = app.getBuildingType(i, j);
@@ -40,7 +40,7 @@ public class GridView extends BorderPane {
 		} catch (NotInGridException e) {
 			throw new RuntimeException(e); // should not happen
 		}
-		Tile tile = new Tile(ImageResource.get(kind), layoutX, layoutY);
+		Tile tile = new Tile(BuildingImageResource.get(kind), layoutX, layoutY);
 		getChildren().add(tile);
 		tile.setOnMouseClicked(e -> {
 			update(tile, i, j);
@@ -105,5 +105,9 @@ public class GridView extends BorderPane {
 			}
 			createTile(i, j);
 		}
+	}
+
+	public int getSize(){
+		return this.getSize();
 	}
 }
