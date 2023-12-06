@@ -7,6 +7,7 @@ import projet.approche.objet.application.App;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameAlreadyStarted;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameEnded;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameNotStarted;
+import projet.approche.objet.ui.view.GameView;
 import projet.approche.objet.ui.view.imageResource.ButtonImageResource;
 
 public class Button extends VBox {
@@ -16,7 +17,7 @@ public class Button extends VBox {
 	private static final ImageView play = new ImageView(ButtonImageResource.PLAY.getImage());
 	private static final ImageView pause = new ImageView(ButtonImageResource.PAUSE.getImage());
 
-	public Button(App app) {
+	public Button(GameView gv, App app) {
 		this.app = app;
 		this.button = new HBox();
 		button.setSpacing(4);
@@ -27,6 +28,7 @@ public class Button extends VBox {
 				case "NOTSTARTED":
 					try {
 						app.startGame();
+						gv.startUpdateLoop();
 					} catch (GameAlreadyStarted | GameEnded e1) {
 						this.update();
 						e1.printStackTrace();
@@ -36,6 +38,7 @@ public class Button extends VBox {
 				case "RUNNING":
 					try {
 						app.pauseGame();
+						gv.stopUpdateLoop();
 					} catch (GameNotStarted | GameEnded e1) {
 						this.update();
 						e1.printStackTrace();
