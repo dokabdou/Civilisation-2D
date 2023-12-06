@@ -36,7 +36,7 @@ public class GridView extends BorderPane {
 		try {
 			kind = app.getBuildingType(i, j);
 		} catch (NoBuildingHereException e) {
-			kind = null;
+			kind = "Empty";
 		} catch (NotInGridException e) {
 			throw new RuntimeException(e); // should not happen
 		}
