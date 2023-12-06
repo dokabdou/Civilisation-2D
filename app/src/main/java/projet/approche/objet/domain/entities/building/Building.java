@@ -143,35 +143,36 @@ public class Building implements BuildingItf {
 					// increase workers slowly
 					// produce more with less workers
 					this.addWorkerToBuilding(1);
-					this.type.setWorkersMax(this.type.getWorkersMax() * 2);
+					// this.type.setWorkersMax(this.type.getWorkersMax() * 2);
 
 					// increase production
 					// produce double the resources in the same amount of time
 					// multiplier will always be 2
-					Production newProduction = new Production(this.type.getProduction().time,
-							this.type.getProduction().multiplyResourceList(2));
+					// Production newProduction = new Production(this.type.getProduction().time,
+					// this.type.getProduction().multiplyResourceList(2));
 
-					this.type.setProduction(newProduction);
+					// this.type.setProduction(newProduction);
 				}
 
 				// increase consumption
 				if (this.type.equals(BuildingType.LUMBERMILL) || this.type.equals(BuildingType.CEMENTPLANT)
 						|| this.type.equals(BuildingType.STEELMILL) || this.type.equals(BuildingType.TOOLFACTORY)) {
 					//
-					Consumption newConsumption = new Consumption(this.type.getConsumption().time,
-							this.type.getConsumption().multiplyResourceList(2));
+					// Consumption newConsumption = new Consumption(this.type.getConsumption().time,
+					// this.type.getConsumption().multiplyResourceList(2));
 
-					this.type.setConsumption(newConsumption);
+					// this.type.setConsumption(newConsumption);
 				} else {
 					// double the number of inhabs with each upgrade
 					this.addInhabitantToBuilding(this.getInhabitants());
 
-					this.type.setInhabitantsMax(this.type.getInhabitantsMax() * 2);
+					// this.type.setInhabitantsMax(this.type.getInhabitantsMax() * 2);
 					// increase food consumption of the building
 					// food consumption is multiplied by 2 since the number of inhabs doubled
-					Consumption newFoodConsumption = new Consumption(this.type.getConsumption().time,
-							this.type.getFoodConsumption().multiplyResourceList(2));
-					this.type.setFoodConsumtion(newFoodConsumption);
+					// Consumption newFoodConsumption = new
+					// Consumption(this.type.getConsumption().time,
+					// this.type.getFoodConsumption().multiplyResourceList(2));
+					// this.type.setFoodConsumtion(newFoodConsumption);
 				}
 
 				// turn into a list
@@ -189,7 +190,7 @@ public class Building implements BuildingItf {
 						this.type.getConstructionNeeds().goldAmountForConstruction * this.level,
 						upgradeNeeds);
 
-				this.type.setConstructionNeeds(nextConstructionNeeds);
+				// this.type.setConstructionNeeds(nextConstructionNeeds);
 
 				this.level++;
 				return true;

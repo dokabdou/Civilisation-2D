@@ -125,14 +125,14 @@ public enum BuildingType {
 
 	public final String name;
 	public final String shortName;
-	private Consumption foodConsumption; // food consumption of the building
-	private ConstructionNeeds constructionNeeds; // needs for construction
-	private int workersNeeded; // min number of workers
-	private int workersMax; // max number of workers
-	private int inhabitantsNeeded; // min number of inhabitants
-	private int inhabitantsMax; // max number of inhabitants
-	private Consumption consumption;
-	private Production production;
+	private final Consumption foodConsumption; // food consumption of the building
+	private final ConstructionNeeds constructionNeeds; // needs for construction
+	private final int workersNeeded; // min number of workers
+	private final int workersMax; // max number of workers
+	private final int inhabitantsNeeded; // min number of inhabitants
+	private final int inhabitantsMax; // max number of inhabitants
+	private final Consumption consumption;
+	private final Production production;
 
 	private BuildingType(String name, String shortName, Consumption foodConsumption,
 			ConstructionNeeds constructionNeeds, int workersNeeded,
@@ -161,20 +161,12 @@ public enum BuildingType {
 		return workersMax;
 	}
 
-	public int setWorkersMax(int workersMax) {
-		return this.workersMax = workersMax;
-	}
-
 	public int getInhabitantsNeeded() {
 		return inhabitantsNeeded;
 	}
 
 	public int getInhabitantsMax() {
 		return inhabitantsMax;
-	}
-
-	public int setInhabitantsMax(int inhabitantsMax) {
-		return this.inhabitantsMax = inhabitantsMax;
 	}
 
 	public Consumption getFoodConsumption() {
@@ -187,22 +179,6 @@ public enum BuildingType {
 
 	public Production getProduction() {
 		return production;
-	}
-
-	public void setConstructionNeeds(ConstructionNeeds constructionNeeds) {
-		this.constructionNeeds = constructionNeeds;
-	}
-
-	public void setFoodConsumtion(Consumption foodConsumption) {
-		this.foodConsumption = foodConsumption;
-	}
-
-	public void setConsumption(Consumption consumption) {
-		this.consumption = consumption;
-	}
-
-	public void setProduction(Production production) {
-		this.production = production;
 	}
 
 	public static BuildingType fromString(String name) {
