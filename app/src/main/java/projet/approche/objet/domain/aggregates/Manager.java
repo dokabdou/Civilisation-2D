@@ -38,6 +38,8 @@ public class Manager {
 	private int inhabitants; // number of inhabitants
 	private int workers; // number of workers
 
+	private int day = 0; // number of days since the beginning of the game
+
 	private GameState state = GameState.NOTSTARTED;
 
 	private Grid grid; // buildings are in the grid
@@ -248,6 +250,8 @@ public class Manager {
 		} else if (state == GameState.PAUSED) {
 			throw new GamePaused();
 		} else if (state == GameState.RUNNING) {
+			// update the day
+			this.day++;
 			Collection<Building> buildings = this.grid.getBuildings();
 			for (Building building : buildings) {
 				resources = building.update(resources);
@@ -334,5 +338,9 @@ public class Manager {
 			cpt += building.getWorkers();
 		}
 		return cpt;
+	}
+
+	public int getDay() {
+		return day;
 	}
 }
