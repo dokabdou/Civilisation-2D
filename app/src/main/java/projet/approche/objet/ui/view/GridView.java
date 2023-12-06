@@ -15,7 +15,7 @@ import projet.approche.objet.domain.valueObject.grid.exceptions.NotFreeException
 import projet.approche.objet.domain.valueObject.grid.exceptions.NotInGridException;
 import projet.approche.objet.ui.view.imageResource.BuildingImageResource;
 
-public class GridView extends BorderPane {
+public class GridView extends BorderPane implements Updateable {
 	private final PickerView pickerView;
 	private final int gridSize;
 	private final App app;
@@ -28,11 +28,7 @@ public class GridView extends BorderPane {
 		this.updateables = updateables;
 		setPrefSize(gridSize * BuildingImageResource.size,
 				gridSize * BuildingImageResource.size);
-		for (int i = 0; i < this.gridSize; i++) {
-			for (int j = 0; j < this.gridSize; j++) {
-				createTile(i, j);
-			}
-		}
+		update();
 	}
 
 	private void createTile(int i, int j) {
@@ -50,7 +46,10 @@ public class GridView extends BorderPane {
 		getChildren().add(tile);
 		tile.setOnMouseClicked(e -> {
 			update(tile, i, j);
-			updateables.forEach(updateable -> updateable.update());
+			updateables.forEach(updateable -> {
+				if (updateable != this)
+					updateable.update();
+			});
 		});
 		ColorAdjust colorAdjust = new ColorAdjust();
 		colorAdjust.setBrightness(-0.2);
@@ -95,6 +94,15 @@ public class GridView extends BorderPane {
 						"You must have enough needs to build this building.");
 			}
 			createTile(i, j);
+		}
+	}
+
+	public void update() {
+		getChildren().clear();
+		for (int i = 0; i < this.gridSize; i++) {
+			for (int j = 0; j < this.gridSize; j++) {
+				createTile(i, j);
+			}
 		}
 	}
 
