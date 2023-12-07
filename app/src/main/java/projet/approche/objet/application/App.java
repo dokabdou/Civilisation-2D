@@ -6,7 +6,6 @@ import java.util.List;
 import projet.approche.objet.domain.aggregates.Manager;
 import projet.approche.objet.domain.entities.building.Building;
 import projet.approche.objet.domain.valueObject.building.BuildingType;
-import projet.approche.objet.domain.valueObject.building.exceptions.BuildingAlreadyStartedException;
 import projet.approche.objet.domain.valueObject.building.exceptions.NotBuiltException;
 import projet.approche.objet.domain.valueObject.building.exceptions.NotEnoughNeedsException;
 import projet.approche.objet.domain.valueObject.game.GameStarter;
@@ -80,7 +79,7 @@ public class App implements GameService, BuildingService, ResourceService {
 	 * @throws GamePaused if the game is not paused
 	 */
 	private void checkGameNotPaused() throws GamePaused {
-		if (!this.manager.getState().equals(GameState.PAUSED)) {
+		if (this.isGamePaused()) {
 			throw new GamePaused();
 		}
 	}
@@ -220,8 +219,18 @@ public class App implements GameService, BuildingService, ResourceService {
 	}
 
 	@Override
+	public boolean isGameRunning() {
+		return this.manager.getState().equals(GameState.RUNNING);
+	}
+
+	@Override
 	public boolean isGameEnded() {
 		return this.manager.getState().equals(GameState.ENDED);
+	}
+
+	@Override
+	public boolean isGamePaused() {
+		return this.manager.getState().equals(GameState.PAUSED);
 	}
 
 	@Override
@@ -232,5 +241,10 @@ public class App implements GameService, BuildingService, ResourceService {
 	@Override
 	public String getGameState() {
 		return this.manager.getState().toString();
+	}
+
+	@Override
+	public int getDay() {
+		return this.manager.getDay();
 	}
 }

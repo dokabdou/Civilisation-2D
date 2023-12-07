@@ -17,11 +17,15 @@ public interface GameService {
 
 	public boolean isGameStarted();
 
+	public boolean isGameRunning();
+
 	public boolean isGameEnded();
+
+	public boolean isGamePaused();
 
 	public String getGameState();
 
-	// public int getGameTime();
+	public int getDay();
 
 	public int getGridSize();
 }

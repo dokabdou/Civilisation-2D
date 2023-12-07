@@ -20,7 +20,7 @@ public enum GameStarter {
 			new ResourceList(List.of(
 					new Resource(GOLD, 15),
 					new Resource(WOOD, 15),
-					new Resource(FOOD, 15))),
+					new Resource(FOOD, 150))),
 			List.of(
 					new SimpleEntry<>(new Coordinate(0, 0), WOODENCABIN),
 					new SimpleEntry<>(new Coordinate(1, 0), HOUSE))),
@@ -28,7 +28,7 @@ public enum GameStarter {
 			new ResourceList(List.of(
 					new Resource(GOLD, 10),
 					new Resource(WOOD, 10),
-					new Resource(FOOD, 10))),
+					new Resource(FOOD, 100))),
 			List.of(
 					new SimpleEntry<>(new Coordinate(0, 0), WOODENCABIN),
 					new SimpleEntry<>(new Coordinate(1, 0), HOUSE))),
@@ -36,7 +36,7 @@ public enum GameStarter {
 			new ResourceList(List.of(
 					new Resource(GOLD, 5),
 					new Resource(WOOD, 5),
-					new Resource(FOOD, 5))),
+					new Resource(FOOD, 50))),
 			List.of(new SimpleEntry<>(new Coordinate(0, 0), WOODENCABIN)));
 
 	public final int inhabitants;
