@@ -4,12 +4,16 @@ import java.util.List;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Tooltip;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.BorderPane;
 import projet.approche.objet.application.App;
+import projet.approche.objet.domain.entities.building.Building;
+import projet.approche.objet.domain.valueObject.building.BuildingType;
 import projet.approche.objet.domain.valueObject.building.exceptions.NotEnoughNeedsException;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameEnded;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameNotStarted;
+import projet.approche.objet.domain.valueObject.grid.Coordinate;
 import projet.approche.objet.domain.valueObject.grid.exceptions.NoBuildingHereException;
 import projet.approche.objet.domain.valueObject.grid.exceptions.NotFreeException;
 import projet.approche.objet.domain.valueObject.grid.exceptions.NotInGridException;
@@ -31,7 +35,7 @@ public class GridView extends BorderPane implements Updateable {
 		update();
 	}
 
-	private void createTile(int i, int j) {
+	private void createTile(int i, int j) throws NoBuildingHereException, NotInGridException {
 		int layoutX = i * BuildingImageResource.size;
 		int layoutY = j * BuildingImageResource.size;
 		String kind;
@@ -43,9 +47,19 @@ public class GridView extends BorderPane implements Updateable {
 			throw new RuntimeException(e); // should not happen
 		}
 		Tile tile = new Tile(BuildingImageResource.get(kind), layoutX, layoutY);
+		if (kind != "Empty") {
+			String info = app.getManager().getGrid().getBuilding(new Coordinate(i, j)).toString();
+			Tooltip tooltip = new Tooltip(info);
+			Tooltip.install(tile, tooltip);
+		}
+
 		getChildren().add(tile);
 		tile.setOnMouseClicked(e -> {
-			update(tile, i, j);
+			try {
+				update(tile, i, j);
+			} catch (NoBuildingHereException | NotInGridException e1) {
+				e1.printStackTrace();
+			}
 			updateables.forEach(updateable -> {
 				if (updateable != this)
 					updateable.update();
@@ -61,7 +75,7 @@ public class GridView extends BorderPane implements Updateable {
 		});
 	}
 
-	private void update(Tile tile, int i, int j) {
+	private void update(Tile tile, int i, int j) throws NoBuildingHereException, NotInGridException {
 		String kind;
 		try {
 			kind = app.getBuildingType(i, j);
@@ -101,7 +115,11 @@ public class GridView extends BorderPane implements Updateable {
 		getChildren().clear();
 		for (int i = 0; i < this.gridSize; i++) {
 			for (int j = 0; j < this.gridSize; j++) {
-				createTile(i, j);
+				try {
+					createTile(i, j);
+				} catch (NoBuildingHereException | NotInGridException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

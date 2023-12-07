@@ -84,6 +84,10 @@ public class App implements GameService, BuildingService, ResourceService {
 		}
 	}
 
+	public Manager getManager() {
+		return this.manager;
+	}
+
 	@Override
 	public int getResourceQuantity(String resourceType) {
 		return this.manager.getResources().getAmount(ResourceType.valueOf(resourceType)).value;

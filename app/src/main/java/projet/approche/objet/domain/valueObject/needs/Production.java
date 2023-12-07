@@ -30,6 +30,6 @@ public class Production extends Needs {
 
 	@Override
 	public String toString() {
-		return "\nProduction per day : \n" + resources;
+		return "\nProduction per " + time + " day(s) : \n" + resources;
 	}
 }

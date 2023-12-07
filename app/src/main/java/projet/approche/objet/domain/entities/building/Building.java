@@ -204,10 +204,18 @@ public class Building implements BuildingItf {
 	}
 
 	public String toString() {
-		return this.type.name + ":" + this.id;
+		if (isBuilt) {
+			return type.name + " (level " + level + ") :\n\nNumber of inhabitants : " + inhabitants
+					+ "\nNumber of workers : " + workers + "\n"
+					+ type.getConsumption()
+					+ type.getProduction();
+		} else if (buildStarted) {
+			return type.name + ":\nUnder construction";
+		}
+		return "";
 	}
 
 	public String toShortString() {
-		return this.type.shortName + ":" + this.id;
+		return type.shortName + ":" + id;
 	}
 }
