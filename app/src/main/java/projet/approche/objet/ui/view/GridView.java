@@ -84,7 +84,7 @@ public class GridView extends BorderPane implements Updateable {
 		} catch (NotInGridException e) {
 			throw new RuntimeException(e); // should not happen
 		}
-		if (pickerView.getSelected() != null && pickerView.getSelected() != kind) {
+		if (pickerView.getSelected() != null && !pickerView.getSelected().equals(kind)) {
 			getChildren().remove(tile);
 			try {
 				app.buildBuilding(pickerView.getSelected(), i, j);

@@ -59,6 +59,7 @@ public class Building implements BuildingItf {
 	 * @return the remaining resources after the production and consumption
 	 */
 	public ResourceList update(ResourceList inventory) {
+		ResourceList returnList = new ResourceList();
 		if (isBuilt) { // if the building is built verify if it can produce
 			if (this.workers >= this.type.getWorkersNeeded() && this.inhabitants >= this.type.getInhabitantsNeeded()) {
 				time++;
@@ -67,13 +68,13 @@ public class Building implements BuildingItf {
 					// the same value
 					if (this.type.getConsumption().isAffordable(inventory)) { // verify if the building have enough
 																				// resources
-						inventory = this.type.getConsumption().getRemainingResources(inventory); // consume resources
+						returnList = this.type.getConsumption().getRemainingResources(inventory); // consume resources
 																									// from
 						// inventory
-						inventory = this.type.getProduction().harvestProduction(inventory); // produce resources in
-																							// inventory
+						returnList = this.type.getProduction().harvestProduction(returnList); // produce resources in
+																								// inventory
 						this.time = 0; // reset the time since last production
-						return inventory;
+						return returnList;
 					}
 				}
 			}

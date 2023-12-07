@@ -118,15 +118,18 @@ public class Needs {
 		if (this.resources.isEmpty())
 			return resources;
 		ResourceList remainingResources = new ResourceList();
-		for (Resource needs : this.resources) {
-			for (Resource resource : resources) {
+		for (Resource resource : resources) {
+			boolean found = false;
+			for (Resource needs : this.resources) {
 				if (resource.type.equals(needs.type)) {
 					if (resource.amount.isGreater(needs.amount))
 						remainingResources = remainingResources
 								.add(new Resource(needs.type, resource.amount.sub(needs.amount)));
-				} else {
-					remainingResources = remainingResources.add(resource);
+					found = true;
 				}
+			}
+			if (!found) {
+				remainingResources = remainingResources.add(resource);
 			}
 		}
 		return remainingResources;
