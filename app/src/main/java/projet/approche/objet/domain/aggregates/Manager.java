@@ -27,6 +27,7 @@ import projet.approche.objet.domain.valueObject.resource.ResourceList;
 import projet.approche.objet.domain.valueObject.resource.ResourceType;
 import projet.approche.objet.domain.valueObject.resource.exceptions.NotEnoughResourceException;
 import projet.approche.objet.domain.valueObject.resource.exceptions.ResourceNotFoundException;
+import projet.approche.objet.ui.view.infoBar.Inventory;
 
 public class Manager {
 	private static Long count = Long.valueOf(0);
@@ -54,15 +55,35 @@ public class Manager {
 		this.resources = gameStarter.startingResources;
 		this.grid = new Grid(gridSize);
 		for (var coordinate : gameStarter.startingBuildings.keySet()) {
+			Building starterBuilding = new Building(gameStarter.startingBuildings.get(coordinate),
+					++idBuildings);
 			try {
-				this.grid = this.grid.setBuilding(
-						new Building(gameStarter.startingBuildings.get(coordinate), ++idBuildings), coordinate);
+				starterBuilding.startBuild(getInfiniteResources());
+			} catch (NotEnoughNeedsException | BuildingAlreadyStartedException e) {
+				// Shouldn't happen since it's a gameStarter otherwise throw an exception
+				throw new RuntimeException(e);
+			}
+			while (!starterBuilding.isBuilt()) {
+				starterBuilding.update(getInfiniteResources());
+			}
+			starterBuilding.addInhabitantToBuilding(starterBuilding.type.getInhabitantsMax());
+			starterBuilding.addWorkerToBuilding(starterBuilding.type.getWorkersMax());
+			try {
+				this.grid = this.grid.setBuilding(starterBuilding, coordinate);
+
 			} catch (NotInGridException | NotFreeException e) {
 				// Shouldn't happen since it's a gameStarter otherwise throw an exception
 				throw new RuntimeException(e);
 			}
 		}
-		this.grid = new Grid(gridSize);
+	}
+
+	private ResourceList getInfiniteResources() {
+		ResourceList infiniteInv = new ResourceList();
+		for (var resourceType : ResourceType.values()) {
+			infiniteInv = infiniteInv.add(new Resource(resourceType, new ResourceAmount(1000000)));
+		}
+		return infiniteInv;
 	}
 
 	public Long getId() {
