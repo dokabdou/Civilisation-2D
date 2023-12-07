@@ -23,6 +23,8 @@ public class Inventory extends VBox implements Updateable {
 	private final Text cement = new Text();
 	private final Text lumber = new Text();
 	private final Text tools = new Text();
+	private final Text person = new Text();
+	private final Text worker = new Text();
 
 	public Inventory(App app) {
 		this.app = app;
@@ -39,8 +41,11 @@ public class Inventory extends VBox implements Updateable {
 		HBox cementGroup = infoGroup(ResourceImageResource.CEMENT.getImage(), this.cement);
 		HBox lumberGroup = infoGroup(ResourceImageResource.LUMBER.getImage(), this.lumber);
 		HBox toolsGroup = infoGroup(ResourceImageResource.TOOLS.getImage(), this.tools);
+		HBox personGroup = infoGroup(ResourceImageResource.PERSON.getImage(), this.person);
+		HBox workerGroup = infoGroup(ResourceImageResource.WORKER.getImage(), this.worker);
+
 		getChildren().addAll(goldGroup, foodGroup, woodGroup, stoneGroup, coalGroup, ironGroup, steelGroup, cementGroup,
-				lumberGroup, toolsGroup);
+				lumberGroup, toolsGroup, personGroup, workerGroup);
 	}
 
 	private HBox infoGroup(Image kind, Text number) {
@@ -65,5 +70,7 @@ public class Inventory extends VBox implements Updateable {
 		cement.setText(Integer.toString(this.app.getResourceQuantity("CEMENT")));
 		lumber.setText(Integer.toString(this.app.getResourceQuantity("LUMBER")));
 		tools.setText(Integer.toString(this.app.getResourceQuantity("TOOLS")));
+		person.setText(Integer.toString(this.app.getInhabitantsNumber()));
+		worker.setText(Integer.toString(this.app.getWorkersNumber()));
 	}
 }
