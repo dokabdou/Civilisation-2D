@@ -10,7 +10,9 @@ public enum ResourceType implements ResourceItf {
 	STEEL("Steel", "St"),
 	CEMENT("Cement", "Ce"),
 	LUMBER("Lumber", "L"),
-	TOOLS("Tools", "T");
+	TOOLS("Tools", "T"),
+	INHABITANTS("Inhabitants", "P"),
+	WORKERS("Workers", "W");
 
 	public final String name;
 	public final String shortName;

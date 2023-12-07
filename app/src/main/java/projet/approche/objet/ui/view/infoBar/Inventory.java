@@ -1,6 +1,7 @@
 package projet.approche.objet.ui.view.infoBar;
 
 import javafx.geometry.Insets;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -31,26 +32,29 @@ public class Inventory extends VBox implements Updateable {
 		this.setSpacing(5);
 		this.setPadding(new Insets(5));
 
-		HBox goldGroup = infoGroup(ResourceImageResource.GOLD.getImage(), this.gold);
-		HBox foodGroup = infoGroup(ResourceImageResource.FOOD.getImage(), this.food);
-		HBox woodGroup = infoGroup(ResourceImageResource.WOOD.getImage(), this.wood);
-		HBox stoneGroup = infoGroup(ResourceImageResource.STONE.getImage(), this.stone);
-		HBox coalGroup = infoGroup(ResourceImageResource.COAL.getImage(), this.coal);
-		HBox ironGroup = infoGroup(ResourceImageResource.IRON.getImage(), this.iron);
-		HBox steelGroup = infoGroup(ResourceImageResource.STEEL.getImage(), this.steel);
-		HBox cementGroup = infoGroup(ResourceImageResource.CEMENT.getImage(), this.cement);
-		HBox lumberGroup = infoGroup(ResourceImageResource.LUMBER.getImage(), this.lumber);
-		HBox toolsGroup = infoGroup(ResourceImageResource.TOOLS.getImage(), this.tools);
-		HBox personGroup = infoGroup(ResourceImageResource.PERSON.getImage(), this.person);
-		HBox workerGroup = infoGroup(ResourceImageResource.WORKER.getImage(), this.worker);
+		HBox goldGroup = infoGroup("Gold", this.gold);
+		HBox foodGroup = infoGroup("Food", this.food);
+		HBox woodGroup = infoGroup("Wood", this.wood);
+		HBox stoneGroup = infoGroup("Stone", this.stone);
+		HBox coalGroup = infoGroup("Coal", this.coal);
+		HBox ironGroup = infoGroup("Iron", this.iron);
+		HBox steelGroup = infoGroup("Steel", this.steel);
+		HBox cementGroup = infoGroup("Cement", this.cement);
+		HBox lumberGroup = infoGroup("Lumber", this.lumber);
+
+		HBox toolsGroup = infoGroup("Tools", this.tools);
+		HBox inhabitantsGroup = infoGroup("Inhabitants", this.person);
+		HBox workersGroup = infoGroup("Workers", this.worker);
 
 		getChildren().addAll(goldGroup, foodGroup, woodGroup, stoneGroup, coalGroup, ironGroup, steelGroup, cementGroup,
-				lumberGroup, toolsGroup, personGroup, workerGroup);
+				lumberGroup, toolsGroup, inhabitantsGroup, workersGroup);
 	}
 
-	private HBox infoGroup(Image kind, Text number) {
+	private HBox infoGroup(String kind, Text number) {
 		HBox group = new HBox();
-		ImageView img = new ImageView(kind);
+		ImageView img = new ImageView(ResourceImageResource.get(kind));
+		Tooltip tooltip = new Tooltip(kind);
+		Tooltip.install(img, tooltip);
 		group.setSpacing(4);
 		number.setCache(true);
 		number.setFill(Color.BLACK);

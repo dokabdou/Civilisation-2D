@@ -14,8 +14,8 @@ public enum ResourceImageResource {
 	CEMENT("Cement.png"),
 	LUMBER("Lumber.png"),
 	TOOLS("Tools.png"),
-	PERSON("Person.png"),
-	WORKER("Worker.png");
+	INHABITANTS("Inhabitants.png"),
+	WORKERS("Workers.png");
 
 	private final Image image;
 
