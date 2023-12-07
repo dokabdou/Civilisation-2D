@@ -17,7 +17,7 @@ public class GameView extends BorderPane {
 	private final GridView gridView;
 	private final InfoBar infoBar;
 	private AnimationTimer gameLoop;
-	private Timer timer = new Timer(1500);
+	private Timer timer = new Timer(10000);
 
 	public GameView(Stage stage, App app) {
 		// Tile picker

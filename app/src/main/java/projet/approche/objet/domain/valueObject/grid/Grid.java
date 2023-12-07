@@ -7,6 +7,7 @@ import projet.approche.objet.domain.entities.building.Building;
 import projet.approche.objet.domain.valueObject.grid.exceptions.NoBuildingHereException;
 import projet.approche.objet.domain.valueObject.grid.exceptions.NotFreeException;
 import projet.approche.objet.domain.valueObject.grid.exceptions.NotInGridException;
+import projet.approche.objet.domain.valueObject.resource.ResourceList;
 
 public class Grid {
 

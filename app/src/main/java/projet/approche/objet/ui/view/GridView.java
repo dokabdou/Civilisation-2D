@@ -7,12 +7,16 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Tooltip;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.input.MouseButton;
+
 import projet.approche.objet.application.App;
 import projet.approche.objet.domain.entities.building.Building;
 import projet.approche.objet.domain.valueObject.building.BuildingType;
 import projet.approche.objet.domain.valueObject.building.exceptions.NotEnoughNeedsException;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameEnded;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameNotStarted;
+import projet.approche.objet.domain.valueObject.game.exceptions.NotEnoughInhabitants;
+import projet.approche.objet.domain.valueObject.game.exceptions.NotEnoughWorkers;
 import projet.approche.objet.domain.valueObject.grid.Coordinate;
 import projet.approche.objet.domain.valueObject.grid.exceptions.NoBuildingHereException;
 import projet.approche.objet.domain.valueObject.grid.exceptions.NotFreeException;
@@ -55,15 +59,15 @@ public class GridView extends BorderPane implements Updateable {
 
 		getChildren().add(tile);
 		tile.setOnMouseClicked(e -> {
-			try {
-				update(tile, i, j);
-			} catch (NoBuildingHereException | NotInGridException e1) {
-				e1.printStackTrace();
-			}
-			updateables.forEach(updateable -> {
-				if (updateable != this)
-					updateable.update();
-			});
+				try {
+					update(tile, i, j, e.getButton());
+				} catch (NoBuildingHereException | NotInGridException e1) {
+					e1.printStackTrace();
+				}
+				updateables.forEach(updateable -> {
+					if (updateable != this)
+						updateable.update();
+				});
 		});
 		ColorAdjust colorAdjust = new ColorAdjust();
 		colorAdjust.setBrightness(-0.2);
@@ -75,7 +79,7 @@ public class GridView extends BorderPane implements Updateable {
 		});
 	}
 
-	private void update(Tile tile, int i, int j) throws NoBuildingHereException, NotInGridException {
+	private void update(Tile tile, int i, int j, MouseButton button) throws NoBuildingHereException, NotInGridException {
 		String kind;
 		try {
 			kind = app.getBuildingType(i, j);
@@ -84,30 +88,50 @@ public class GridView extends BorderPane implements Updateable {
 		} catch (NotInGridException e) {
 			throw new RuntimeException(e); // should not happen
 		}
-		if (pickerView.getSelected() != null && !pickerView.getSelected().equals(kind)) {
-			getChildren().remove(tile);
-			try {
-				app.buildBuilding(pickerView.getSelected(), i, j);
-			} catch (GameNotStarted e) {
-				// Open a window saying that the game is not started
-				this.popUp("Game not started", "Game not started...",
-						"You must start a new game before building.");
-			} catch (GameEnded e) {
-				// Open a window saying that the game is ended
-				this.popUp("Game ended", "Game ended...",
-						"You must start a new game before building.");
-			} catch (NotInGridException e) {
-				throw new RuntimeException(e); // should not happen
-			} catch (NotFreeException e) {
-				// Open a window saying that the tile is not free
-				this.popUp("Tile not free", "Tile not free...",
-						"You must build on a free tile.");
-			} catch (NotEnoughNeedsException e) {
-				// Open a window saying that the tile is not free
-				this.popUp("Not enough needs", "Not enough needs...",
-						"You must have enough needs to build this building.");
+		if (button == MouseButton.PRIMARY){
+			if (pickerView.getSelected() != null && !pickerView.getSelected().equals(kind)) {
+				getChildren().remove(tile);
+				try {
+					app.buildBuilding(pickerView.getSelected(), i, j);
+				} catch (GameNotStarted e) {
+					// Open a window saying that the game is not started
+					this.popUp("Game not started", "Game not started...",
+							"You must start a new game before building.");
+				} catch (GameEnded e) {
+					// Open a window saying that the game is ended
+					this.popUp("Game ended", "Game ended...",
+							"You must start a new game before building.");
+				} catch (NotInGridException e) {
+					throw new RuntimeException(e); // should not happen
+				} catch (NotFreeException e) {
+					// Open a window saying that the tile is not free
+					this.popUp("Tile not free", "Tile not free...",
+							"You must build on a free tile.");
+				} catch (NotEnoughNeedsException e) {
+					// Open a window saying that the tile is not free
+					this.popUp("Not enough needs", "Not enough needs...",
+							"You must have enough needs to build this building.");
+				}
+				createTile(i, j);
 			}
-			createTile(i, j);
+		} else if (button == MouseButton.SECONDARY) {
+			if (kind != null) {
+				getChildren().remove(tile);
+				try {
+					app.DestroyBuilding(i, j);
+				} catch (GameNotStarted e) {
+					// Open a window saying that the game is not started
+					this.popUp("Game not started", "Game not started...",
+							"You must start a new game before destroying.");
+				} catch (GameEnded e) {
+					// Open a window saying that the game is ended
+					this.popUp("Game ended", "Game ended...",
+							"You must start a new game before destroying.");
+				} catch (NotInGridException e) {
+					throw new RuntimeException(e); // should not happen
+				}
+				createTile(i, j);
+			}
 		}
 	}
 
