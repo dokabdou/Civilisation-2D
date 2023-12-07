@@ -141,6 +141,11 @@ public class App implements GameService, BuildingService, ResourceService {
 	}
 
 	@Override
+	public boolean isBuildingAffordable(String buildingType) {
+		return this.manager.isBuildingAffordable(BuildingType.valueOf(buildingType));
+	}
+
+	@Override
 	public void buildBuilding(String buildingType, int x, int y)
 			throws GameNotStarted, GameEnded, NotInGridException, NotFreeException, NotEnoughNeedsException {
 		checkGameStarted();

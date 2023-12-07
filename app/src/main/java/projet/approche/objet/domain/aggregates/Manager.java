@@ -116,6 +116,10 @@ public class Manager {
 		return resources;
 	}
 
+	public boolean isBuildingAffordable(BuildingType buildingType) {
+		return buildingType.getConstructionNeeds().isAffordable(resources);
+	}
+
 	/**
 	 * @brief Build a building on the grid at the given coordinate with the given
 	 *        type of building and start the building process of the building
