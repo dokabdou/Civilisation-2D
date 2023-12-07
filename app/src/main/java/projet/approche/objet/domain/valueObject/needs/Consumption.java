@@ -15,6 +15,6 @@ public class Consumption extends Needs {
 
 	@Override
 	public String toString() {
-		return "[time=" + time + ", resources=" + resources + "]";
+		return "\nConsumption per day : \n" + resources;
 	}
 }

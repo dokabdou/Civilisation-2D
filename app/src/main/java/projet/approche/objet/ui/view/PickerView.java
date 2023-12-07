@@ -4,10 +4,12 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import projet.approche.objet.application.App;
+import projet.approche.objet.domain.valueObject.building.BuildingType;
 import projet.approche.objet.ui.view.imageResource.BuildingImageResource;
 
 public class PickerView extends HBox implements Updateable {
@@ -24,6 +26,10 @@ public class PickerView extends HBox implements Updateable {
 			Image image = BuildingImageResource.get(type);
 			ImageView imageView = new ImageView(image);
 			btn.setGraphic(imageView);
+			String info = BuildingType.valueOf(type).getStats();
+
+			Tooltip tooltip = new Tooltip(info);
+			Tooltip.install(btn, tooltip);
 			getChildren().add(btn);
 		}
 	}

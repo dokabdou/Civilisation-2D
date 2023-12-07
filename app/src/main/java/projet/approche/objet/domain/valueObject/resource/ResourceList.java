@@ -179,6 +179,10 @@ public class ResourceList implements Iterable<Resource> {
 
 	@Override
 	public String toString() {
-		return "[resources=" + resources + "]";
+		String str = "";
+		for (Resource resource : this.resources) {
+			str += "  - " + resource.toString() + "\n";
+		}
+		return str;
 	}
 }

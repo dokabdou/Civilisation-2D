@@ -133,7 +133,7 @@ public class App implements GameService, BuildingService, ResourceService {
 
 	@Override
 	public String getBuildingStats(String buildingType) {
-		return BuildingType.valueOf(buildingType).getStats();
+		return BuildingType.valueOf(buildingType).toString();
 	}
 
 	@Override

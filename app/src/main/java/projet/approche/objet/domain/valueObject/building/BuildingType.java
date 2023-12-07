@@ -191,9 +191,11 @@ public enum BuildingType {
 	}
 
 	public String getStats() {
-		return "[name=" + name + ", shortName=" + shortName + ", constructionNeeds=" + constructionNeeds
-				+ ", workersNeeded=" + workersNeeded + ", workersMax=" + workersMax + ", inhabitantsNeeded="
-				+ inhabitantsNeeded + ", inhabitantsMax=" + inhabitantsMax + ", consumption=" + consumption.resources
-				+ ", production=" + production.resources + ", timeForProduction=" + production.time + "]";
+
+		return name + " :\n\nNumber of inhabitants(min-max) : " + inhabitantsNeeded + "-" + inhabitantsMax
+				+ "\nNumber of workers(min-max) : " + workersNeeded + "-" + workersMax + "\n"
+				+ constructionNeeds
+				+ consumption
+				+ production;
 	}
 }

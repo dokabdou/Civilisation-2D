@@ -17,7 +17,7 @@ public class ConstructionNeeds extends Needs {
 
 	@Override
 	public String toString() {
-		return "[time=" + time + ", gold=" + goldAmountForConstruction + ", resources=" + resources
-				+ "]";
+		return "Construction cost : " + goldAmountForConstruction + " gold\nConstruction duration : " + time
+				+ " days\nConstruction materials needed : \n" + resources;
 	}
 }
