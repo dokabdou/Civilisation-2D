@@ -3,7 +3,7 @@ package projet.approche.objet.ui.view;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.concurrent.Task;
+import javafx.animation.AnimationTimer;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import projet.approche.objet.application.App;
@@ -16,8 +16,8 @@ public class GameView extends BorderPane {
 	private final PickerView pickerView;
 	private final GridView gridView;
 	private final InfoBar infoBar;
-	private Task<Void> updateTask;
-	private Thread thread;
+	private AnimationTimer gameLoop;
+	private Timer timer = new Timer(1500);
 
 	public GameView(Stage stage, App app) {
 		// Tile picker
@@ -38,30 +38,29 @@ public class GameView extends BorderPane {
 
 		updateables.add(gridView);
 
-		updateTask = new Task<>() {
+		// Update loop
+		this.gameLoop = new AnimationTimer() {
 			@Override
-			protected Void call() throws InterruptedException {
-				while (true) {
-					Thread.sleep(1000);
+			public void handle(long now) {
+				if (timer.isRunning()) {
+					timer.update(now);
+				} else {
+					timer.start();
 					try {
 						app.update();
-						updateables.forEach(updateable -> updateable.update());
+						updateables.forEach(Updateable::update);
 					} catch (GameNotStarted | GameEnded | GamePaused e) {
-						updateMessage(e.getMessage());
-						break;
 					}
 				}
-				return null;
 			}
 		};
 	}
 
-	public void startUpdateLoop() {
-		thread = new Thread(updateTask, "UpdateTask");
-		thread.start();
+	public void start() {
+		this.gameLoop.start();
 	}
 
-	public void stopUpdateLoop() {
-		thread.interrupt();
+	public void stop() {
+		this.gameLoop.stop();
 	}
 }

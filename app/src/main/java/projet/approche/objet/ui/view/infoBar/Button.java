@@ -8,14 +8,16 @@ import projet.approche.objet.domain.valueObject.game.exceptions.GameAlreadyStart
 import projet.approche.objet.domain.valueObject.game.exceptions.GameEnded;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameNotStarted;
 import projet.approche.objet.ui.view.GameView;
+import projet.approche.objet.ui.view.Updateable;
 import projet.approche.objet.ui.view.imageResource.ButtonImageResource;
 
-public class Button extends VBox {
+public class Button extends VBox implements Updateable {
 
 	private final App app;
 	private HBox button;
 	private static final ImageView play = new ImageView(ButtonImageResource.PLAY.getImage());
 	private static final ImageView pause = new ImageView(ButtonImageResource.PAUSE.getImage());
+	private String lastState = "NOTSTARTED";
 
 	public Button(GameView gv, App app) {
 		this.app = app;
@@ -28,20 +30,25 @@ public class Button extends VBox {
 				case "NOTSTARTED":
 					try {
 						app.startGame();
-						gv.startUpdateLoop();
+						gv.start();
 					} catch (GameAlreadyStarted | GameEnded e1) {
-						this.update();
-						e1.printStackTrace();
+						throw new RuntimeException(e1); // should not happen
 					}
 					break;
 				case "PAUSED":
-				case "RUNNING":
+					gv.start();
 					try {
 						app.pauseGame();
-						gv.stopUpdateLoop();
 					} catch (GameNotStarted | GameEnded e1) {
-						this.update();
-						e1.printStackTrace();
+						throw new RuntimeException(e1); // should not happen
+					}
+					break;
+				case "RUNNING":
+					gv.stop();
+					try {
+						app.pauseGame();
+					} catch (GameNotStarted | GameEnded e1) {
+						throw new RuntimeException(e1); // should not happen
 					}
 					break;
 				case "ENDED":
@@ -59,12 +66,16 @@ public class Button extends VBox {
 		switch (app.getGameState()) {
 			case "NOTSTARTED":
 			case "PAUSED":
-				button.getChildren().clear();
-				button.getChildren().addAll(play);
+				if (!lastState.equals("PAUSED")) {
+					button.getChildren().clear();
+					button.getChildren().addAll(play);
+				}
 				break;
 			case "RUNNING":
-				button.getChildren().clear();
-				button.getChildren().addAll(pause);
+				if (!lastState.equals("RUNNING")) {
+					button.getChildren().clear();
+					button.getChildren().addAll(pause);
+				}
 				break;
 			case "ENDED":
 				// TODO: restart game
@@ -72,6 +83,7 @@ public class Button extends VBox {
 			default:
 				break;
 		}
+		this.lastState = app.getGameState();
 	}
 
 }

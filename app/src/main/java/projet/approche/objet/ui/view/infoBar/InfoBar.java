@@ -10,23 +10,29 @@ public class InfoBar extends BorderPane implements Updateable {
 
 	private final Inventory inventory;
 	private final Button button;
+	private final App app;
+	private Text day = new Text();
 
 	public InfoBar(GameView gv, App app) {
 		this.inventory = new Inventory(app);
 		this.button = new Button(gv, app);
+		day.setFill(javafx.scene.paint.Color.BLACK);
+		day.getStyleClass().add("number");
+		day.setCache(true);
+		this.app = app;
 		this.setRight(inventory);
 		this.setLeft(button);
 		// show a text with the current day of the game
-		Text day = new Text();
-		day.setCache(true);
-		day.setFill(javafx.scene.paint.Color.BLACK);
-		day.getStyleClass().add("number");
-		day.setText("Day " + app.getDay());
-		this.setCenter(day);
 	}
 
 	public void update() {
 		this.inventory.update();
 		this.button.update();
+		this.updateDay();
+	}
+
+	public void updateDay() {
+		day.setText("Day " + app.getDay());
+		this.setCenter(day);
 	}
 }
