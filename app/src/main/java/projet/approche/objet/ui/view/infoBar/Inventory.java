@@ -8,9 +8,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import projet.approche.objet.application.App;
+import projet.approche.objet.ui.view.Updateable;
 import projet.approche.objet.ui.view.imageResource.ResourceImageResource;
 
-public class Inventory extends VBox {
+public class Inventory extends VBox implements Updateable {
 	private final App app;
 	private final Text gold = new Text();
 	private final Text food = new Text();

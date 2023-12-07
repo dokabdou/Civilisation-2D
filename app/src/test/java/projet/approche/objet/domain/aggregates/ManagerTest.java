@@ -39,6 +39,8 @@ class ManagerTest {
 	void setUp() {
 		gameStarter = GameStarter.EASY;
 		manager = new Manager(gameStarter, 10);
+		assertDoesNotThrow(() -> manager.destroyBuilding(new Coordinate(0, 0)));
+		assertDoesNotThrow(() -> manager.destroyBuilding(new Coordinate(1, 0)));
 		this.inventory = new ResourceList(
 				List.of(new Resource(ResourceType.GOLD, 100), new Resource(ResourceType.WOOD, 100),
 						new Resource(ResourceType.STONE, 100), new Resource(ResourceType.FOOD, 100)));

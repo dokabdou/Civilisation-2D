@@ -70,9 +70,8 @@ public class Building implements BuildingItf {
 						inventory = this.type.getConsumption().getRemainingResources(inventory); // consume resources
 																									// from
 						// inventory
-						inventory = this.type.getProduction().havestProduction(inventory); // produce resources in
+						inventory = this.type.getProduction().harvestProduction(inventory); // produce resources in
 																							// inventory
-						// TODO : correct havestProduction to harvestProduction everywhere
 						this.time = 0; // reset the time since last production
 						return inventory;
 					}
@@ -82,6 +81,7 @@ public class Building implements BuildingItf {
 			time++;
 			if (time >= type.getConstructionNeeds().time) {
 				isBuilt = true;
+				time = 0;
 			}
 		}
 		// else the building is not built and the construction did not start so nothing

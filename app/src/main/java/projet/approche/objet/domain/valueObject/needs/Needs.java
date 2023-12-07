@@ -115,6 +115,8 @@ public class Needs {
 	 * @return the remaining resources
 	 */
 	public ResourceList getRemainingResources(ResourceList resources) {
+		if (this.resources.isEmpty())
+			return resources;
 		ResourceList remainingResources = new ResourceList();
 		for (Resource needs : this.resources) {
 			for (Resource resource : resources) {
@@ -122,6 +124,8 @@ public class Needs {
 					if (resource.amount.isGreater(needs.amount))
 						remainingResources = remainingResources
 								.add(new Resource(needs.type, resource.amount.sub(needs.amount)));
+				} else {
+					remainingResources = remainingResources.add(resource);
 				}
 			}
 		}

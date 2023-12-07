@@ -24,7 +24,7 @@ public class Production extends Needs {
 	 * @param toAdd the resources where the production will be added
 	 * @return a new ResourceList with the production added
 	 */
-	public ResourceList havestProduction(ResourceList toAdd) {
+	public ResourceList harvestProduction(ResourceList toAdd) {
 		return this.resources.add(toAdd);
 	}
 
