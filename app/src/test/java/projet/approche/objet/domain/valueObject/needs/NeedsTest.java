@@ -11,12 +11,13 @@ import projet.approche.objet.domain.valueObject.resource.exceptions.ResourceNotF
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class NeedsTest {
 	@Test
 	void testConstructor() {
-		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
+		Resource gold = new Resource(ResourceType.GOLD, 10);
 		Needs needs = new Needs(5, gold);
 		assertEquals(5, needs.time);
 		assertTrue(needs.resources.contains(gold));
@@ -24,7 +25,7 @@ class NeedsTest {
 
 	@Test
 	void testEquals() {
-		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
+		Resource gold = new Resource(ResourceType.GOLD, 10);
 		Needs needs1 = new Needs(5, gold);
 		Needs needs2 = new Needs(5, gold);
 
@@ -33,20 +34,20 @@ class NeedsTest {
 
 	@Test
 	void testAdd() {
-		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
+		Resource gold = new Resource(ResourceType.GOLD, 10);
 		Needs needs1 = new Needs(5, gold);
 		Needs needs2 = new Needs(5, gold);
 
 		Needs result = needs1.add(needs2);
 
 		assertEquals(10, result.time);
-		assertTrue(result.resources.contains(new Resource(ResourceType.fromString("Gold"), 20)));
+		assertTrue(result.resources.contains(new Resource(ResourceType.GOLD, 20)));
 	}
 
 	@Test
 	void testSub() {
-		Resource gold10 = new Resource(ResourceType.fromString("Gold"), 10);
-		Resource gold20 = new Resource(ResourceType.fromString("Gold"), 20);
+		Resource gold10 = new Resource(ResourceType.GOLD, 10);
+		Resource gold20 = new Resource(ResourceType.GOLD, 20);
 		Needs needs1 = new Needs(10, gold20);
 		Needs needs2 = new Needs(5, gold10);
 		Needs result = null;
@@ -57,46 +58,65 @@ class NeedsTest {
 			return;
 		}
 		assertEquals(5, result.time);
-		assertTrue(result.resources.contains(new Resource(ResourceType.fromString("Gold"), 10)));
+		assertTrue(result.resources.contains(new Resource(ResourceType.GOLD, 10)));
 	}
 
 	@Test
 	void testIsAffordable() {
-		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
+		Resource gold = new Resource(ResourceType.GOLD, 10);
 		Needs needs = new Needs(5, gold);
-		ResourceList resources = new ResourceList(List.of(new Resource(ResourceType.fromString("Gold"), 20)));
+		ResourceList resources = new ResourceList(List.of(new Resource(ResourceType.GOLD, 20)));
 
 		assertTrue(needs.isAffordable(resources));
 	}
 
 	@Test
 	void testGetMissingResources() {
-		Resource gold = new Resource(ResourceType.fromString("Gold"), 20);
+		Resource gold = new Resource(ResourceType.GOLD, 20);
 		Needs needs = new Needs(5, gold);
-		ResourceList resources = new ResourceList(List.of(new Resource(ResourceType.fromString("Gold"), 10)));
+		ResourceList resources = new ResourceList(List.of(new Resource(ResourceType.GOLD, 10)));
 
 		ResourceList result = needs.getMissingResources(resources);
 
-		assertTrue(result.contains(new Resource(ResourceType.fromString("Gold"), 10)));
+		assertTrue(result.contains(new Resource(ResourceType.GOLD, 10)));
 	}
 
 	@Test
 	void testGetRemainingResources() {
-		Resource gold = new Resource(ResourceType.fromString("Gold"), 10);
+		Resource gold = new Resource(ResourceType.GOLD, 10);
 		Needs needs = new Needs(5, gold);
-		ResourceList resources = new ResourceList(List.of(new Resource(ResourceType.fromString("Gold"), 20)));
+		ResourceList resources = new ResourceList(List.of(new Resource(ResourceType.GOLD, 20)));
 
 		ResourceList result = needs.getRemainingResources(resources);
 
-		assertTrue(result.contains(new Resource(ResourceType.fromString("Gold"), 10)));
+		assertTrue(result.contains(new Resource(ResourceType.GOLD, 10)));
+
+		Resource gold2 = new Resource(ResourceType.WOOD, 20);
+		Needs needs2 = new Needs(5, gold2);
+		ResourceList resources2 = new ResourceList(
+				List.of(new Resource(ResourceType.GOLD, 10), new Resource(ResourceType.WOOD, 20)));
+
+		ResourceList result2 = needs2.getRemainingResources(resources2);
+
+		assertTrue(result2.contains(new Resource(ResourceType.GOLD, 10)));
+		assertTrue(result2.size() == 1);
+
+		Needs needs3 = new Needs(5, new ArrayList<>());
+		ResourceList resources3 = new ResourceList(
+				List.of(new Resource(ResourceType.GOLD, 10), new Resource(ResourceType.WOOD, 20)));
+
+		ResourceList result3 = needs3.getRemainingResources(resources3);
+
+		assertTrue(result3.contains(new Resource(ResourceType.GOLD, 10)));
+		assertTrue(result3.contains(new Resource(ResourceType.WOOD, 20)));
 	}
 
 	@Test
 	void testmultiplyResourceList() {
-		Production needs = new Production(1, List.of(new Resource(ResourceType.fromString("Gold"), 20)));
+		Production needs = new Production(1, List.of(new Resource(ResourceType.GOLD, 20)));
 
 		ResourceList result = needs.multiplyResourceList(2);
 
-		assertTrue(result.contains(new Resource(ResourceType.fromString("Gold"), 40)));
+		assertTrue(result.contains(new Resource(ResourceType.GOLD, 40)));
 	}
 }
