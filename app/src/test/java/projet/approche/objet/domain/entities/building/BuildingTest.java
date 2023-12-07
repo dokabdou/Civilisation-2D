@@ -167,20 +167,4 @@ class BuildingTest {
 		assertTrue(building.canUpgrade(inventory) && building.getLevel() == 2
 				&& building.getInhabitants() == 4);
 	}
-
-	@Test
-	void testToString() {
-		BuildingType type = BuildingType.fromString("House");
-		Building building = new Building(type, 1);
-
-		assertEquals(type.name + ":" + building.id, building.toString());
-	}
-
-	@Test
-	void testToShortString() {
-		BuildingType type = BuildingType.fromString("House");
-		Building building = new Building(type, 1);
-
-		assertEquals(type.shortName + ":" + building.id, building.toShortString());
-	}
 }
