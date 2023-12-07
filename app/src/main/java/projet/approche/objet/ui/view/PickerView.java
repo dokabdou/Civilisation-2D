@@ -5,6 +5,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.Tooltip;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -14,24 +15,15 @@ import projet.approche.objet.ui.view.imageResource.BuildingImageResource;
 
 public class PickerView extends HBox implements Updateable {
 	private final ToggleGroup group = new ToggleGroup();
+	private final ColorAdjust colorAdjust = new ColorAdjust();
+	private final App app;
 
 	public PickerView(App app) {
+		this.colorAdjust.setSaturation(-1);
 		this.setSpacing(15);
 		this.setPadding(new Insets(15));
-
-		for (String type : app.getBuildingsTypes()) {
-			ToggleButton btn = new ToggleButton();
-			btn.setToggleGroup(group);
-			btn.setUserData(type);
-			Image image = BuildingImageResource.get(type);
-			ImageView imageView = new ImageView(image);
-			btn.setGraphic(imageView);
-			String info = BuildingType.valueOf(type).getStats();
-
-			Tooltip tooltip = new Tooltip(info);
-			Tooltip.install(btn, tooltip);
-			getChildren().add(btn);
-		}
+		this.app = app;
+		this.update();
 	}
 
 	public String getSelected() {
@@ -46,5 +38,21 @@ public class PickerView extends HBox implements Updateable {
 	}
 
 	public void update() {
+		getChildren().clear();
+		for (String type : app.getBuildingsTypes()) {
+			ToggleButton btn = new ToggleButton();
+			btn.setToggleGroup(group);
+			btn.setUserData(type);
+			Image image = BuildingImageResource.get(type);
+			ImageView imageView = new ImageView(image);
+			if (!app.isBuildingAffordable(type))
+				imageView.setEffect(colorAdjust);
+			btn.setGraphic(imageView);
+			String info = BuildingType.valueOf(type).getStats();
+
+			Tooltip tooltip = new Tooltip(info);
+			Tooltip.install(btn, tooltip);
+			getChildren().add(btn);
+		}
 	}
 }

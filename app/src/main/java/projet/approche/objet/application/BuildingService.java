@@ -43,4 +43,5 @@ public interface BuildingService {
 			throws GameNotStarted, GameEnded, NotEnoughWorkers, NotInGridException, NotBuiltException,
 			NoBuildingHereException;
 
+	public boolean isBuildingAffordable(String buildingType);
 }
