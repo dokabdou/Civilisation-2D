@@ -1,5 +1,6 @@
 package projet.approche.objet.ui.view.infoBar;
 
+import javafx.geometry.Insets;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,7 +23,8 @@ public class Button extends VBox implements Updateable {
 	public Button(GameView gv, App app) {
 		this.app = app;
 		this.button = new HBox();
-		button.setSpacing(4);
+		this.button.setAlignment(javafx.geometry.Pos.CENTER);
+		button.setPadding(new Insets(40));
 		button.setCache(true);
 		button.getChildren().addAll(play);
 		button.setOnMouseClicked(e -> {

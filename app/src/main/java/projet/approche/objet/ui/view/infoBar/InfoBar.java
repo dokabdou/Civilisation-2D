@@ -1,6 +1,7 @@
 package projet.approche.objet.ui.view.infoBar;
 
 import javafx.scene.layout.BorderPane;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import projet.approche.objet.application.App;
 import projet.approche.objet.ui.view.GameView;
@@ -17,11 +18,12 @@ public class InfoBar extends BorderPane implements Updateable {
 		this.inventory = new Inventory(app);
 		this.button = new Button(gv, app);
 		day.setFill(javafx.scene.paint.Color.BLACK);
+		day.setFont(new Font(20));
 		day.getStyleClass().add("number");
 		day.setCache(true);
 		this.app = app;
 		this.setRight(inventory);
-		this.setLeft(button);
+		this.setTop(button);
 		// show a text with the current day of the game
 	}
 
@@ -33,6 +35,6 @@ public class InfoBar extends BorderPane implements Updateable {
 
 	public void updateDay() {
 		day.setText("Day " + app.getDay());
-		this.setCenter(day);
+		this.setLeft(day);
 	}
 }
