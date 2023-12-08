@@ -73,4 +73,8 @@ public class Resource implements ResourceItf {
 		return type.toString() + " : " + amount.toShortString();
 	}
 
+	public Resource multiply(float multiplier) {
+		return new Resource(this.type, this.amount.multiply(multiplier));
+	}
+
 }

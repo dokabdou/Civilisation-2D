@@ -11,7 +11,6 @@ import java.util.List;
 public enum BuildingType {
 	WOODENCABIN("Wooden Cabin",
 			"WC",
-			new Consumption(1, List.of(new Resource(FOOD, 2))),
 			new ConstructionNeeds(2, 1, List.of(new Resource(WOOD, 1))),
 			2,
 			2,
@@ -21,7 +20,6 @@ public enum BuildingType {
 					new Resource(FOOD, 2)))),
 	HOUSE("House",
 			"H",
-			new Consumption(1, List.of(new Resource(FOOD, 4))),
 			new ConstructionNeeds(4, 1,
 					List.of(
 							new Resource(WOOD, 2),
@@ -32,7 +30,6 @@ public enum BuildingType {
 			new Production(1)),
 	APARTMENTBUILDING("Apartment Building",
 			"A",
-			new Consumption(1, List.of(new Resource(FOOD, 60))),
 			new ConstructionNeeds(6,
 					4, List.of(
 							new Resource(WOOD, 50),
@@ -43,7 +40,6 @@ public enum BuildingType {
 			new Production(1)),
 	FARM("Farm",
 			"F",
-			new Consumption(1, List.of(new Resource(FOOD, 5))),
 			new ConstructionNeeds(2,
 					4, List.of(
 							new Resource(WOOD, 5),
@@ -55,7 +51,6 @@ public enum BuildingType {
 					new Resource(FOOD, 10)))),
 	QUARRY("Quarry",
 			"Q",
-			new Consumption(1, List.of(new Resource(FOOD, 2))),
 			new ConstructionNeeds(2,
 					4, List.of(
 							new Resource(WOOD, 50))),
@@ -69,7 +64,6 @@ public enum BuildingType {
 					new Resource(GOLD, 2)))),
 	LUMBERMILL("Lumber Mill",
 			"L",
-			new Consumption(1),
 			new ConstructionNeeds(4,
 					6, List.of(
 							new Resource(WOOD, 50),
@@ -82,7 +76,6 @@ public enum BuildingType {
 					new Resource(LUMBER, 4)))),
 	CEMENTPLANT("Cement Plant",
 			"C",
-			new Consumption(1),
 			new ConstructionNeeds(4,
 					6, List.of(
 							new Resource(WOOD, 50),
@@ -96,7 +89,6 @@ public enum BuildingType {
 					new Resource(CEMENT, 4)))),
 	STEELMILL("Steel Mill",
 			"S",
-			new Consumption(1),
 			new ConstructionNeeds(6,
 					6, List.of(
 							new Resource(WOOD, 100),
@@ -110,7 +102,6 @@ public enum BuildingType {
 					new Resource(STEEL, 4)))),
 	TOOLFACTORY("Tool Factory",
 			"T",
-			new Consumption(1),
 			new ConstructionNeeds(8,
 					8, List.of(
 							new Resource(WOOD, 50),
@@ -125,7 +116,6 @@ public enum BuildingType {
 
 	public final String name;
 	public final String shortName;
-	private final Consumption foodConsumption; // food consumption of the building
 	private final ConstructionNeeds constructionNeeds; // needs for construction
 	private final int workersNeeded; // min number of workers
 	private final int workersMax; // max number of workers
@@ -134,12 +124,10 @@ public enum BuildingType {
 	private final Consumption consumption;
 	private final Production production;
 
-	private BuildingType(String name, String shortName, Consumption foodConsumption,
-			ConstructionNeeds constructionNeeds, int workersNeeded,
+	private BuildingType(String name, String shortName, ConstructionNeeds constructionNeeds, int workersNeeded,
 			int inhabitantsNeeded, Consumption consumption, Production production) {
 		this.name = name;
 		this.shortName = shortName;
-		this.foodConsumption = foodConsumption;
 		this.constructionNeeds = constructionNeeds;
 		this.workersNeeded = workersNeeded;
 		this.workersMax = 2 * workersNeeded;
@@ -169,10 +157,6 @@ public enum BuildingType {
 		return inhabitantsMax;
 	}
 
-	public Consumption getFoodConsumption() {
-		return foodConsumption;
-	}
-
 	public Consumption getConsumption() {
 		return consumption;
 	}
@@ -191,7 +175,6 @@ public enum BuildingType {
 	}
 
 	public String getStats() {
-
 		return name + " :\n\nNumber of inhabitants(min-max) : " + inhabitantsNeeded + "-" + inhabitantsMax
 				+ "\nNumber of workers(min-max) : " + workersNeeded + "-" + workersMax + "\n"
 				+ constructionNeeds

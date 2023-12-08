@@ -5,6 +5,7 @@ import static projet.approche.objet.domain.valueObject.resource.ResourceType.GOL
 import java.util.List;
 
 import projet.approche.objet.domain.valueObject.resource.Resource;
+import projet.approche.objet.domain.valueObject.resource.ResourceList;
 
 public class ConstructionNeeds extends Needs {
 
@@ -13,6 +14,17 @@ public class ConstructionNeeds extends Needs {
 	public ConstructionNeeds(int time, int goldAmount, List<Resource> resources) {
 		super(time, new Resource(GOLD, goldAmount), resources);
 		this.goldAmountForConstruction = goldAmount;
+	}
+
+	private ConstructionNeeds(int time, int goldAmount, ResourceList resources) {
+		super(time, resources);
+		this.goldAmountForConstruction = goldAmount;
+	}
+
+	public ConstructionNeeds multiply(float multiplier) {
+		return new ConstructionNeeds(Math.round(this.time * multiplier),
+				Math.round((this.goldAmountForConstruction * multiplier)),
+				this.resources.multiply(multiplier));
 	}
 
 	@Override

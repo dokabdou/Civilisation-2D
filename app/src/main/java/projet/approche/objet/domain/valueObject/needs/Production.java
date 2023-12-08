@@ -14,8 +14,25 @@ public class Production extends Needs {
 		super(time);
 	}
 
+	protected Production(int time, ResourceList resources) {
+		super(time, resources);
+	}
+
 	public ResourceList getProduction() {
 		return this.resources;
+	}
+
+	/**
+	 * Multiplies the production by the specified multiplier. (only the resources,
+	 * not the time)
+	 *
+	 * @param multiplier the multiplier to apply
+	 * @return a new Production object with the multiplied production
+	 */
+	@Override
+	public Production multiply(float multiplier) {
+		var need = super.multiply(multiplier);
+		return new Production(this.time, need.resources);
 	}
 
 	/**

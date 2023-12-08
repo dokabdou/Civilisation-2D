@@ -36,7 +36,7 @@ public class Needs {
 		this.time = time;
 	}
 
-	private Needs(int time, ResourceList resources) {
+	protected Needs(int time, ResourceList resources) {
 		this.resources = resources;
 		this.time = time;
 	}
@@ -138,12 +138,8 @@ public class Needs {
 	/*
 	 * Multiply the amount of each resource. Increased production and consumption
 	 */
-	public ResourceList multiplyResourceList(float multiplier) {
-		ResourceList multipliedResources = new ResourceList();
-		for (Resource resource : this.resources) {
-			multipliedResources = multipliedResources.add(new Resource(resource.type, resource.amount.mul(multiplier)));
-		}
-		return multipliedResources;
+	public Needs multiply(float multiplier) {
+		return new Needs(Math.round((this.time * multiplier)), this.resources.multiply(multiplier));
 	}
 
 	@Override
