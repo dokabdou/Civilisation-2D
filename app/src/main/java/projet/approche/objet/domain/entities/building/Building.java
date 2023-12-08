@@ -5,8 +5,6 @@ import projet.approche.objet.domain.valueObject.building.exceptions.BuildingAlre
 import projet.approche.objet.domain.valueObject.building.exceptions.NotEnoughNeedsException;
 import projet.approche.objet.domain.valueObject.needs.ConstructionNeeds;
 import projet.approche.objet.domain.valueObject.needs.Needs;
-import projet.approche.objet.domain.valueObject.needs.Production;
-import projet.approche.objet.domain.valueObject.needs.Consumption;
 import projet.approche.objet.domain.valueObject.resource.Resource;
 import projet.approche.objet.domain.valueObject.resource.ResourceList;
 

@@ -27,7 +27,6 @@ import projet.approche.objet.domain.valueObject.resource.ResourceList;
 import projet.approche.objet.domain.valueObject.resource.ResourceType;
 import projet.approche.objet.domain.valueObject.resource.exceptions.NotEnoughResourceException;
 import projet.approche.objet.domain.valueObject.resource.exceptions.ResourceNotFoundException;
-import projet.approche.objet.ui.view.infoBar.Inventory;
 
 public class Manager {
 	private static Long count = Long.valueOf(0);
@@ -144,7 +143,8 @@ public class Manager {
 
 	public void destroyBuilding(Coordinate c) throws NotInGridException, NoBuildingHereException {
 		// refund half the resources it took to build the building
-		ResourceList buildingBuildResources = this.grid.getBuilding(c).type.getConstructionNeeds().multiplyResourceList(0.5f);
+		ResourceList buildingBuildResources = this.grid.getBuilding(c).type.getConstructionNeeds()
+				.multiplyResourceList(0.5f);
 		this.resources = this.resources.add(buildingBuildResources);
 		this.grid = this.grid.removeBuilding(c);
 	}
