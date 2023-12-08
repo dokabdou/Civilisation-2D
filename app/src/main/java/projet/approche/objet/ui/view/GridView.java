@@ -10,13 +10,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.input.MouseButton;
 
 import projet.approche.objet.application.App;
-import projet.approche.objet.domain.entities.building.Building;
-import projet.approche.objet.domain.valueObject.building.BuildingType;
 import projet.approche.objet.domain.valueObject.building.exceptions.NotEnoughNeedsException;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameEnded;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameNotStarted;
-import projet.approche.objet.domain.valueObject.game.exceptions.NotEnoughInhabitants;
-import projet.approche.objet.domain.valueObject.game.exceptions.NotEnoughWorkers;
 import projet.approche.objet.domain.valueObject.grid.Coordinate;
 import projet.approche.objet.domain.valueObject.grid.exceptions.NoBuildingHereException;
 import projet.approche.objet.domain.valueObject.grid.exceptions.NotFreeException;
@@ -59,15 +55,15 @@ public class GridView extends BorderPane implements Updateable {
 
 		getChildren().add(tile);
 		tile.setOnMouseClicked(e -> {
-				try {
-					update(tile, i, j, e.getButton());
-				} catch (NoBuildingHereException | NotInGridException e1) {
-					e1.printStackTrace();
-				}
-				updateables.forEach(updateable -> {
-					if (updateable != this)
-						updateable.update();
-				});
+			try {
+				update(tile, i, j, e.getButton());
+			} catch (NoBuildingHereException | NotInGridException e1) {
+				e1.printStackTrace();
+			}
+			updateables.forEach(updateable -> {
+				if (updateable != this)
+					updateable.update();
+			});
 		});
 		ColorAdjust colorAdjust = new ColorAdjust();
 		colorAdjust.setBrightness(-0.2);
@@ -79,7 +75,8 @@ public class GridView extends BorderPane implements Updateable {
 		});
 	}
 
-	private void update(Tile tile, int i, int j, MouseButton button) throws NoBuildingHereException, NotInGridException {
+	private void update(Tile tile, int i, int j, MouseButton button)
+			throws NoBuildingHereException, NotInGridException {
 		String kind;
 		try {
 			kind = app.getBuildingType(i, j);
@@ -88,7 +85,7 @@ public class GridView extends BorderPane implements Updateable {
 		} catch (NotInGridException e) {
 			throw new RuntimeException(e); // should not happen
 		}
-		if (button == MouseButton.PRIMARY){
+		if (button == MouseButton.PRIMARY) {
 			if (pickerView.getSelected() != null && !pickerView.getSelected().equals(kind)) {
 				getChildren().remove(tile);
 				try {
