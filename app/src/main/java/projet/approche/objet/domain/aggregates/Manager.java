@@ -142,9 +142,9 @@ public class Manager {
 	}
 
 	public void destroyBuilding(Coordinate c) throws NotInGridException, NoBuildingHereException {
-		// refund half the resources it took to build the building
+		// refund half the resources it took to build the building (ignoring upgrades)
 		ResourceList buildingBuildResources = this.grid.getBuilding(c).type.getConstructionNeeds()
-				.multiplyResourceList(0.5f);
+				.multiply(0.5f).resources;
 		this.resources = this.resources.add(buildingBuildResources);
 		this.grid = this.grid.removeBuilding(c);
 	}
@@ -349,5 +349,14 @@ public class Manager {
 
 	public int getDay() {
 		return day;
+	}
+
+	public boolean isBuildingUpgradeable(Building building) {
+		return building.canUpgrade(this.resources);
+	}
+
+	public void upgradeBuilding(Building building)
+			throws NotEnoughNeedsException, NotBuiltException, BuildingAlreadyStartedException {
+		this.resources = building.upgrade(this.resources);
 	}
 }

@@ -185,4 +185,12 @@ public class ResourceList implements Iterable<Resource> {
 		}
 		return str;
 	}
+
+	public ResourceList multiply(float multiplier) {
+		List<Resource> copy = new ArrayList<>();
+		for (Resource resource : this) {
+			copy.add(resource.multiply(multiplier));
+		}
+		return new ResourceList(copy);
+	}
 }

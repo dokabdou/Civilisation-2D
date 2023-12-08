@@ -2,6 +2,7 @@ package projet.approche.objet.application;
 
 import java.util.List;
 
+import projet.approche.objet.domain.valueObject.building.exceptions.BuildingAlreadyStartedException;
 import projet.approche.objet.domain.valueObject.building.exceptions.NotBuiltException;
 import projet.approche.objet.domain.valueObject.building.exceptions.NotEnoughNeedsException;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameEnded;
@@ -44,4 +45,10 @@ public interface BuildingService {
 			NoBuildingHereException;
 
 	public boolean isBuildingAffordable(String buildingType);
+
+	public boolean isBuildingUpgradeable(int x, int y) throws NoBuildingHereException, NotInGridException;
+
+	public void upgradeBuilding(int x, int y)
+			throws GameNotStarted, GameEnded, NotEnoughNeedsException, NotInGridException, NoBuildingHereException,
+			NotBuiltException, BuildingAlreadyStartedException;
 }

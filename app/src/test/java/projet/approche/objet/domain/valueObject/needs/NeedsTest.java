@@ -112,11 +112,13 @@ class NeedsTest {
 	}
 
 	@Test
-	void testmultiplyResourceList() {
-		Production needs = new Production(1, List.of(new Resource(ResourceType.GOLD, 20)));
+	void testMultiply() {
+		Resource gold = new Resource(ResourceType.GOLD, 10);
+		Needs needs = new Needs(5, gold);
 
-		ResourceList result = needs.multiplyResourceList(2);
+		Needs result = needs.multiply(2);
 
-		assertTrue(result.contains(new Resource(ResourceType.GOLD, 40)));
+		assertEquals(10, result.time);
+		assertTrue(result.resources.contains(new Resource(ResourceType.GOLD, 20)));
 	}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import projet.approche.objet.domain.aggregates.Manager;
 import projet.approche.objet.domain.entities.building.Building;
 import projet.approche.objet.domain.valueObject.building.BuildingType;
+import projet.approche.objet.domain.valueObject.building.exceptions.BuildingAlreadyStartedException;
 import projet.approche.objet.domain.valueObject.building.exceptions.NotBuiltException;
 import projet.approche.objet.domain.valueObject.building.exceptions.NotEnoughNeedsException;
 import projet.approche.objet.domain.valueObject.game.GameStarter;
@@ -255,5 +256,18 @@ public class App implements GameService, BuildingService, ResourceService {
 	@Override
 	public int getDay() {
 		return this.manager.getDay();
+	}
+
+	@Override
+	public boolean isBuildingUpgradeable(int x, int y) throws NoBuildingHereException, NotInGridException {
+		return this.manager.isBuildingUpgradeable(this.manager.getGrid().getBuilding(new Coordinate(x, y)));
+	}
+
+	@Override
+	public void upgradeBuilding(int x, int y) throws GameNotStarted, GameEnded, NotEnoughNeedsException,
+			NotInGridException, NoBuildingHereException, NotBuiltException, BuildingAlreadyStartedException {
+		checkGameStarted();
+		checkGameNotEnded();
+		this.manager.upgradeBuilding(this.manager.getGrid().getBuilding(new Coordinate(x, y)));
 	}
 }
