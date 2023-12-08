@@ -81,7 +81,7 @@ public class GameInfoView extends StackPane {
 		buildings.setWrapText(true);
 
 		Label howToPlay = new Label(
-				"How to play:\nYou will have to manage your village to try and make it as profitable as possible. If you have the necessary, you can add new buildings. Each inhabitant will consume 1 food per day. But be careful, if you run out of food, it's GAME OVER!");
+				"How to play:\nYou will have to manage your village to try and make it as profitable as possible. If you have the necessary resources, you can add new buildings on empty tiles. Each inhabitant will consume 1 food per day. But be careful, if you run out of food, it's GAME OVER!");
 		howToPlay.setStyle("-fx-background-color: rgba(255, 255, 255, 0.6); -fx-padding: 7;");
 		howToPlay.setWrapText(true);
 
