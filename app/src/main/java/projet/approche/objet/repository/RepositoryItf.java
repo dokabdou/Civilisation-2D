@@ -1,4 +1,4 @@
-package projet.approche.objet.repository;
+/*package projet.approche.objet.repository;
 
 
 public interface RepositoryItf {
@@ -9,3 +9,4 @@ public interface RepositoryItf {
 
 }
 
+*/

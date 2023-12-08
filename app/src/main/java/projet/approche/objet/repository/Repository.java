@@ -1,3 +1,4 @@
+/*
 package projet.approche.objet.repository;
 import projet.approche.objet.domain.aggregates.Manager;
 
@@ -15,3 +16,4 @@ public class Repository {
         return null;
     }
 }
+*/
