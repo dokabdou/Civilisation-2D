@@ -1,5 +1,6 @@
 package projet.approche.objet.ui.view;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -46,6 +47,7 @@ public class GameInfoView extends StackPane {
 
 		text.getChildren().addAll(goal, resources, buildings, howToPlay);
 		text.setAlignment(javafx.geometry.Pos.CENTER);
+		text.setPadding(new Insets(50));
 		pane.setCenter(text);
 		this.getChildren().addAll(imageView, pane);
 	}
