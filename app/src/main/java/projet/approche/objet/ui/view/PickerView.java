@@ -48,10 +48,12 @@ public class PickerView extends HBox implements Updateable {
 			if (!app.isBuildingAffordable(type))
 				imageView.setEffect(colorAdjust);
 			btn.setGraphic(imageView);
-			String info = BuildingType.valueOf(type).getStats();
 
+			// Add text when hovering
+			String info = BuildingType.valueOf(type).getStats();
 			Tooltip tooltip = new Tooltip(info);
 			Tooltip.install(btn, tooltip);
+
 			getChildren().add(btn);
 		}
 	}
