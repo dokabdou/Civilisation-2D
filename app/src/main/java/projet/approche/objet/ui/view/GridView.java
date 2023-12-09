@@ -4,6 +4,7 @@ import java.util.List;
 
 import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Alert.AlertType;
@@ -181,6 +182,26 @@ public class GridView extends BorderPane implements Updateable {
 		}
 	}
 
+	/***
+	 * Creates a confirmation pop up with ok and cancel buttons
+	 * 
+	 * @param method  the method to run if the user clicks ok
+	 * @param title
+	 * @param header
+	 * @param content
+	 */
+	private void confirmationPopUp(Runnable method, String title, String header, String content) {
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle(title);
+		alert.setHeaderText(header);
+		alert.setContentText(content);
+		alert.showAndWait().ifPresent(response -> {
+			if (response == ButtonType.OK) {
+				method.run();
+			}
+		});
+	}
+
 	private interface RunnableWithException {
 		public void run() throws GameNotStarted, GameEnded, NotInGridException, NotFreeException,
 				NotEnoughNeedsException, BuildingAlreadyStartedException, NotBuiltException, NoBuildingHereException,
@@ -196,13 +217,17 @@ public class GridView extends BorderPane implements Updateable {
 		MenuItem menuItemRemoveWorkers = new MenuItem("Remove Workers");
 
 		menuItemDestroy.setOnAction(e -> {
-			makePopUpForException(() -> app.DestroyBuilding(x, y));
-			updateAll();
+			confirmationPopUp(() -> {
+				makePopUpForException(() -> app.DestroyBuilding(x, y));
+				updateAll();
+			}, "Destroy building", "Destroy building...", "Are you sure you want to destroy this building?");
 		});
 
 		menuItemUpgrade.setOnAction(e -> {
-			makePopUpForException(() -> app.upgradeBuilding(x, y));
-			updateAll();
+			confirmationPopUp(() -> {
+				makePopUpForException(() -> app.upgradeBuilding(x, y));
+				updateAll();
+			}, "Upgrade building", "Upgrade building...", "Are you sure you want to upgrade this building?");
 		});
 
 		menuItemAddInhbitants.setOnAction(e -> {
