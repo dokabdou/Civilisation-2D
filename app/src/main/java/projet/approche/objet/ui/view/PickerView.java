@@ -10,7 +10,6 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.util.Duration;
 import projet.approche.objet.application.App;
 import projet.approche.objet.domain.valueObject.building.BuildingType;
 import projet.approche.objet.ui.view.imageResource.BuildingImageResource;

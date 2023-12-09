@@ -39,7 +39,7 @@ public class GameStarterView extends BorderPane {
 	}
 
 	private static void startGame(Stage stage, GameStarter gs, int gridSize) {
-		App app = new App(gs, 10);
+		App app = new App(gs, gridSize);
 		GameView gameView = new GameView(stage, app);
 		Scene gameScene = new Scene(gameView);
 

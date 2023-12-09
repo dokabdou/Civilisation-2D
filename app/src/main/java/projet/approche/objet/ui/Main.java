@@ -12,12 +12,12 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 
 		GameStarterView editorView = new GameStarterView(primaryStage);
-		GameInfoView GameInfoView = new GameInfoView(primaryStage);
-		editorView.setCenter(GameInfoView);
+		GameInfoView gameInfoView = new GameInfoView(primaryStage);
+		editorView.setCenter(gameInfoView);
 		primaryStage.setTitle("Approche Objet");
 		primaryStage.setScene(new Scene(editorView));
-		primaryStage.setHeight(700);
 		primaryStage.setWidth(700);
+		primaryStage.setHeight(700);
 		primaryStage.show();
 	}
 
