@@ -1,7 +1,8 @@
 # Projet-Approche-Objet
 
 ## Description
-Une brève description de votre jeu, en soulignant ses caractéristiques principales et ce qui le rend unique. Comparez-le avec le jeu "Civilization" pour donner aux lecteurs une idée de ce à quoi ils peuvent s'attendre.
+Le jeu que nous proposons est un jeu type "Civilization", dont le but est de maintenir l'économie d'une ville le plus longtemps possible. Vous allez vous occuper de la gestion des ressources, de la construction de bâtiments afin de recolter des ressources, ainsi que la population de votre ville.  
+Notre jeu est similaire a "Civilization" mais notre jeu se concentre davantage sur l'aspect économique, mettant l'accent sur la maximisation des ressources pour maintenir la ville plutôt que sur la conquête territoriale. Le joueur cherche à construire les bâtiments de manière stratégique afin de récolter plus ressources. Dans ce sens, notre jeu est moins complexe que "Civilization".
 
 ## Caractéristiques
 - Trois niveaux de difficulté (Easy, Normal, Hard) avec des ressources initiales différentes.
