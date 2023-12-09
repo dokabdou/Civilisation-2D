@@ -1,6 +1,7 @@
 package projet.approche.objet.ui.view.infoBar;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -53,7 +54,13 @@ public class Inventory extends VBox implements Updateable {
 		HBox group = new HBox();
 		ImageView img = new ImageView(ResourceImageResource.get(kind));
 		Tooltip tooltip = new Tooltip(kind);
-		Tooltip.install(img, tooltip);
+		img.setOnMouseEntered(event -> {
+			Point2D p = img.localToScreen(img.getLayoutBounds().getMaxX(), img.getLayoutBounds().getMaxY());
+			tooltip.show(img, p.getX(), p.getY());
+		});
+		img.setOnMouseExited(event -> {
+			tooltip.hide();
+		});
 		group.setSpacing(4);
 		number.setCache(true);
 		number.setFill(Color.BLACK);

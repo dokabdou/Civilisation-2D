@@ -2,6 +2,7 @@ package projet.approche.objet.ui.view;
 
 import java.util.List;
 
+import javafx.geometry.Point2D;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.MenuItem;
@@ -58,12 +59,6 @@ public class GridView extends BorderPane implements Updateable {
 			throw new RuntimeException(e); // should not happen
 		}
 		Tile tile = new Tile(BuildingImageResource.get(kind), layoutX, layoutY);
-		if (kind != "Empty") {
-			String info = app.getManager().getGrid().getBuilding(new Coordinate(i, j)).toString();
-			Tooltip tooltip = new Tooltip(info);
-			Tooltip.install(tile, tooltip);
-		}
-
 		getChildren().add(tile);
 		tile.setOnMouseClicked(e -> {
 			x = i;
@@ -90,6 +85,19 @@ public class GridView extends BorderPane implements Updateable {
 		tile.setOnMouseExited(e -> {
 			tile.setEffect(null);
 		});
+
+		if (kind != "Empty") {
+			String info = app.getManager().getGrid().getBuilding(new Coordinate(i, j)).toString();
+			Tooltip tooltip = new Tooltip(info);
+			tile.setOnMouseEntered(event -> {
+				Point2D p = tile.localToScreen(tile.getLayoutBounds().getMaxX(), tile.getLayoutBounds().getMaxY());
+				tooltip.show(tile, p.getX(), p.getY());
+			});
+			tile.setOnMouseExited(event -> {
+				tooltip.hide();
+			});
+		}
+
 	}
 
 	private void update(Tile tile, int i, int j)

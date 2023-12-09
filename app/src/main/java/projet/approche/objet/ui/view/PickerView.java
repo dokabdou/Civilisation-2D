@@ -1,6 +1,7 @@
 package projet.approche.objet.ui.view;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -9,6 +10,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.util.Duration;
 import projet.approche.objet.application.App;
 import projet.approche.objet.domain.valueObject.building.BuildingType;
 import projet.approche.objet.ui.view.imageResource.BuildingImageResource;
@@ -52,7 +54,13 @@ public class PickerView extends HBox implements Updateable {
 			// Add text when hovering
 			String info = BuildingType.valueOf(type).getStats();
 			Tooltip tooltip = new Tooltip(info);
-			Tooltip.install(btn, tooltip);
+			btn.setOnMouseEntered(event -> {
+				Point2D p = btn.localToScreen(btn.getLayoutBounds().getMaxX(), btn.getLayoutBounds().getMaxY());
+				tooltip.show(imageView, p.getX(), p.getY());
+			});
+			btn.setOnMouseExited(event -> {
+				tooltip.hide();
+			});
 
 			getChildren().add(btn);
 		}
