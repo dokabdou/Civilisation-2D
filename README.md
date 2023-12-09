@@ -4,12 +4,16 @@
 Une brève description de votre jeu, en soulignant ses caractéristiques principales et ce qui le rend unique. Comparez-le avec le jeu "Civilization" pour donner aux lecteurs une idée de ce à quoi ils peuvent s'attendre.
 
 ## Caractéristiques
-- Liste des principales caractéristiques du jeu.
-- Détails sur les aspects uniques ou intéressants de votre jeu.
+- Trois niveaux de difficulté (Easy, Normal, Hard) avec des ressources initiales différentes.
+- Gestion des ressources, des habitants, des travailleurs, et des bâtiments.
+- Construction, amélioration, et destruction de bâtiments.
+- Possibilité d'améliorer les bâtiments pour augmenter la production et la capacité d'accueil.
+- Interface graphique permettant une interaction intuitive avec la ville virtuelle.
+
 
 ## Prérequis
-- Java: Version spécifique nécessaire.
-- Autres dépendances ou prérequis.
+- Java: Version 17 ou supérieure.
+- Gradle: Pour la construction du projet.
 
 ## Installation et démarrage
 ### Clonage du dépôt
@@ -30,7 +34,20 @@ git clone git@github.com:THoguet/Projet-Approche-Objet.git
 
 
 ## Utilisation
-Instructions sur la manière de jouer au jeu, incluant les commandes de base et les mécaniques de jeu.
+Une fois le depôt cloné et le projet construit avec Gradle vous pourrez commencer à jouer au jeu.
+Le but du jeu est de maintenir une économie stable le plus longtemps possible. La partie se termine lorsque le joueur n'a plus de nourriture pour toute sa population. 
+
+### Instructions pour jouer :
+1. **Lancer le jeu :** Après avoir cloné le dépôt, construit le projet avec Gradle, et ouvert le jeu, vous êtes accueilli par l'interface graphique du jeu.
+2. **Choix du niveau de difficulté :** Au lancement de la fenêtre de jeu, vous avez le choix entre trois niveaux de difficulté : Easy, Normal, ou Hard. Par exemple, le niveau Easy offre plus de ressources que les niveaux Normal et Hard.
+3. **Ressources initiales et bâtiments de départ :** Une fois le niveau de difficulté choisi, vous disposez d'un ensemble initial de ressources ainsi que d'un ou deux bâtiments de départ, en fonction du niveau sélectionné.
+4. **Construction de bâtiments :** En haut de la fenêtre du jeu, vous trouverez la liste des bâtiments que vous pouvez construire. Cliquez sur le bâtiment souhaité, puis choisissez l'emplacement sur la grille où vous souhaitez le placer, en fonction des ressources disponibles. Par exemple, vous pouvez construire une maison pour augmenter la capacité d'accueil de votre ville. Sachez que chaque construction prend un certain temps à construire, la maison, par exemple, prend 2 jours à construire.
+5. **Gestion des ressources :** Le jeu se déroule au fil des jours. Chaque jour, les bâtiments produisent des ressources, tandis que la population consomme des ressources, en particulier de la nourriture. Vous devez prendre garde à toujours avoir assez de ressources pour nourrir tout votre population.
+6. **Amélioration des bâtiments :** Vous avez la possibilité d'améliorer les bâtiments existants pour augmenter leur production et leur capacité d'accueil. Cependant, chaque amélioration a un coût, et il faut prendre en compte les ressources disponibles.
+7. **Fin de partie :** La partie se termine lorsque la quantité de nourriture disponible n'est plus suffisante pour nourrir toute la population de la ville. Votre objectif est de maintenir une économie stable le plus longtemps possible.
+
+En suivant ces instructions, vous pouvez explorer les différentes mécaniques du jeu, prendre des décisions stratégiques et tenter de maintenir un équilibre économique le plus longtemps possible. Amusez-vous bien !
+
 
 ## Contribution
 Instructions pour ceux qui souhaitent contribuer au projet. Inclure des détails sur les normes de codage, les processus de pull request, etc.
