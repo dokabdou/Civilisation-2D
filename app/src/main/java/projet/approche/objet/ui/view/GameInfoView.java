@@ -8,7 +8,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import projet.approche.objet.ui.view.imageResource.LevelButtonImageResource;
 
 public class GameInfoView extends StackPane {
 
