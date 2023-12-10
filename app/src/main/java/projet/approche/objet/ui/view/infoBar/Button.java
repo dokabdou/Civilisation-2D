@@ -1,6 +1,7 @@
 package projet.approche.objet.ui.view.infoBar;
 
 import javafx.geometry.Insets;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -24,7 +25,6 @@ public class Button extends VBox implements Updateable {
 		this.app = app;
 		this.button = new HBox();
 		this.button.setAlignment(javafx.geometry.Pos.CENTER);
-		button.setPadding(new Insets(40));
 		button.setCache(true);
 		button.getChildren().addAll(play);
 		button.setOnMouseClicked(e -> {
@@ -60,6 +60,15 @@ public class Button extends VBox implements Updateable {
 					break;
 			}
 			this.update();
+		});
+
+		ColorAdjust colorAdjust = new ColorAdjust();
+		colorAdjust.setBrightness(-0.4);
+		button.setOnMouseEntered(e -> {
+			button.setEffect(colorAdjust);
+		});
+		button.setOnMouseExited(e -> {
+			button.setEffect(null);
 		});
 		getChildren().addAll(button);
 	}

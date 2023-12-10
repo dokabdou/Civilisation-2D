@@ -4,13 +4,18 @@ import javafx.scene.image.Image;
 
 public enum ButtonImageResource {
 
+	EASY("Easy.png"),
+	NORMAL("Normal.png"),
+	HARD("Hard.png"),
+	LOAD("Load.png"),
+	SAVE("Save.png"),
 	PLAY("Play.png"),
 	PAUSE("Pause.png");
 
 	private final Image image;
 
-	public static final int width = 96;
-	public static final int height = 56;
+	public static final int width = 100;
+	public static final int height = 100;
 
 	ButtonImageResource(String file) {
 		try {
