@@ -26,20 +26,23 @@ public enum PremadeLevel {
 					new SimpleEntry<>(new Coordinate(9, 0), WOODENCABIN),
 					new SimpleEntry<>(new Coordinate(0, 9), WOODENCABIN),
 					new SimpleEntry<>(new Coordinate(9, 9), WOODENCABIN),
-					new SimpleEntry<>(new Coordinate(4, 4), FARM))),
+					new SimpleEntry<>(new Coordinate(4, 4), FARM),
+					new SimpleEntry<>(new Coordinate(5, 4), FARM),
+					new SimpleEntry<>(new Coordinate(4, 5), FARM),
+					new SimpleEntry<>(new Coordinate(5, 5), FARM))),
 	NORMAL(10, 6, 2,
 			new ResourceList(List.of(
 					new Resource(GOLD, 10),
 					new Resource(WOOD, 10),
 					new Resource(FOOD, 100))),
 			List.of(
-					new SimpleEntry<>(new Coordinate(0, 0), WOODENCABIN),
-					new SimpleEntry<>(new Coordinate(1, 0), HOUSE))),
-	HARD(10, 2, 2,
+					new SimpleEntry<>(new Coordinate(0, 0), HOUSE),
+					new SimpleEntry<>(new Coordinate(9, 9), FARM))),
+	HARD(5, 2, 2,
 			new ResourceList(List.of(
 					new Resource(GOLD, 5),
 					new Resource(WOOD, 5),
-					new Resource(FOOD, 50))),
+					new Resource(FOOD, 25))),
 			List.of(new SimpleEntry<>(new Coordinate(0, 0), WOODENCABIN)));
 
 	public final int inhabitants;
