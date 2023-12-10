@@ -34,8 +34,8 @@ public class Manager {
 
 	private final Long id = ++count;
 
-	private int inhabitants; // number of inhabitants
-	private int workers; // number of workers
+	private int availableInhabitants; // number of inhabitants
+	private int availableWorkers; // number of workers
 
 	private int day = 0; // number of days since the beginning of the game
 
@@ -51,8 +51,8 @@ public class Manager {
 	 * @param gameStarter the game starter
 	 */
 	public Manager(GameStarter gameStarter, int gridSize) {
-		this.inhabitants = gameStarter.inhabitants;
-		this.workers = gameStarter.workers;
+		this.availableInhabitants = gameStarter.inhabitants;
+		this.availableWorkers = gameStarter.workers;
 		this.resources = gameStarter.startingResources;
 		this.grid = new Grid(gridSize);
 		for (var coordinate : gameStarter.startingBuildings.keySet()) {
@@ -91,20 +91,20 @@ public class Manager {
 		return id;
 	}
 
-	public int getInhabitants() {
-		return inhabitants;
+	public int getAvailableInhabitants() {
+		return availableInhabitants;
 	}
 
-	public void setInhabitants(int inhabitants) {
-		this.inhabitants = inhabitants;
+	public void setAvailableInhabitants(int inhabitants) {
+		this.availableInhabitants = inhabitants;
 	}
 
-	public int getWorkers() {
-		return workers;
+	public int getAvailableWorkers() {
+		return availableWorkers;
 	}
 
-	public void setWorkers(int workers) {
-		this.workers = workers;
+	public void setAvailableWorkers(int workers) {
+		this.availableWorkers = workers;
 	}
 
 	public GameState getState() {
@@ -163,9 +163,9 @@ public class Manager {
 		if (!building.isBuilt())
 			throw new NotBuiltException();
 		if (building.getInhabitants() + inhabitantsToAdd <= building.type.getInhabitantsMax()) {
-			if (this.inhabitants >= inhabitantsToAdd) {
+			if (this.availableInhabitants >= inhabitantsToAdd) {
 				building.addInhabitantToBuilding(inhabitantsToAdd);
-				this.inhabitants -= inhabitantsToAdd;
+				this.availableInhabitants -= inhabitantsToAdd;
 			} else {
 				throw new NotEnoughInhabitants();
 			}
@@ -180,7 +180,7 @@ public class Manager {
 			throw new NotBuiltException();
 		if (building.getInhabitants() >= inhabitantsToRemove) {
 			building.addInhabitantToBuilding(-inhabitantsToRemove);
-			this.inhabitants += inhabitantsToRemove;
+			this.availableInhabitants += inhabitantsToRemove;
 		} else {
 			throw new NotEnoughInhabitants();
 		}
@@ -191,9 +191,9 @@ public class Manager {
 		if (!building.isBuilt())
 			throw new NotBuiltException();
 		if (building.getWorkers() + workersToAdd <= building.type.getWorkersMax()) {
-			if (this.workers >= workersToAdd) {
+			if (this.availableWorkers >= workersToAdd) {
 				building.addWorkerToBuilding(workersToAdd);
-				this.workers -= workersToAdd;
+				this.availableWorkers -= workersToAdd;
 			} else {
 				throw new NotEnoughWorkers();
 			}
@@ -208,7 +208,7 @@ public class Manager {
 			throw new NotBuiltException();
 		if (building.getWorkers() >= workersToRemove) {
 			building.addWorkerToBuilding(-workersToRemove);
-			this.workers += workersToRemove;
+			this.availableWorkers += workersToRemove;
 		} else {
 			throw new NotEnoughWorkers();
 		}
@@ -278,8 +278,8 @@ public class Manager {
 				System.out.println("GAME OVER");
 			}
 			// kill inhabitants and workers who are not in a building
-			this.inhabitants = 0;
-			this.workers = 0;
+			this.availableInhabitants = 0;
+			this.availableWorkers = 0;
 		}
 	}
 
@@ -302,7 +302,7 @@ public class Manager {
 
 	public Resource foodConsumption() {
 		// minimum amount of food needed for the next day
-		int foodNeeded = this.inhabitants + this.workers;
+		int foodNeeded = this.availableInhabitants + this.availableWorkers;
 		// add food needed for each building by adding its inhabitants and workers
 		for (Building building : this.grid.getBuildings()) {
 			foodNeeded += building.getInhabitants() + building.getWorkers();

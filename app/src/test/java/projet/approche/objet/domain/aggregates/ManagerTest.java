@@ -225,8 +225,8 @@ class ManagerTest {
 		Building b2 = manager.getGrid().getBuilding(coordinate2);
 		while (!b2.isBuilt())
 			b2.update(inventory);
-		manager.setWorkers(100);
-		manager.setInhabitants(100);
+		manager.setAvailableWorkers(100);
+		manager.setAvailableInhabitants(100);
 		assertDoesNotThrow(() -> manager.addWorkerToBuilding(b2, 4));
 		assertDoesNotThrow(() -> manager.addInhabitantToBuilding(b2, 6));
 		assertEquals(2, manager.getProduction(WOOD));

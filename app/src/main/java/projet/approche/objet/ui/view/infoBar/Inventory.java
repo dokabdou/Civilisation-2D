@@ -80,7 +80,7 @@ public class Inventory extends VBox implements Updateable {
 		cement.setText(Integer.toString(this.app.getResourceQuantity("CEMENT")));
 		lumber.setText(Integer.toString(this.app.getResourceQuantity("LUMBER")));
 		tools.setText(Integer.toString(this.app.getResourceQuantity("TOOLS")));
-		person.setText(Integer.toString(this.app.getInhabitantsNumber()));
-		worker.setText(Integer.toString(this.app.getWorkersNumber()));
+		person.setText(Integer.toString(this.app.getInHabitantsInBuildings()));
+		worker.setText(Integer.toString(this.app.getWorkersInBuildings()));
 	}
 }

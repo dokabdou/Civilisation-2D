@@ -101,12 +101,12 @@ public class App implements GameService, BuildingService, ResourceService {
 
 	@Override
 	public int getInhabitantsNumber() {
-		return this.manager.getInhabitants();
+		return this.manager.getAvailableInhabitants();
 	}
 
 	@Override
 	public int getWorkersNumber() {
-		return this.manager.getWorkers();
+		return this.manager.getAvailableWorkers();
 	}
 
 	@Override
