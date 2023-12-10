@@ -264,23 +264,19 @@ public class Manager {
 				resources = building.update(resources);
 			}
 			// get food needed for the next day
-			Resource foodNeeded = this.foodConsumption();
-			if (resources.get(ResourceType.FOOD).isGreaterOrEqual(foodNeeded)) {
-				// remove food needed for the next day
-				try {
-					resources = resources.remove(foodNeeded);
-				} catch (NotEnoughResourceException | ResourceNotFoundException e) {
-					// Shouldn't happen since we checked if there was enough food
-					throw new RuntimeException(e);
-				}
-			} else {
-				// TODO : end game or kill inhabitants / kill workers
+			int foodNeededInt = this.foodConsumption();
+			Resource foodNeeded = new Resource(ResourceType.FOOD, new ResourceAmount(foodNeededInt));
+			// remove food needed for the next day
+			try {
+				resources = resources.remove(foodNeeded);
+			} catch (NotEnoughResourceException | ResourceNotFoundException e) {
 				System.out.println("GAME OVER");
+				this.endGame();
 			}
-			// kill inhabitants and workers who are not in a building
-			this.availableInhabitants = 0;
-			this.availableWorkers = 0;
 		}
+		// kill inhabitants and workers who are not in a building
+		this.availableInhabitants = 0;
+		this.availableWorkers = 0;
 	}
 
 	/***
@@ -291,23 +287,41 @@ public class Manager {
 	public int getProduction(ResourceType resourceType) {
 		int production = 0;
 		for (Building building : this.grid.getBuildings()) {
-			if (building.type.getInhabitantsNeeded() < building.getInhabitants()
-					&& building.type.getWorkersNeeded() < building.getWorkers())
-				for (Resource r : building.type.getProduction().getProduction())
+			if (building.type.getInhabitantsNeeded() <= building.getInhabitants()
+					&& building.type.getWorkersNeeded() <= building.getWorkers())
+				for (Resource r : building.type.getProduction().resources)
 					if (r.type == resourceType)
 						production += r.amount.value / building.type.getProduction().time;
 		}
 		return production;
 	}
 
-	public Resource foodConsumption() {
+	public int getConsumption(ResourceType resourceType) {
+		if (resourceType == ResourceType.FOOD)
+			return this.foodConsumption();
+		int consumption = 0;
+		for (Building building : this.grid.getBuildings()) {
+			if (building.type.getInhabitantsNeeded() <= building.getInhabitants()
+					&& building.type.getWorkersNeeded() <= building.getWorkers())
+				for (Resource r : building.type.getConsumption().resources)
+					if (r.type == resourceType)
+						consumption += r.amount.value / building.type.getConsumption().time;
+		}
+		return consumption;
+	}
+
+	public int getPureProduction(ResourceType resourceType) {
+		return this.getProduction(resourceType) - this.getConsumption(resourceType);
+	}
+
+	public int foodConsumption() {
 		// minimum amount of food needed for the next day
-		int foodNeeded = this.availableInhabitants + this.availableWorkers;
+		int foodNeeded = 0;
 		// add food needed for each building by adding its inhabitants and workers
 		for (Building building : this.grid.getBuildings()) {
 			foodNeeded += building.getInhabitants() + building.getWorkers();
 		}
-		return new Resource(ResourceType.FOOD, new ResourceAmount(foodNeeded));
+		return foodNeeded;
 	}
 
 	/**

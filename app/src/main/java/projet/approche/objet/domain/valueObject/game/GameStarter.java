@@ -17,8 +17,10 @@ public class GameStarter {
 	public final int workers;
 	public final ResourceList startingResources;
 	public final Map<Coordinate, BuildingType> startingBuildings;
+	public final String name;
 
 	public GameStarter(PremadeLevel level) {
+		name = level.name();
 		this.gridSize = level.gridSize;
 		this.inhabitants = level.inhabitants;
 		this.workers = level.workers;
@@ -28,6 +30,7 @@ public class GameStarter {
 
 	public GameStarter(int gridSize, int inhabitants, int workers, ResourceList startingResources,
 			List<SimpleEntry<Coordinate, BuildingType>> entries) {
+		name = "Saved game";
 		this.gridSize = gridSize;
 		this.inhabitants = inhabitants;
 		this.workers = workers;
@@ -39,4 +42,8 @@ public class GameStarter {
 		this.startingBuildings = tmp;
 	}
 
+	@Override
+	public String toString() {
+		return this.name;
+	}
 }

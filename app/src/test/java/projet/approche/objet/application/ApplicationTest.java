@@ -34,7 +34,7 @@ class ApplicationTest {
 
 	@Test
 	void testGetResourceProduction() {
-		assertEquals(0, application.getResourceProduction("WOOD"));
+		assertEquals(24, application.getResourceProduction("WOOD"));
 	}
 
 	@Test
@@ -51,6 +51,4 @@ class ApplicationTest {
 	void testGetInHabitantsInBuildings() {
 		assertEquals(26, application.getInHabitantsInBuildings());
 	}
-
-	// TODO: verify exceptions
 }
