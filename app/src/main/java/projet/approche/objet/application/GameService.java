@@ -28,4 +28,6 @@ public interface GameService {
 	public int getDay();
 
 	public int getGridSize();
+
+	public int getScore();
 }

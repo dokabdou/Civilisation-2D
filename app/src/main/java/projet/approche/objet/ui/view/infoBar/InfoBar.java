@@ -7,6 +7,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import projet.approche.objet.application.App;
@@ -22,6 +23,8 @@ public class InfoBar extends BorderPane implements Updateable {
 	private final Button playPauseButton;
 	private final App app;
 	private Text day = new Text();
+	private Text score = new Text();
+	private VBox dayScore = new VBox();
 
 	public InfoBar(GameView gv, App app) {
 		this.inventory = new Inventory(app);
@@ -50,8 +53,20 @@ public class InfoBar extends BorderPane implements Updateable {
 		day.setFont(new Font(20));
 		day.getStyleClass().add("number");
 		day.setCache(true);
+
+		score.setFill(javafx.scene.paint.Color.BLACK);
+		score.setFont(new Font(20));
+		score.getStyleClass().add("number");
+		score.setCache(true);
+
+		this.dayScore.getChildren().addAll(day, score);
+		this.dayScore.setAlignment(javafx.geometry.Pos.TOP_LEFT);
+		this.dayScore.setSpacing(20);
+
 		this.app = app;
 		this.setRight(inventory);
+		this.setLeft(dayScore);
+		// show a text with the current day of the game
 		this.setTop(buttonBox);
 	}
 
@@ -59,10 +74,14 @@ public class InfoBar extends BorderPane implements Updateable {
 		this.inventory.update();
 		this.playPauseButton.update();
 		this.updateDay();
+		this.updateScore();
 	}
 
 	public void updateDay() {
-		day.setText("   Day " + app.getDay());
-		this.setLeft(day);
+    day.setText("   Day " + app.getDay());
+	}
+
+	public void updateScore() {
+		score.setText("Score: " + app.getScore());
 	}
 }

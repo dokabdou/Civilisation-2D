@@ -44,6 +44,8 @@ public class Manager {
 	private Grid grid; // buildings are in the grid
 	private ResourceList resources = new ResourceList();
 
+	private int score = 0;
+
 	/**
 	 * Manager of the game, it will manage the buildings, the resources, the
 	 * inhabitants and the workers
@@ -277,6 +279,7 @@ public class Manager {
 		// kill inhabitants and workers who are not in a building
 		this.availableInhabitants = 0;
 		this.availableWorkers = 0;
+		this.computeScore();
 	}
 
 	/***
@@ -372,5 +375,16 @@ public class Manager {
 	public void upgradeBuilding(Building building)
 			throws NotEnoughNeedsException, NotBuiltException, BuildingAlreadyStartedException {
 		this.resources = building.upgrade(this.resources);
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	private void computeScore() {
+		score = 0;
+		for (Resource resource : resources) {
+			score += Math.round(resource.amount.value * resource.type.valueMultiplier);
+		}
 	}
 }

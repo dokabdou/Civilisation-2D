@@ -280,4 +280,9 @@ public class App implements GameService, BuildingService, ResourceService {
 	public int getPureResourceProduction(String resourceType) {
 		return this.manager.getPureProduction(ResourceType.valueOf(resourceType));
 	}
+
+	@Override
+	public int getScore() {
+		return this.manager.getScore();
+	}
 }

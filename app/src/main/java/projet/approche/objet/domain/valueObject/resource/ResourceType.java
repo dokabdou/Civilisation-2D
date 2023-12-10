@@ -1,25 +1,27 @@
 package projet.approche.objet.domain.valueObject.resource;
 
 public enum ResourceType implements ResourceItf {
-	GOLD("Gold", "G"),
-	FOOD("Food", "F"),
-	WOOD("Wood", "W"),
-	STONE("Stone", "S"),
-	COAL("Coal", "C"),
-	IRON("Iron", "I"),
-	STEEL("Steel", "St"),
-	CEMENT("Cement", "Ce"),
-	LUMBER("Lumber", "L"),
-	TOOLS("Tools", "T"),
-	INHABITANTS("Inhabitants", "P"),
-	WORKERS("Workers", "W");
+	GOLD("Gold", "G", 10),
+	FOOD("Food", "F", 1.5f),
+	WOOD("Wood", "W", 1),
+	STONE("Stone", "S", 1.5f),
+	COAL("Coal", "C", 2.5f),
+	IRON("Iron", "I", 3),
+	STEEL("Steel", "St", 5),
+	CEMENT("Cement", "Ce", 6),
+	LUMBER("Lumber", "L", 7),
+	TOOLS("Tools", "T", 10),
+	INHABITANTS("Inhabitants", "P", 0),
+	WORKERS("Workers", "W", 0);
 
 	public final String name;
 	public final String shortName;
+	public final float valueMultiplier;
 
-	private ResourceType(String name, String shortName) {
+	private ResourceType(String name, String shortName, float value) {
 		this.name = name;
 		this.shortName = shortName;
+		this.valueMultiplier = value;
 	}
 
 	@Override
