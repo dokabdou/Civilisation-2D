@@ -11,14 +11,14 @@ import projet.approche.objet.application.App;
 import projet.approche.objet.domain.valueObject.game.GameStarter;
 import projet.approche.objet.domain.valueObject.game.PremadeLevel;
 import projet.approche.objet.infrastructure.Infrastructure;
-import projet.approche.objet.ui.view.imageResource.LevelButtonImageResource;
+import projet.approche.objet.ui.view.imageResource.ButtonImageResource;
 
 public class LevelButtons extends VBox {
 
-	private static final ImageView easy = new ImageView(LevelButtonImageResource.EASY.getImage());
-	private static final ImageView normal = new ImageView(LevelButtonImageResource.NORMAL.getImage());
-	private static final ImageView hard = new ImageView(LevelButtonImageResource.HARD.getImage());
-	private static final ImageView load = new ImageView(LevelButtonImageResource.LOAD.getImage());
+	private static final ImageView easy = new ImageView(ButtonImageResource.EASY.getImage());
+	private static final ImageView normal = new ImageView(ButtonImageResource.NORMAL.getImage());
+	private static final ImageView hard = new ImageView(ButtonImageResource.HARD.getImage());
+	private static final ImageView load = new ImageView(ButtonImageResource.LOAD.getImage());
 
 	public LevelButtons(Stage stage) {
 		HBox levels = new HBox();
