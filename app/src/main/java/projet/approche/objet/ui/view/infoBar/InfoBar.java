@@ -83,10 +83,10 @@ public class InfoBar extends BorderPane implements Updateable {
 	}
 
 	public void updateDay() {
-    day.setText("   Day " + app.getDay());
+		day.setText("   Day " + app.getDay());
 	}
 
 	public void updateScore() {
-		score.setText("Score: " + app.getScore());
+		score.setText("   Score: " + app.getScore());
 	}
 }

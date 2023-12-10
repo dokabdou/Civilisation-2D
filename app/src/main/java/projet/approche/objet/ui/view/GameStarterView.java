@@ -18,11 +18,11 @@ public class GameStarterView extends BorderPane {
 		this.prefHeightProperty().bind(imageView.fitHeightProperty());
 	}
 
-	public static void startGame(Stage stage, GameStarter gs) {
+	public static void startGame(Stage stage, GameStarter gs, String title) {
 		App app = new App(gs);
 		GameView gameView = new GameView(stage, app);
 		Scene gameScene = new Scene(gameView);
-		stage.setTitle(gs.toString());
+		stage.setTitle(title);
 		stage.setScene(gameScene);
 		stage.sizeToScene();
 		stage.show();
