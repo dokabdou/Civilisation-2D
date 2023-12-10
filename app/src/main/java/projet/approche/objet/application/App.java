@@ -14,6 +14,7 @@ import projet.approche.objet.domain.valueObject.game.GameState;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameAlreadyStarted;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameEnded;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameNotStarted;
+import projet.approche.objet.domain.valueObject.game.exceptions.GameOverException;
 import projet.approche.objet.domain.valueObject.game.exceptions.GamePaused;
 import projet.approche.objet.domain.valueObject.game.exceptions.NoMoreSpace;
 import projet.approche.objet.domain.valueObject.game.exceptions.NotEnoughInhabitants;
@@ -216,7 +217,7 @@ public class App implements GameService, BuildingService, ResourceService {
 	}
 
 	@Override
-	public void update() throws GameNotStarted, GameEnded, GamePaused {
+	public void update() throws GameNotStarted, GameEnded, GamePaused, GameOverException {
 		checkGameStarted();
 		checkGameNotEnded();
 		checkGameNotPaused();
@@ -279,5 +280,10 @@ public class App implements GameService, BuildingService, ResourceService {
 	@Override
 	public int getPureResourceProduction(String resourceType) {
 		return this.manager.getPureProduction(ResourceType.valueOf(resourceType));
+	}
+
+	@Override
+	public int getScore() {
+		return this.manager.getScore();
 	}
 }

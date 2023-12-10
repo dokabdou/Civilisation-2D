@@ -1,13 +1,11 @@
 package projet.approche.objet.ui.view;
 
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import projet.approche.objet.application.App;
 import projet.approche.objet.domain.valueObject.game.GameStarter;
 import projet.approche.objet.domain.valueObject.game.PremadeLevel;
 import projet.approche.objet.infrastructure.Infrastructure;
@@ -74,15 +72,5 @@ public class LevelButtons extends VBox {
 		levels.getChildren().addAll(easy, normal, hard);
 
 		this.getChildren().addAll(levels, load);
-	}
-
-	private static void startGame(Stage stage, GameStarter gs, String title) {
-		App app = new App(gs);
-		GameView gameView = new GameView(stage, app);
-		Scene gameScene = new Scene(gameView);
-		stage.setTitle(title);
-		stage.setScene(gameScene);
-		stage.sizeToScene();
-		stage.show();
 	}
 }

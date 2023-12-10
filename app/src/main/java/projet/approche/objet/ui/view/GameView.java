@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.animation.AnimationTimer;
+import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import projet.approche.objet.application.App;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameEnded;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameNotStarted;
+import projet.approche.objet.domain.valueObject.game.exceptions.GameOverException;
 import projet.approche.objet.domain.valueObject.game.exceptions.GamePaused;
 import projet.approche.objet.ui.view.infoBar.InfoBar;
 
@@ -49,7 +51,14 @@ public class GameView extends BorderPane {
 					try {
 						app.update();
 						updateables.forEach(Updateable::update);
-					} catch (GameNotStarted | GameEnded | GamePaused e) {
+					} catch (GameNotStarted | GamePaused | GameEnded e) {
+						stop();
+					} catch (GameOverException e) {
+						GameOverView gameOverView = new GameOverView(stage, app);
+						stage.setScene(new Scene(gameOverView));
+						stage.sizeToScene();
+						stage.show();
+						stop();
 					}
 				}
 			}

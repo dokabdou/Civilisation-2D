@@ -12,6 +12,7 @@ import projet.approche.objet.domain.valueObject.game.GameState;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameAlreadyStarted;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameEnded;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameNotStarted;
+import projet.approche.objet.domain.valueObject.game.exceptions.GameOverException;
 import projet.approche.objet.domain.valueObject.game.exceptions.GamePaused;
 import projet.approche.objet.domain.valueObject.game.exceptions.NoMoreSpace;
 import projet.approche.objet.domain.valueObject.game.exceptions.NotEnoughInhabitants;
@@ -43,6 +44,8 @@ public class Manager {
 
 	private Grid grid; // buildings are in the grid
 	private ResourceList resources = new ResourceList();
+
+	private int score = 0;
 
 	/**
 	 * Manager of the game, it will manage the buildings, the resources, the
@@ -244,12 +247,13 @@ public class Manager {
 	}
 
 	/**
+	 * @throws GameOverException
 	 * @breif Update the game and all its components
 	 * @details Update the game and all its components, it will update the
 	 *          buildings, the resources, the inhabitants and the workers (kill all
 	 *          of them who are not in a building)
 	 */
-	public void update() throws GameNotStarted, GameEnded, GamePaused {
+	public void update() throws GameNotStarted, GameEnded, GamePaused, GameOverException {
 		if (state == GameState.NOTSTARTED) {
 			throw new GameNotStarted();
 		} else if (state == GameState.ENDED) {
@@ -270,13 +274,14 @@ public class Manager {
 			try {
 				resources = resources.remove(foodNeeded);
 			} catch (NotEnoughResourceException | ResourceNotFoundException e) {
-				System.out.println("GAME OVER");
 				this.endGame();
+				throw new GameOverException("You don't have enough food to feed your people ...");
 			}
 		}
 		// kill inhabitants and workers who are not in a building
 		this.availableInhabitants = 0;
 		this.availableWorkers = 0;
+		this.computeScore();
 	}
 
 	/***
@@ -376,5 +381,16 @@ public class Manager {
 	public void upgradeBuilding(Building building)
 			throws NotEnoughNeedsException, NotBuiltException, BuildingAlreadyStartedException {
 		this.resources = building.upgrade(this.resources);
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	private void computeScore() {
+		score = 0;
+		for (Resource resource : resources) {
+			score += Math.round(resource.amount.value * resource.type.valueMultiplier);
+		}
 	}
 }
