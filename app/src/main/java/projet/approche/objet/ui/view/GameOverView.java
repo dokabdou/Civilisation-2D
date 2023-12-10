@@ -18,12 +18,14 @@ public class GameOverView extends StackPane {
 
 	private Label title = new Label("Game Over");
 	private Label score = new Label("Your score is: ");
+	private Label daySurvived = new Label("You survived: ");
 	private VBox text = new VBox();
 	private ImageView imageView = new ImageView(new Image("images/gameOver.png"));
 
 	public GameOverView(Stage stage, App app) {
 
 		this.setScore(app.getScore());
+		this.setDaySurvived(app.getDay());
 
 		title.setStyle(
 				"-fx-background-color: rgba(255, 255, 255, 0.6);-fx-padding: 7;-fx-font-size: 30px;");
@@ -41,6 +43,14 @@ public class GameOverView extends StackPane {
 		score.setTranslateX(0);
 		score.setWrapText(true);
 
+		daySurvived.setStyle(
+				"-fx-background-color: rgba(255, 255, 255, 0.6);-fx-padding: 7;-fx-font-size: 30px;");
+		daySurvived.setPrefWidth(500);
+		daySurvived.setPrefHeight(50);
+		daySurvived.setTranslateY(0);
+		daySurvived.setTranslateX(0);
+		daySurvived.setWrapText(true);
+
 		stage.getScene().getAccelerators().put(new KeyCodeCombination(KeyCode.R), () -> {
 			Main.restart(stage);
 		});
@@ -49,7 +59,7 @@ public class GameOverView extends StackPane {
 			stage.close();
 		});
 
-		text.getChildren().addAll(title, score);
+		text.getChildren().addAll(title, score, daySurvived);
 
 		text.setAlignment(javafx.geometry.Pos.CENTER);
 		text.setPadding(new javafx.geometry.Insets(50));
@@ -59,6 +69,10 @@ public class GameOverView extends StackPane {
 
 	public void setScore(int score) {
 		this.score.setText("Your score is: " + score);
+	}
+
+	public void setDaySurvived(int day) {
+		this.daySurvived.setText("You survived: " + day + " days");
 	}
 
 }
