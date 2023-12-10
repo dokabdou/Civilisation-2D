@@ -5,33 +5,46 @@ import javafx.scene.Scene;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import projet.approche.objet.application.App;
 import projet.approche.objet.domain.valueObject.game.GameStarter;
+import projet.approche.objet.domain.valueObject.game.PremadeLevel;
+import projet.approche.objet.infrastructure.Infrastructure;
 import projet.approche.objet.ui.view.imageResource.LevelButtonImageResource;
 
-public class LevelButtons extends HBox {
+public class LevelButtons extends VBox {
 
 	private static final ImageView easy = new ImageView(LevelButtonImageResource.EASY.getImage());
-	private static final ImageView medium = new ImageView(LevelButtonImageResource.MEDIUM.getImage());
+	private static final ImageView normal = new ImageView(LevelButtonImageResource.NORMAL.getImage());
 	private static final ImageView hard = new ImageView(LevelButtonImageResource.HARD.getImage());
+	private static final ImageView load = new ImageView(LevelButtonImageResource.LOAD.getImage());
 
 	public LevelButtons(Stage stage) {
+		HBox levels = new HBox();
 		this.setAlignment(javafx.geometry.Pos.CENTER);
-		setPadding(new Insets(40));
-		setSpacing(30);
+		levels.setAlignment(javafx.geometry.Pos.CENTER);
+		levels.setPadding(new Insets(20));
+		levels.setSpacing(30);
 
 		easy.setOnMouseClicked(e -> {
-			startGame(stage, GameStarter.EASY, 10);
+			startGame(stage, new GameStarter(PremadeLevel.EASY));
 		});
 
-		medium.setOnMouseClicked(e -> {
-			startGame(stage, GameStarter.NORMAL, 10);
+		normal.setOnMouseClicked(e -> {
+			startGame(stage, new GameStarter(PremadeLevel.NORMAL));
 		});
 
 		hard.setOnMouseClicked(e -> {
-			startGame(stage, GameStarter.HARD, 10);
+			startGame(stage, new GameStarter(PremadeLevel.HARD));
 		});
+
+		load.setOnMouseClicked(e -> {
+			Infrastructure is = new Infrastructure();
+			GameStarter gs = is.load();
+			startGame(stage, gs);
+		});
+
 		ColorAdjust colorAdjust = new ColorAdjust();
 		colorAdjust.setBrightness(-0.4);
 		easy.setOnMouseEntered(e -> {
@@ -40,11 +53,11 @@ public class LevelButtons extends HBox {
 		easy.setOnMouseExited(e -> {
 			easy.setEffect(null);
 		});
-		medium.setOnMouseEntered(e -> {
-			medium.setEffect(colorAdjust);
+		normal.setOnMouseEntered(e -> {
+			normal.setEffect(colorAdjust);
 		});
-		medium.setOnMouseExited(e -> {
-			medium.setEffect(null);
+		normal.setOnMouseExited(e -> {
+			normal.setEffect(null);
 		});
 		hard.setOnMouseEntered(e -> {
 			hard.setEffect(colorAdjust);
@@ -52,14 +65,21 @@ public class LevelButtons extends HBox {
 		hard.setOnMouseExited(e -> {
 			hard.setEffect(null);
 		});
-		getChildren().addAll(easy, medium, hard);
+		load.setOnMouseEntered(e -> {
+			load.setEffect(colorAdjust);
+		});
+		load.setOnMouseExited(e -> {
+			load.setEffect(null);
+		});
+		levels.getChildren().addAll(easy, normal, hard);
+
+		this.getChildren().addAll(levels, load);
 	}
 
-	private static void startGame(Stage stage, GameStarter gs, int gridSize) {
-		App app = new App(gs, gridSize);
+	private static void startGame(Stage stage, GameStarter gs) {
+		App app = new App(gs);
 		GameView gameView = new GameView(stage, app);
 		Scene gameScene = new Scene(gameView);
-
 		stage.setTitle(gs.toString());
 		stage.setScene(gameScene);
 		stage.sizeToScene();
