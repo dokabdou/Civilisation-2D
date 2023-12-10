@@ -3,6 +3,7 @@ package projet.approche.objet.application;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameAlreadyStarted;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameEnded;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameNotStarted;
+import projet.approche.objet.domain.valueObject.game.exceptions.GameOverException;
 import projet.approche.objet.domain.valueObject.game.exceptions.GamePaused;
 
 public interface GameService {
@@ -13,7 +14,7 @@ public interface GameService {
 
 	public void endGame() throws GameNotStarted, GameEnded;
 
-	public void update() throws GameNotStarted, GameEnded, GamePaused;
+	public void update() throws GameNotStarted, GameEnded, GamePaused, GameOverException;
 
 	public boolean isGameStarted();
 
