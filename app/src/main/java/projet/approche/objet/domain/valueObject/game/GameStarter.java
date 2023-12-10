@@ -23,7 +23,10 @@ public enum GameStarter {
 					new Resource(FOOD, 150))),
 			List.of(
 					new SimpleEntry<>(new Coordinate(0, 0), WOODENCABIN),
-					new SimpleEntry<>(new Coordinate(1, 0), HOUSE))),
+					new SimpleEntry<>(new Coordinate(9, 0), WOODENCABIN),
+					new SimpleEntry<>(new Coordinate(0, 9), WOODENCABIN),
+					new SimpleEntry<>(new Coordinate(9, 9), WOODENCABIN),
+					new SimpleEntry<>(new Coordinate(4, 4), FARM))),
 	NORMAL(6, 2,
 			new ResourceList(List.of(
 					new Resource(GOLD, 10),

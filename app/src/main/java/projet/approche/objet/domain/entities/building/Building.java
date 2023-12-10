@@ -57,20 +57,22 @@ public class Building implements BuildingItf {
 	 * @return the remaining resources after the production and consumption
 	 */
 	public ResourceList update(ResourceList inventory) {
+		// reproduce inhabitants and workers at the begining of the "day"
+		this.reproduce();
 		ResourceList returnList = new ResourceList();
 		if (isBuilt) { // if the building is built verify if it can produce
 			if (this.workers >= this.getWorkersNeeded() && this.inhabitants >= this.getInhabitantsNeeded()) {
 				time++;
 				if (time >= this.getProduction().time && time >= this.getConsumption().time) { // even if it
-																								// should be
+					// should be
 					// the same value
 					if (this.getConsumption().isAffordable(inventory)) { // verify if the building have enough
-																			// resources
+						// resources
 						returnList = this.getConsumption().getRemainingResources(inventory); // consume resources
-																								// from
+						// from
 						// inventory
 						returnList = this.getProduction().harvestProduction(returnList); // produce resources in
-																							// inventory
+						// inventory
 						this.time = 0; // reset the time since last production
 						return returnList;
 					}
@@ -86,6 +88,7 @@ public class Building implements BuildingItf {
 		}
 		// else the building is not built and the construction did not start so nothing
 		// is done
+
 		return inventory;
 	}
 
@@ -182,5 +185,27 @@ public class Building implements BuildingItf {
 
 	public String toShortString() {
 		return type.shortName + ":" + id;
+	}
+
+	/***
+	 * Adds inhabitants and workers to the building. If the building is built, it
+	 * will add inhabitants and workers to the building. Inhabitants and workers
+	 * will reproduce only if the building is not less than half full.
+	 */
+	private void reproduce() {
+		if (this.isBuilt) {
+			int inhabitantsToAdd = this.inhabitants / 2;
+			int workersToAdd = this.workers / 2;
+
+			if (this.inhabitants >= this.getInhabitantsMax() / 2) {
+				inhabitantsToAdd = 0;
+			}
+			if (this.workers >= this.getWorkersMax() / 2) {
+				workersToAdd = 0;
+			}
+
+			this.inhabitants += inhabitantsToAdd;
+			this.workers += workersToAdd;
+		}
 	}
 }
