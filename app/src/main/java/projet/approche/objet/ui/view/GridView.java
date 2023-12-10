@@ -65,7 +65,6 @@ public class GridView extends BorderPane implements Updateable {
 			x = i;
 			y = j;
 			if (e.getButton() == MouseButton.SECONDARY) {
-				makePopUpForException(() -> app.pauseGame());
 				contextMenu.show(tile, e.getScreenX(), e.getScreenY());
 			} else {
 				try {
