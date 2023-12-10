@@ -14,19 +14,20 @@ public class GameInfoView extends StackPane {
 	public GameInfoView(Stage stage, ImageView imageView) {
 		BorderPane pane = new BorderPane();
 
+		VBox titleBox = new VBox();
+		titleBox.setAlignment(javafx.geometry.Pos.CENTER);
 		Label title = new Label("Village Manager");
 		title.setFont(new Font(30));
 		title.setStyle("-fx-background-color: rgba(255, 255, 255, 0.6);-fx-padding: 7;");
-		title.setPadding(new Insets(20));
-		pane.setTop(title);
+		title.setPadding(new Insets(10));
 		BorderPane.setAlignment(title, javafx.geometry.Pos.CENTER);
-
-		VBox text = new VBox();
-
 		Label goal = new Label(
 				"The goal of the game is to manage resources, inhabitants and buildings, all while trying to make your village prosper.");
 		goal.setStyle("-fx-background-color: rgba(255, 255, 255, 0.6); -fx-padding: 7;");
 		goal.setWrapText(true);
+		VBox text = new VBox();
+		titleBox.getChildren().addAll(title, goal);
+		pane.setTop(titleBox);
 
 		Label resourcesTitle = new Label(
 				"Resources:");
@@ -58,10 +59,10 @@ public class GameInfoView extends StackPane {
 
 		LevelButtons levelButtons = new LevelButtons(stage);
 
-		text.getChildren().addAll(goal, resourcesTitle, resources, buildingsTitle, buildings, howToPlayTitle,
+		text.getChildren().addAll(resourcesTitle, resources, buildingsTitle, buildings, howToPlayTitle,
 				howToPlay, levelButtons);
 		text.setAlignment(javafx.geometry.Pos.CENTER);
-		text.setPadding(new Insets(50));
+		text.setPadding(new Insets(30));
 		pane.setCenter(text);
 		this.getChildren().addAll(imageView, pane);
 	}

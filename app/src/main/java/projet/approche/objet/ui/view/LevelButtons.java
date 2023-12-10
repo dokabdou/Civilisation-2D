@@ -22,7 +22,7 @@ public class LevelButtons extends VBox {
 		HBox levels = new HBox();
 		this.setAlignment(javafx.geometry.Pos.CENTER);
 		levels.setAlignment(javafx.geometry.Pos.CENTER);
-		levels.setPadding(new Insets(20));
+		levels.setPadding(new Insets(10));
 		levels.setSpacing(30);
 
 		easy.setOnMouseClicked(e -> {

@@ -71,7 +71,6 @@ public class InfoBar extends BorderPane implements Updateable {
 		this.app = app;
 		this.setRight(inventory);
 		this.setLeft(dayScore);
-		// show a text with the current day of the game
 		this.setTop(buttonBox);
 	}
 
