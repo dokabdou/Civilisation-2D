@@ -50,9 +50,6 @@ Le but du jeu est de maintenir une économie stable le plus longtemps possible. 
 En suivant ces instructions, vous pouvez explorer les différentes mécaniques du jeu, prendre des décisions stratégiques et tenter de maintenir un équilibre économique le plus longtemps possible. Amusez-vous bien !
 
 
-## Contribution
-Instructions pour ceux qui souhaitent contribuer au projet. Inclure des détails sur les normes de codage, les processus de pull request, etc.
-
 ## Licence
 MIT
 
