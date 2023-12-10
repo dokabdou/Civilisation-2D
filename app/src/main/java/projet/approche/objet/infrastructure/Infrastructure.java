@@ -64,11 +64,16 @@ public class Infrastructure implements Repository {
 			// Write the size of the grid
 			bufferedWriter.write(app.getManager().getGrid().getSize() + "\n");
 			// Write the grid
-			for (int i = 0; i < app.getManager().getGrid().getSize(); i++) {
-				for (int j = 0; j < app.getManager().getGrid().getSize(); j++) {
-					BuildingType buildingType = app.getManager().getGrid().getBuilding(new Coordinate(i, j)).type;
-					if (buildingType != null) {
+			int size = app.getManager().getGrid().getSize();
+			for (int i = 0; i < size; i++) {
+				for (int j = 0; j < size; j++) {
+					try {
+						BuildingType buildingType = app.getManager().getGrid().getBuilding(new Coordinate(i, j)).type;
 						bufferedWriter.write(i + "," + j + "," + buildingType.shortName + "\n");
+					} catch (NoBuildingHereException e) {
+						continue;
+					} catch (NotInGridException e) {
+						throw new RuntimeException(e); // should not happen
 					}
 				}
 			}
