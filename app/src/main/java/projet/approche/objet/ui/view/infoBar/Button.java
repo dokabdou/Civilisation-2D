@@ -1,6 +1,5 @@
 package projet.approche.objet.ui.view.infoBar;
 
-import javafx.geometry.Insets;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;

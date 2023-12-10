@@ -28,21 +28,21 @@ public class LevelButtons extends VBox {
 		levels.setSpacing(30);
 
 		easy.setOnMouseClicked(e -> {
-			startGame(stage, new GameStarter(PremadeLevel.EASY));
+			startGame(stage, new GameStarter(PremadeLevel.EASY), PremadeLevel.EASY.toString());
 		});
 
 		normal.setOnMouseClicked(e -> {
-			startGame(stage, new GameStarter(PremadeLevel.NORMAL));
+			startGame(stage, new GameStarter(PremadeLevel.NORMAL), PremadeLevel.NORMAL.toString());
 		});
 
 		hard.setOnMouseClicked(e -> {
-			startGame(stage, new GameStarter(PremadeLevel.HARD));
+			startGame(stage, new GameStarter(PremadeLevel.HARD), PremadeLevel.HARD.toString());
 		});
 
 		load.setOnMouseClicked(e -> {
 			Infrastructure is = new Infrastructure();
 			GameStarter gs = is.load();
-			startGame(stage, gs);
+			startGame(stage, gs, "Custom Game");
 		});
 
 		ColorAdjust colorAdjust = new ColorAdjust();
@@ -76,11 +76,11 @@ public class LevelButtons extends VBox {
 		this.getChildren().addAll(levels, load);
 	}
 
-	private static void startGame(Stage stage, GameStarter gs) {
+	private static void startGame(Stage stage, GameStarter gs, String title) {
 		App app = new App(gs);
 		GameView gameView = new GameView(stage, app);
 		Scene gameScene = new Scene(gameView);
-		stage.setTitle(gs.toString());
+		stage.setTitle(title);
 		stage.setScene(gameScene);
 		stage.sizeToScene();
 		stage.show();
