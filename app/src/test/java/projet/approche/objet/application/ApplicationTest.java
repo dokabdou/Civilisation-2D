@@ -51,6 +51,4 @@ class ApplicationTest {
 	void testGetInHabitantsInBuildings() {
 		assertEquals(26, application.getInHabitantsInBuildings());
 	}
-
-	// TODO: verify exceptions
 }
