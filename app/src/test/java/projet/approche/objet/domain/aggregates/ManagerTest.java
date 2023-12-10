@@ -41,7 +41,12 @@ class ManagerTest {
 		gameStarter = new GameStarter(PremadeLevel.EASY);
 		manager = new Manager(gameStarter);
 		assertDoesNotThrow(() -> manager.destroyBuilding(new Coordinate(0, 0)));
-		assertDoesNotThrow(() -> manager.destroyBuilding(new Coordinate(1, 0)));
+		assertDoesNotThrow(() -> manager.destroyBuilding(new Coordinate(9, 9)));
+		assertDoesNotThrow(() -> manager.destroyBuilding(new Coordinate(9, 0)));
+		assertDoesNotThrow(() -> manager.destroyBuilding(new Coordinate(0, 9)));
+		assertDoesNotThrow(() -> manager.destroyBuilding(new Coordinate(4, 4)));
+		manager.setAvailableInhabitants(1000);
+		manager.setAvailableWorkers(1000);
 		this.inventory = new ResourceList(
 				List.of(new Resource(ResourceType.GOLD, 100), new Resource(ResourceType.WOOD, 100),
 						new Resource(ResourceType.STONE, 100), new Resource(ResourceType.FOOD, 100)));
@@ -103,10 +108,10 @@ class ManagerTest {
 		assertThrows(NotBuiltException.class, () -> manager.addInhabitantToBuilding(b, 5));
 		while (!b.isBuilt())
 			b.update(inventory);
-		assertDoesNotThrow(() -> manager.addInhabitantToBuilding(b, 2));
-		assertDoesNotThrow(() -> manager.addInhabitantToBuilding(b, 2));
+		assertDoesNotThrow(() -> manager.addInhabitantToBuilding(b, 4));
+		assertDoesNotThrow(() -> manager.addInhabitantToBuilding(b, 4));
 		assertThrows(NoMoreSpace.class, () -> manager.addInhabitantToBuilding(b, 2));
-		assertEquals(4, b.getInhabitants());
+		assertEquals(8, b.getInhabitants());
 	}
 
 	@Test
@@ -132,9 +137,9 @@ class ManagerTest {
 		assertThrows(NotBuiltException.class, () -> manager.addWorkerToBuilding(b, 5));
 		while (!b.isBuilt())
 			b.update(inventory);
-		assertDoesNotThrow(() -> manager.addWorkerToBuilding(b, 4));
+		assertDoesNotThrow(() -> manager.addWorkerToBuilding(b, 8));
 		assertThrows(NoMoreSpace.class, () -> manager.addWorkerToBuilding(b, 2));
-		assertEquals(4, b.getWorkers());
+		assertEquals(8, b.getWorkers());
 	}
 
 	@Test
@@ -209,14 +214,14 @@ class ManagerTest {
 		assertEquals(0, manager.getProduction(FOOD));
 		assertEquals(0, manager.getProduction(GOLD));
 		assertEquals(0, manager.getProduction(STONE));
-		assertDoesNotThrow(() -> manager.addWorkerToBuilding(b, 4));
+		assertDoesNotThrow(() -> manager.addWorkerToBuilding(b, 8));
 		assertEquals(0, manager.getProduction(WOOD));
 		assertEquals(0, manager.getProduction(FOOD));
 		assertEquals(0, manager.getProduction(GOLD));
 		assertEquals(0, manager.getProduction(STONE));
-		assertDoesNotThrow(() -> manager.addInhabitantToBuilding(b, 4));
-		assertEquals(2, manager.getProduction(WOOD));
-		assertEquals(2, manager.getProduction(FOOD));
+		assertDoesNotThrow(() -> manager.addInhabitantToBuilding(b, 8));
+		assertEquals(6, manager.getProduction(WOOD));
+		assertEquals(8, manager.getProduction(FOOD));
 		assertEquals(0, manager.getProduction(GOLD));
 		assertEquals(0, manager.getProduction(STONE));
 		BuildingType building2 = BuildingType.FARM;
@@ -230,8 +235,8 @@ class ManagerTest {
 		manager.setAvailableInhabitants(100);
 		assertDoesNotThrow(() -> manager.addWorkerToBuilding(b2, 4));
 		assertDoesNotThrow(() -> manager.addInhabitantToBuilding(b2, 6));
-		assertEquals(2, manager.getProduction(WOOD));
-		assertEquals(12, manager.getProduction(FOOD));
+		assertEquals(6, manager.getProduction(WOOD));
+		assertEquals(8, manager.getProduction(FOOD));
 		assertEquals(0, manager.getProduction(GOLD));
 		assertEquals(0, manager.getProduction(STONE));
 	}

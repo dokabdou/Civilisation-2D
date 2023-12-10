@@ -67,8 +67,8 @@ public class Manager {
 			while (!starterBuilding.isBuilt()) {
 				starterBuilding.update(getInfiniteResources());
 			}
-			starterBuilding.addInhabitantToBuilding(starterBuilding.type.getInhabitantsMax());
-			starterBuilding.addWorkerToBuilding(starterBuilding.type.getWorkersMax());
+			starterBuilding.addInhabitantToBuilding(starterBuilding.type.getInhabitantsMax() / 2);
+			starterBuilding.addWorkerToBuilding(starterBuilding.type.getWorkersMax() / 2);
 			try {
 				this.grid = this.grid.setBuilding(starterBuilding, coordinate);
 

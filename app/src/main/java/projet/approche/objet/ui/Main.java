@@ -13,15 +13,15 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		GameStarterView editorView = new GameStarterView(primaryStage);
+		GameStarterView gameStarterView = new GameStarterView(primaryStage);
 		ImageView imageView = new ImageView(new Image("images/Game.png"));
 		GameInfoView gameInfoView = new GameInfoView(primaryStage, imageView);
-		editorView.setCenter(gameInfoView);
-		editorView.prefWidthProperty().bind(imageView.fitWidthProperty());
-		editorView.prefHeightProperty().bind(imageView.fitHeightProperty());
+		gameStarterView.setCenter(gameInfoView);
+		gameStarterView.prefWidthProperty().bind(imageView.fitWidthProperty());
+		gameStarterView.prefHeightProperty().bind(imageView.fitHeightProperty());
 
 		primaryStage.setTitle("Approche Objet");
-		primaryStage.setScene(new Scene(editorView));
+		primaryStage.setScene(new Scene(gameStarterView));
 		primaryStage.show();
 	}
 
