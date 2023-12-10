@@ -5,13 +5,14 @@ import javafx.scene.image.Image;
 public enum LevelButtonImageResource {
 
 	EASY("Easy.png"),
-	MEDIUM("Medium.png"),
-	HARD("Hard.png");
+	NORMAL("Normal.png"),
+	HARD("Hard.png"),
+	LOAD("Load.png");
 
 	private final Image image;
 
 	public static final int width = 100;
-	public static final int height = 92;
+	public static final int height = 100;
 
 	LevelButtonImageResource(String file) {
 		try {

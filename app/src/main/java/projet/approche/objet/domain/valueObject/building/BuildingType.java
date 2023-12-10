@@ -174,6 +174,15 @@ public enum BuildingType {
 		return null;
 	}
 
+	public static BuildingType fromShortString(String name) {
+		for (BuildingType type : BuildingType.values()) {
+			if (type.shortName.equals(name)) {
+				return type;
+			}
+		}
+		return null;
+	}
+
 	public String getStats() {
 		return name + " :\n\nNumber of inhabitants(min-max) : " + inhabitantsNeeded + "-" + inhabitantsMax
 				+ "\nNumber of workers(min-max) : " + workersNeeded + "-" + workersMax + "\n"

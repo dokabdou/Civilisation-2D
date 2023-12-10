@@ -28,8 +28,8 @@ public class App implements GameService, BuildingService, ResourceService {
 
 	private Manager manager;
 
-	public App(GameStarter gameStarter, int gridSize) {
-		this.manager = new Manager(gameStarter, gridSize);
+	public App(GameStarter gameStarter) {
+		this.manager = new Manager(gameStarter);
 	}
 
 	@Override

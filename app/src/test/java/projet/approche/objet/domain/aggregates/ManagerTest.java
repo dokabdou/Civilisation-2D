@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import projet.approche.objet.domain.entities.building.Building;
 import projet.approche.objet.domain.valueObject.building.BuildingType;
 import projet.approche.objet.domain.valueObject.building.exceptions.NotBuiltException;
+import projet.approche.objet.domain.valueObject.game.PremadeLevel;
 import projet.approche.objet.domain.valueObject.game.GameStarter;
 import projet.approche.objet.domain.valueObject.game.GameState;
 import projet.approche.objet.domain.valueObject.game.exceptions.GameAlreadyStarted;
@@ -37,8 +38,8 @@ class ManagerTest {
 
 	@BeforeEach
 	void setUp() {
-		gameStarter = GameStarter.EASY;
-		manager = new Manager(gameStarter, 10);
+		gameStarter = new GameStarter(PremadeLevel.EASY);
+		manager = new Manager(gameStarter);
 		assertDoesNotThrow(() -> manager.destroyBuilding(new Coordinate(0, 0)));
 		assertDoesNotThrow(() -> manager.destroyBuilding(new Coordinate(9, 9)));
 		assertDoesNotThrow(() -> manager.destroyBuilding(new Coordinate(9, 0)));

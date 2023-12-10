@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import projet.approche.objet.domain.valueObject.game.GameStarter;
+import projet.approche.objet.domain.valueObject.game.PremadeLevel;
 import projet.approche.objet.domain.valueObject.resource.ResourceType;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,8 +17,8 @@ class ApplicationTest {
 
 	@BeforeEach
 	void setUp() {
-		gameStarter = GameStarter.EASY;
-		application = new App(gameStarter, 10);
+		gameStarter = new GameStarter(PremadeLevel.EASY);
+		application = new App(gameStarter);
 	}
 
 	@Test

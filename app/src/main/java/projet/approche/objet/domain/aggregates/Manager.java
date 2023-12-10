@@ -50,11 +50,11 @@ public class Manager {
 	 * 
 	 * @param gameStarter the game starter
 	 */
-	public Manager(GameStarter gameStarter, int gridSize) {
+	public Manager(GameStarter gameStarter) {
 		this.availableInhabitants = gameStarter.inhabitants;
 		this.availableWorkers = gameStarter.workers;
 		this.resources = gameStarter.startingResources;
-		this.grid = new Grid(gridSize);
+		this.grid = new Grid(gameStarter.gridSize);
 		for (var coordinate : gameStarter.startingBuildings.keySet()) {
 			Building starterBuilding = new Building(gameStarter.startingBuildings.get(coordinate),
 					++idBuildings);
