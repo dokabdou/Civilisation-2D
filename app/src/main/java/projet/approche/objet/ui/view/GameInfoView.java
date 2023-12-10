@@ -1,22 +1,17 @@
 package projet.approche.objet.ui.view;
 
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import projet.approche.objet.domain.valueObject.game.GameStarter;
 
 public class GameInfoView extends StackPane {
 
-	public GameInfoView(Stage stage) {
-		ImageView imageView = new ImageView(new Image("images/Game.png"));
-
+	public GameInfoView(Stage stage, ImageView imageView) {
 		BorderPane pane = new BorderPane();
 
 		Label title = new Label("Village Manager");

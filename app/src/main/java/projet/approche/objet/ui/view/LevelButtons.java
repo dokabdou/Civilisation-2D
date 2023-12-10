@@ -2,11 +2,9 @@ package projet.approche.objet.ui.view;
 
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import projet.approche.objet.application.App;
 import projet.approche.objet.domain.valueObject.game.GameStarter;
