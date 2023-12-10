@@ -70,17 +70,24 @@ public class Inventory extends VBox implements Updateable {
 	}
 
 	public void update() {
-		gold.setText(Integer.toString(this.app.getResourceQuantity("GOLD")));
-		food.setText(Integer.toString(this.app.getResourceQuantity("FOOD")));
-		wood.setText(Integer.toString(this.app.getResourceQuantity("WOOD")));
-		stone.setText(Integer.toString(this.app.getResourceQuantity("STONE")));
-		coal.setText(Integer.toString(this.app.getResourceQuantity("COAL")));
-		iron.setText(Integer.toString(this.app.getResourceQuantity("IRON")));
-		steel.setText(Integer.toString(this.app.getResourceQuantity("STEEL")));
-		cement.setText(Integer.toString(this.app.getResourceQuantity("CEMENT")));
-		lumber.setText(Integer.toString(this.app.getResourceQuantity("LUMBER")));
-		tools.setText(Integer.toString(this.app.getResourceQuantity("TOOLS")));
-		person.setText(Integer.toString(this.app.getInHabitantsInBuildings()));
-		worker.setText(Integer.toString(this.app.getWorkersInBuildings()));
+		gold.setText(getResourceQuantity("GOLD"));
+		food.setText(getResourceQuantity("FOOD"));
+		wood.setText(getResourceQuantity("WOOD"));
+		stone.setText(getResourceQuantity("STONE"));
+		coal.setText(getResourceQuantity("COAL"));
+		iron.setText(getResourceQuantity("IRON"));
+		steel.setText(getResourceQuantity("STEEL"));
+		cement.setText(getResourceQuantity("CEMENT"));
+		lumber.setText(getResourceQuantity("LUMBER"));
+		tools.setText(getResourceQuantity("TOOLS"));
+		person.setText(Integer.toString(this.app.getInHabitantsInBuildings()) + '['
+				+ Integer.toString(this.app.getInhabitantsNumber()) + ']');
+		worker.setText(Integer.toString(this.app.getWorkersInBuildings()) + '['
+				+ Integer.toString(this.app.getWorkersNumber()) + ']');
+	}
+
+	private String getResourceQuantity(String resourceType) {
+		return Integer.toString(this.app.getResourceQuantity(resourceType)) + " ("
+				+ Integer.toString(this.app.getPureResourceProduction(resourceType)) + ")";
 	}
 }

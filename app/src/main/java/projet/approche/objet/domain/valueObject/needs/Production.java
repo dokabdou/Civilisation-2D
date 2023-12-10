@@ -18,10 +18,6 @@ public class Production extends Needs {
 		super(time, resources);
 	}
 
-	public ResourceList getProduction() {
-		return this.resources;
-	}
-
 	/**
 	 * Multiplies the production by the specified multiplier. (only the resources,
 	 * not the time)

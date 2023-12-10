@@ -270,4 +270,14 @@ public class App implements GameService, BuildingService, ResourceService {
 		checkGameNotEnded();
 		this.manager.upgradeBuilding(this.manager.getGrid().getBuilding(new Coordinate(x, y)));
 	}
+
+	@Override
+	public int getResourceConsumption(String resourceType) {
+		return this.manager.getConsumption(ResourceType.valueOf(resourceType));
+	}
+
+	@Override
+	public int getPureResourceProduction(String resourceType) {
+		return this.manager.getPureProduction(ResourceType.valueOf(resourceType));
+	}
 }

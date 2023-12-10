@@ -10,6 +10,10 @@ public interface ResourceService {
 
 	public int getResourceProduction(String resourceType);
 
+	public int getResourceConsumption(String resourceType);
+
+	public int getPureResourceProduction(String resourceType);
+
 	public int getInhabitantsNumber();
 
 	public int getWorkersNumber();
