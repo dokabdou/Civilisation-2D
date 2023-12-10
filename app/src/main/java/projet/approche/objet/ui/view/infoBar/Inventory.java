@@ -87,7 +87,10 @@ public class Inventory extends VBox implements Updateable {
 	}
 
 	private String getResourceQuantity(String resourceType) {
-		return Integer.toString(this.app.getResourceQuantity(resourceType)) + " ("
+		String plusSign = "";
+		if (this.app.getPureResourceProduction(resourceType) > 0)
+			plusSign = "+";
+		return Integer.toString(this.app.getResourceQuantity(resourceType)) + " (" + plusSign
 				+ Integer.toString(this.app.getPureResourceProduction(resourceType)) + ")";
 	}
 }
