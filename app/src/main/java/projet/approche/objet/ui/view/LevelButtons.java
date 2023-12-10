@@ -3,6 +3,7 @@ package projet.approche.objet.ui.view;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -22,22 +23,36 @@ public class LevelButtons extends HBox {
 		setPadding(new Insets(40));
 		setSpacing(30);
 
-		Button easyButton = new Button();
-		easyButton.setGraphic(easy);
-		Button mediumButton = new Button();
-		mediumButton.setGraphic(medium);
-		Button hardButton = new Button();
-		hardButton.setGraphic(hard);
-		easyButton.setOnAction(e -> {
+		easy.setOnMouseClicked(e -> {
 			startGame(stage, GameStarter.EASY, 10);
 		});
 
-		mediumButton.setOnAction(e -> {
+		medium.setOnMouseClicked(e -> {
 			startGame(stage, GameStarter.NORMAL, 10);
 		});
 
-		hardButton.setOnAction(e -> {
+		hard.setOnMouseClicked(e -> {
 			startGame(stage, GameStarter.HARD, 10);
+		});
+		ColorAdjust colorAdjust = new ColorAdjust();
+		colorAdjust.setBrightness(-0.4);
+		easy.setOnMouseEntered(e -> {
+			easy.setEffect(colorAdjust);
+		});
+		easy.setOnMouseExited(e -> {
+			easy.setEffect(null);
+		});
+		medium.setOnMouseEntered(e -> {
+			medium.setEffect(colorAdjust);
+		});
+		medium.setOnMouseExited(e -> {
+			medium.setEffect(null);
+		});
+		hard.setOnMouseEntered(e -> {
+			hard.setEffect(colorAdjust);
+		});
+		hard.setOnMouseExited(e -> {
+			hard.setEffect(null);
 		});
 		getChildren().addAll(easy, medium, hard);
 	}
