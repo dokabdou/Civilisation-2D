@@ -277,6 +277,11 @@ public class Manager {
 				this.endGame();
 				throw new GameOverException("You don't have enough food to feed your people ...");
 			}
+			if ((this.getInhabitantsInBuildings() == 0 && this.availableInhabitants == 0)
+					|| (this.getWorkersInBuildings() == 0 && this.availableWorkers == 0)) {
+				this.endGame();
+				throw new GameOverException("You don't have any inhabitants/workers left ...");
+			}
 		}
 		// kill inhabitants and workers who are not in a building
 		this.availableInhabitants = 0;
