@@ -1,6 +1,6 @@
 package projet.approche.objet.ui.view.infoBar;
 
-import java.awt.Image;
+import java.io.IOException;
 
 import javafx.geometry.Insets;
 import javafx.scene.effect.ColorAdjust;
@@ -11,7 +11,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import projet.approche.objet.application.App;
-import projet.approche.objet.domain.valueObject.game.GameStarter;
+import projet.approche.objet.domain.valueObject.grid.exceptions.NoBuildingHereException;
+import projet.approche.objet.domain.valueObject.grid.exceptions.NotInGridException;
 import projet.approche.objet.infrastructure.Infrastructure;
 import projet.approche.objet.ui.view.GameView;
 import projet.approche.objet.ui.view.Updateable;
@@ -36,7 +37,11 @@ public class InfoBar extends BorderPane implements Updateable {
 
 		saveButton.setOnMouseClicked(e -> {
 			Infrastructure is = new Infrastructure();
-			is.save(app.getManager());
+			try {
+				is.save(app);
+			} catch (NoBuildingHereException | NotInGridException | IOException e1) {
+				e1.printStackTrace();
+			}
 		});
 
 		ColorAdjust colorAdjust = new ColorAdjust();
@@ -78,10 +83,10 @@ public class InfoBar extends BorderPane implements Updateable {
 	}
 
 	public void updateDay() {
-    day.setText("   Day " + app.getDay());
+		day.setText("   Day " + app.getDay());
 	}
 
 	public void updateScore() {
-		score.setText("Score: " + app.getScore());
+		score.setText("   Score: " + app.getScore());
 	}
 }

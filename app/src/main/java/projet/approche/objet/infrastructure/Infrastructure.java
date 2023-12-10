@@ -1,35 +1,95 @@
 package projet.approche.objet.infrastructure;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.AbstractMap.SimpleEntry;
-import java.awt.FileDialog;
-import java.awt.Frame;
 
-import projet.approche.objet.domain.aggregates.Manager;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import java.util.AbstractMap.SimpleEntry;
+
+import projet.approche.objet.application.App;
 import projet.approche.objet.domain.repository.Repository;
 import projet.approche.objet.domain.valueObject.building.BuildingType;
 import projet.approche.objet.domain.valueObject.game.GameStarter;
 import projet.approche.objet.domain.valueObject.grid.Coordinate;
+import projet.approche.objet.domain.valueObject.grid.exceptions.NoBuildingHereException;
+import projet.approche.objet.domain.valueObject.grid.exceptions.NotInGridException;
 import projet.approche.objet.domain.valueObject.resource.Resource;
 import projet.approche.objet.domain.valueObject.resource.ResourceList;
 import static projet.approche.objet.domain.valueObject.resource.ResourceType.*;
 
 public class Infrastructure implements Repository {
 
-	public void save(Manager m) {
-		// TODO implement here
+	public void save(App app) throws NoBuildingHereException, NotInGridException, IOException {
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.setDialogTitle("Save CSV File");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("CSV Files", "csv");
+		fileChooser.setFileFilter(filter);
+		File startingDirectory = new File("../app/src/main/resources/saves");
+		fileChooser.setCurrentDirectory(startingDirectory);
+		int userSelection = fileChooser.showSaveDialog(null);
 
+		if (userSelection != JFileChooser.APPROVE_OPTION) {
+			return;
+		}
+		File file = fileChooser.getSelectedFile();
+		String filePath = file.getAbsolutePath();
+		if (!filePath.toLowerCase().endsWith(".csv")) {
+			filePath += ".csv";
+			file = new File(filePath);
+		}
+
+		try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file))) {
+			// Write the number of inhabitants and workers
+			bufferedWriter.write(app.getManager().getInhabitantsInBuildings() + ","
+					+ app.getManager().getWorkersInBuildings() + "\n");
+			// Write the resources amounts
+			bufferedWriter.write(app.getManager().getResources().getAmount(GOLD) + ","
+					+ app.getManager().getResources().getAmount(FOOD) + ","
+					+ app.getManager().getResources().getAmount(WOOD) + ","
+					+ app.getManager().getResources().getAmount(STONE) + ","
+					+ app.getManager().getResources().getAmount(COAL) + ","
+					+ app.getManager().getResources().getAmount(IRON) + ","
+					+ app.getManager().getResources().getAmount(STEEL) + ","
+					+ app.getManager().getResources().getAmount(CEMENT) + ","
+					+ app.getManager().getResources().getAmount(LUMBER) + ","
+					+ app.getManager().getResources().getAmount(TOOLS) + "\n");
+			// Write the size of the grid
+			bufferedWriter.write(app.getManager().getGrid().getSize() + "\n");
+			// Write the grid
+			for (int i = 0; i < app.getManager().getGrid().getSize(); i++) {
+				for (int j = 0; j < app.getManager().getGrid().getSize(); j++) {
+					BuildingType buildingType = app.getManager().getGrid().getBuilding(new Coordinate(i, j)).type;
+					if (buildingType != null) {
+						bufferedWriter.write(i + "," + j + "," + buildingType.shortName + "\n");
+					}
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	public GameStarter load() {
-		FileDialog dialog = new FileDialog((Frame) null, "Select File to Open", FileDialog.LOAD);
-		dialog.setVisible(true);
-		String file = dialog.getDirectory() + dialog.getFile();
-		dialog.dispose();
+		JFileChooser chooser = new JFileChooser();
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+				"CSV files", "csv");
+		chooser.setFileFilter(filter);
+		File startingDirectory = new File("../app/src/main/resources/saves");
+		chooser.setCurrentDirectory(startingDirectory);
+		int returnVal = chooser.showOpenDialog(null);
+		if (returnVal != JFileChooser.APPROVE_OPTION) {
+			return null;
+		}
+		File file = chooser.getSelectedFile();
 		String line = "";
 		String[] lineContents;
 		String splitBy = ",";

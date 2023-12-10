@@ -375,6 +375,10 @@ public class Manager {
 		return day;
 	}
 
+	public int setDay() {
+		return day;
+	}
+
 	public boolean isBuildingUpgradeable(Building building) {
 		return building.canUpgrade(this.resources);
 	}
