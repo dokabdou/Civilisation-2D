@@ -49,6 +49,6 @@ class ApplicationTest {
 
 	@Test
 	void testGetInHabitantsInBuildings() {
-		assertEquals(26, application.getInHabitantsInBuildings());
+		assertEquals(56, application.getInHabitantsInBuildings());
 	}
 }

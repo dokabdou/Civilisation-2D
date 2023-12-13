@@ -45,6 +45,9 @@ class ManagerTest {
 		assertDoesNotThrow(() -> manager.destroyBuilding(new Coordinate(9, 0)));
 		assertDoesNotThrow(() -> manager.destroyBuilding(new Coordinate(0, 9)));
 		assertDoesNotThrow(() -> manager.destroyBuilding(new Coordinate(4, 4)));
+		assertDoesNotThrow(() -> manager.destroyBuilding(new Coordinate(4, 5)));
+		assertDoesNotThrow(() -> manager.destroyBuilding(new Coordinate(5, 4)));
+		assertDoesNotThrow(() -> manager.destroyBuilding(new Coordinate(5, 5)));
 		manager.setAvailableInhabitants(1000);
 		manager.setAvailableWorkers(1000);
 		this.inventory = new ResourceList(
