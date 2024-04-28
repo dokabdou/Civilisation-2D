@@ -20,7 +20,7 @@ Notre jeu est similaire a "Civilization" mais notre jeu se concentre davantage s
 ### Clonage du dépôt
 
 ```shell
-git clone git@github.com:THoguet/Projet-Approche-Objet.git
+git clone git@github.com:dokabdou/Civilisation-2D.git
 ```
 ### Construction avec Gradle
 
